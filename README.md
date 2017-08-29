@@ -1,0 +1,2 @@
+# opendict
+An opensource dictionary
