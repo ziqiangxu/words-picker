@@ -25,6 +25,7 @@ public:
     DLineEdit *input;
     DPushButton *exchange_language;
     DPushButton *about;
+    DPushButton *derive;
     QComboBox *src_language;
     QComboBox *des_language;
     QTextBrowser *browser;
@@ -41,13 +42,14 @@ public:
     void show_result();
     int button_time;
     bool isAboutCreated = false;
+    void show_about();
+    void derive_new_words();
 private:
     void build_GUI();
     void init_language();
     void signals_slots();
 private slots:
     void get_result(QByteArray re);
-    void show_about();
 public slots:
     void hide_float();
     void timerEvent(QTimerEvent *event);

@@ -25,6 +25,8 @@
 #include <dlineedit.h>
 #include <dlabel.h>
 #include <QTextBrowser>
+#include <dpushbutton.h>
+
 DWIDGET_USE_NAMESPACE
 class Float_Browser : public DMainWindow
 {
@@ -33,10 +35,15 @@ public:
     ~Float_Browser();
     QTextBrowser *browser;
     DLabel *google_translate;
+    DPushButton *query;
+    DPushButton *add_new;
     DLineEdit *input;
     bool isMouseOn();
 
 protected:
+
+signals:
+    void add_new_word();
 
 };
 

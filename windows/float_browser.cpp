@@ -32,12 +32,29 @@ Float_Browser::Float_Browser()
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
 
     input = new DLineEdit(this);
-    input->setGeometry(0,0,280,30);
+    input->setGeometry(0,0,190,30);
 
     browser = new QTextBrowser(this);
     browser->setGeometry(0,40,280,260);
     qDebug("Float_browser object creating");
     qDebug() << browser->size();
+
+
+    add_new = new DPushButton(this);
+    add_new->move(195,40);
+    add_new->setText(tr("加入生词"));
+    add_new->adjustSize();
+    connect(add_new, &DPushButton::clicked,
+            this, [=]{
+        //emit add_new_word();
+        input->selectAll();
+        input->setFocus();
+    });
+
+    query = new DPushButton(this);
+    query->move(195,0);
+    query->setText(tr("查询"));
+    query->setFixedSize(add_new->size());
 
     google_translate = new DLabel(browser);
     google_translate->move(10, browser->height() - 30);
@@ -53,6 +70,8 @@ Float_Browser::~Float_Browser()
     delete input;
     delete browser;
     delete google_translate;
+    delete query;
+    delete add_new;
 }
 
 bool Float_Browser::isMouseOn()

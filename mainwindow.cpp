@@ -4,6 +4,7 @@
 #include <QJsonObject>
 #include <QDebug>
 #include <QApplication>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
@@ -24,6 +25,7 @@ MainWindow::~MainWindow()
     delete input;
     delete exchange_language;
     delete about;
+    delete derive;
     delete src_language;
     delete des_language;
     delete browser;
@@ -35,7 +37,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::build_GUI()
 {
-    setGeometry(100,100,400,270);
+    move(100,100);
+    setFixedSize(400,270);
     setStyleSheet("background-color:lucency");
 
     input = new DLineEdit(this);
@@ -60,9 +63,14 @@ void MainWindow::build_GUI()
     des_language->setFixedSize(button_size);
     init_language();
 
+    derive = new DPushButton(this);
+    derive->setText(tr("导出生词"));
+    derive->move(280,130);
+    derive->setFixedSize(button_size);
+
     about = new DPushButton(this);
     about->setText(tr("关于"));
-    about->move(280,170);
+    about->move(280,210);
     about->setFixedSize(button_size);
 
     float_button = new Float_Button;
@@ -100,6 +108,8 @@ void MainWindow::signals_slots()
         query();
         browser->setText(tr("查询中"));
         input->selectAll();
+        if (sender() == input) qDebug() << "test complite!";
+        qDebug() << "The sender is:" << sender();
     });
 
     //"input" get focus when language changed
@@ -155,16 +165,39 @@ void MainWindow::signals_slots()
                                                       .arg(src_word));
         float_browser->input->selectAll();
     });
+
+    connect(float_browser->query, &DPushButton::clicked,
+            this, [=]{
+        src_word = float_browser->input->text();
+        who_query = Requestor::Float_input;
+        query();
+        float_browser->browser->setText(tr("正在查询"));
+        float_browser->google_translate->setText(
+                    tr("<a href=\"https://translate.google.cn/#en/zh-CN/%1\">Google网页翻译</a>")
+                                                      .arg(src_word));
+        float_browser->input->selectAll();
+    });
+
 //------Response the "about"
     connect(about, &DPushButton::clicked,
-            this, &MainWindow::show_about);
+            this, [=]{
+        show_about();
+        input->setFocus();
+    });
+
+//------Response the "derive"
+    connect(derive, &DPushButton::clicked,
+            this, [=]{
+        derive_new_words();
+        input->setFocus();
+    });
 }
 
 void MainWindow::query()
 {
-youdao_api->translate(src_word,
-                      src_language->currentText(),
-                      des_language->currentText());
+    youdao_api->translate(src_word,
+                          src_language->currentText(),
+                          des_language->currentText());
 }
 
 void MainWindow::get_result(QByteArray re)
@@ -279,5 +312,17 @@ void MainWindow::show_about()
         isAboutCreated = true;
         about_window = new About;
         about_window->show();
+    }
+}
+
+void MainWindow::derive_new_words()
+{
+    SQLite sqlite;
+    if (sqlite.derive_new())
+    {
+        QMessageBox::about(this, tr("提示"), tr("导出生词成功！文件已保存到桌面“new_words.txt”"));
+    }
+    else {
+        QMessageBox::critical(this, tr("警告"), tr("非常抱歉，导出生词出错！"));
     }
 }

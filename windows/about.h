@@ -14,11 +14,11 @@ public:
     QTextBrowser *help;
     DPushButton *derive;
     DPushButton *update;
-    void derive_new();
 signals:
 
 public slots:
     void get_update();
+    void manage_new();
 private:
     void buildGUI();
     QString help_text();
