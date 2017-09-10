@@ -40,7 +40,7 @@ bool SQLite::save(QString word, QString result, QString sort)
         return true;
     }
     db.close();
-    qDebug("result saving failed");
+    qDebug("result saving failed,perhaps the word exist already.");
     return false;
 }
 
@@ -57,16 +57,18 @@ bool SQLite::create()
     return false;
 }
 
-bool SQLite::derive_new()
+bool SQLite::derive(QString sort)
 {
     QString word,result;
     //QString sort,times;
     db.open();
     QSqlQuery query;
-    if (query.exec("select * from history where sort='history'"))
+    QString sql = "SELECT * FROM history WHERE sort LIKE '";
+    sql += sort + "'";
+    if (query.exec(sql))
     {
         QString home_path = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
-        QFile file(home_path + "/Desktop/new_words.txt");
+        QFile file(home_path + "/Desktop/" + sort + ".txt");
         if (!file.open(QIODevice::WriteOnly|QIODevice::Text))
         {
             QMessageBox::critical(NULL, QObject::tr("错误"), QObject::tr("无法创建文件"));
@@ -94,4 +96,12 @@ bool SQLite::derive_new()
     }
     db.close();
     return false;
+}
+
+bool SQLite::exec(QString sql)
+{
+    db.open();
+    QSqlQuery query;
+    if (query.exec(sql)) return true;
+    else return false;
 }

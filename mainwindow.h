@@ -35,7 +35,7 @@ public:
     About *about_window;
     QString src_word;
     QString des_word;
-    enum Requestor {Mainwindow_input, Float_input, Selection} who_query;
+    enum Requestor {Mainwindow, Float_button, Float_browser} who_query;
     YoudaoAPI *youdao_api;
     SQLite sqlite;
     void query();
@@ -43,7 +43,7 @@ public:
     int button_time;
     bool isAboutCreated = false;
     void show_about();
-    void derive_new_words();
+    void derive_words();
 private:
     void build_GUI();
     void init_language();

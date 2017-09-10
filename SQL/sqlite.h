@@ -9,7 +9,8 @@ public:
     bool save(QString word, QString result, QString sort);
     QSqlDatabase db;
     bool create();
-    bool derive_new();
+    bool derive(QString field);
+    bool exec(QString sql);
 };
 
 #endif // SQLITE_H

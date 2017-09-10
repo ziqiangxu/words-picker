@@ -39,7 +39,6 @@ void MainWindow::build_GUI()
 {
     move(100,100);
     setFixedSize(400,270);
-    setStyleSheet("background-color:lucency");
 
     input = new DLineEdit(this);
     input->setGeometry(20,10,230,30);
@@ -77,9 +76,11 @@ void MainWindow::build_GUI()
     float_browser = new Float_Browser;
 
 
-    //*Test area
-    setWindowFlags(Qt::WindowStaysOnTopHint);
     about_window = new About;
+
+
+    //*Test area
+    //setWindowFlags(Qt::WindowStaysOnTopHint);
     //*/
 }
 
@@ -104,7 +105,7 @@ void MainWindow::signals_slots()
     connect(input, &DLineEdit::returnPressed,
             this, [=]{
         src_word = input->text();
-        who_query = Requestor::Mainwindow_input;
+        who_query = Requestor::Mainwindow;
         query();
         browser->setText(tr("查询中"));
         input->selectAll();
@@ -140,7 +141,7 @@ void MainWindow::signals_slots()
     connect(float_button, &Float_Button::clicked,
             float_browser, [=]{
         src_word = qApp->clipboard()->text(QClipboard::Selection);
-        who_query = Requestor::Selection;
+        who_query = Requestor::Float_button;
         query();
         float_browser->move(QCursor::pos());
         float_browser->setVisible(true);
@@ -157,7 +158,7 @@ void MainWindow::signals_slots()
     connect(float_browser->input, &DLineEdit::returnPressed,
             this, [=]{
         src_word = float_browser->input->text();
-        who_query = Requestor::Float_input;
+        who_query = Requestor::Float_browser;
         query();
         float_browser->browser->setText(tr("正在查询"));
         float_browser->google_translate->setText(
@@ -169,13 +170,20 @@ void MainWindow::signals_slots()
     connect(float_browser->query, &DPushButton::clicked,
             this, [=]{
         src_word = float_browser->input->text();
-        who_query = Requestor::Float_input;
+        who_query = Requestor::Float_browser;
         query();
         float_browser->browser->setText(tr("正在查询"));
         float_browser->google_translate->setText(
                     tr("<a href=\"https://translate.google.cn/#en/zh-CN/%1\">Google网页翻译</a>")
                                                       .arg(src_word));
         float_browser->input->selectAll();
+    });
+
+    connect(float_browser->add_new, &DPushButton::clicked,
+            this, [=]{
+        QString sql("UPDATE history SET sort='new' WHERE word='");
+        sql += src_word + "'";
+        sqlite.exec(sql);
     });
 
 //------Response the "about"
@@ -188,7 +196,7 @@ void MainWindow::signals_slots()
 //------Response the "derive"
     connect(derive, &DPushButton::clicked,
             this, [=]{
-        derive_new_words();
+        derive_words();
         input->setFocus();
     });
 }
@@ -272,11 +280,11 @@ void MainWindow::get_result(QByteArray re)
 void MainWindow::show_result()
 {
     switch (who_query) {
-    case Requestor::Float_input:
+    case Requestor::Float_browser:
         qDebug() << "DLineEdit object--input of mainwindow request";
         float_browser->browser->setText(des_word);
         break;
-    case Requestor::Selection:
+    case Requestor::Float_button:
         qDebug() << "DLineEdit object--input of mainwindow request";
         float_browser->browser->setText(des_word);
         break;
@@ -315,12 +323,13 @@ void MainWindow::show_about()
     }
 }
 
-void MainWindow::derive_new_words()
+void MainWindow::derive_words()
 {
     SQLite sqlite;
-    if (sqlite.derive_new())
+    QString derive_sort = "%";
+    if (sqlite.derive(derive_sort))
     {
-        QMessageBox::about(this, tr("提示"), tr("导出生词成功！文件已保存到桌面“new_words.txt”"));
+        QMessageBox::about(this, tr("提示"), tr("导出生词成功！文件已保存到桌面“%1.txt”").arg(derive_sort));
     }
     else {
         QMessageBox::critical(this, tr("警告"), tr("非常抱歉，导出生词出错！"));

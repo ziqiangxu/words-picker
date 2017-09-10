@@ -44,12 +44,6 @@ Float_Browser::Float_Browser()
     add_new->move(195,40);
     add_new->setText(tr("加入生词"));
     add_new->adjustSize();
-    connect(add_new, &DPushButton::clicked,
-            this, [=]{
-        //emit add_new_word();
-        input->selectAll();
-        input->setFocus();
-    });
 
     query = new DPushButton(this);
     query->move(195,0);
