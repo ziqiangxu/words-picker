@@ -1,3 +1,24 @@
+/* -*- Mode: C++; indent-tabs-mode: nil; tab-width: 4 -*-
+ * -*- coding: utf-8 -*-
+ *
+ * Copyright (C) Ziqiang Xu
+ *
+ * Author:     Ziqiang Xu <ziqiang_xu@yeah.net>
+ * Maintainer: Ziqiang Xu <ziqiang_xu@yeah.net>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "mainwindow.h"
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -29,10 +50,6 @@ MainWindow::~MainWindow()
     delete src_language;
     delete des_language;
     delete browser;
-    delete float_button;
-    //delete float_browser;
-    if (isAboutCreated) delete about_window;
-    delete youdao_api;
 }
 
 void MainWindow::build_GUI()
@@ -142,13 +159,11 @@ void MainWindow::signals_slots()
             float_browser, [=]{
         src_word = qApp->clipboard()->text(QClipboard::Selection);
         who_query = Requestor::Float_button;
+        float_browser->browser->setText(tr("正在查询"));
         query();
         float_browser->move(QCursor::pos());
         float_browser->setVisible(true);
         float_button->setVisible(false);
-        float_browser->google_translate->setText(
-                    tr("<a href=\"https://translate.google.cn/#en/zh-CN/%1\">Google网页翻译</a>")
-                                                      .arg(src_word));
         //line_edit of float_browser get focus
         float_browser->input->setText(src_word);
         float_browser->input->selectAll();
@@ -161,9 +176,6 @@ void MainWindow::signals_slots()
         who_query = Requestor::Float_browser;
         query();
         float_browser->browser->setText(tr("正在查询"));
-        float_browser->google_translate->setText(
-                    tr("<a href=\"https://translate.google.cn/#en/zh-CN/%1\">Google网页翻译</a>")
-                                                      .arg(src_word));
         float_browser->input->selectAll();
     });
 
@@ -173,9 +185,6 @@ void MainWindow::signals_slots()
         who_query = Requestor::Float_browser;
         query();
         float_browser->browser->setText(tr("正在查询"));
-        float_browser->google_translate->setText(
-                    tr("<a href=\"https://translate.google.cn/#en/zh-CN/%1\">Google网页翻译</a>")
-                                                      .arg(src_word));
         float_browser->input->selectAll();
     });
 
@@ -184,6 +193,13 @@ void MainWindow::signals_slots()
         QString sql("UPDATE history SET sort='new' WHERE word='");
         sql += src_word + "'";
         sqlite.exec(sql);
+    });
+
+    connect(float_browser->google_translate, &DPushButton::clicked,
+            this, [=]{
+        float_browser->google_web_translate(src_word,
+                                            src_language->currentText(),
+                                            des_language->currentText());
     });
 
 //------Response the "about"
@@ -315,21 +331,16 @@ void MainWindow::timerEvent(QTimerEvent *event)
 
 void MainWindow::show_about()
 {
-    if (isAboutCreated) about_window->show();
-    else {
-        isAboutCreated = true;
-        about_window = new About;
-        about_window->show();
-    }
+    about_window = new About;
+    about_window->show();
 }
 
 void MainWindow::derive_words()
 {
     SQLite sqlite;
-    QString derive_sort = "%";
-    if (sqlite.derive(derive_sort))
+    if (sqlite.derive("new"))
     {
-        QMessageBox::about(this, tr("提示"), tr("导出生词成功！文件已保存到桌面“%1.txt”").arg(derive_sort));
+        QMessageBox::about(this, tr("提示"), tr("导出生词成功！文件已保存到桌面“new.txt”"));
     }
     else {
         QMessageBox::critical(this, tr("警告"), tr("非常抱歉，导出生词出错！"));

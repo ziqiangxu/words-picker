@@ -23,7 +23,6 @@
 #define FLOUT_BROWSER_H
 #include <DMainWindow>
 #include <dlineedit.h>
-#include <dlabel.h>
 #include <QTextBrowser>
 #include <dpushbutton.h>
 
@@ -34,12 +33,14 @@ public:
     Float_Browser();
     ~Float_Browser();
     QTextBrowser *browser;
-    DLabel *google_translate;
+    DPushButton *google_translate;
     DPushButton *query;
     DPushButton *add_new;
     DLineEdit *input;
     bool isMouseOn();
-
+    void google_web_translate(QString src_word,
+                              QString src_language = "en",
+                              QString des_language = "zh-CN");
 protected:
 
 signals:

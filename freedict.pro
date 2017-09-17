@@ -35,7 +35,9 @@ SOURCES += \
     windows/float_browser.cpp \
     event/eventmonitor.cpp \
     SQL/sqlite.cpp \
-    windows/about.cpp
+    windows/about.cpp \
+    windows/word_table.cpp \
+    settings.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -44,7 +46,9 @@ HEADERS += \
     windows/float_browser.h \
     event/eventmonitor.h \
     SQL/sqlite.h \
-    windows/about.h
+    windows/about.h \
+    windows/word_table.h \
+    settings.h
 
 RESOURCES += \
     src.qrc

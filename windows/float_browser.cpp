@@ -1,7 +1,7 @@
 /* -*- Mode: C++; indent-tabs-mode: nil; tab-width: 4 -*-
  * -*- coding: utf-8 -*-
  *
- * Copyright   2017 ~ Now Ziqiang Xu
+ * Copyright (C) Ziqiang Xu
  *
  * Author:     Ziqiang Xu <ziqiang_xu@yeah.net>
  * Maintainer: Ziqiang Xu <ziqiang_xu@yeah.net>
@@ -24,6 +24,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDebug>
+#include <QDesktopServices>
 
 Float_Browser::Float_Browser()
 {
@@ -50,13 +51,10 @@ Float_Browser::Float_Browser()
     query->setText(tr("查询"));
     query->setFixedSize(add_new->size());
 
-    google_translate = new DLabel(browser);
-    google_translate->move(10, browser->height() - 30);
-    google_translate->setText(tr("Google网页翻译"));
-    google_translate->adjustSize();
-    google_translate->setTextFormat(Qt::RichText);
-    google_translate->setOpenExternalLinks(true);
-
+    google_translate = new DPushButton(this);
+    google_translate->move(195,80);
+    google_translate->setText(tr("Google翻译"));
+    google_translate->setFixedSize(add_new->size());
 }
 
 Float_Browser::~Float_Browser()
@@ -76,4 +74,18 @@ bool Float_Browser::isMouseOn()
             cursor_y > y() && cursor_y <(y() + height()))
         return true;
     return false;
+}
+
+void Float_Browser::google_web_translate(QString src_word,
+                                         QString src_language,
+                                         QString des_language)
+{
+    QMap<QString,QString> language;
+    src_language = language[src_language];
+    des_language = language[des_language];
+    QUrl google_url(tr("https://translate.google.cn/#%1/%2/%3")
+                    .arg(src_language)
+                    .arg(des_language)
+                    .arg(src_word));
+    QDesktopServices::openUrl(google_url);
 }

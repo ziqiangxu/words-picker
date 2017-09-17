@@ -1,7 +1,7 @@
 /* -*- Mode: C++; indent-tabs-mode: nil; tab-width: 4 -*-
  * -*- coding: utf-8 -*-
  *
- * Copyright   2017 ~ Now Ziqiang Xu
+ * Copyright (C) Ziqiang Xu
  *
  * Author:     Ziqiang Xu <ziqiang_xu@yeah.net>
  * Maintainer: Ziqiang Xu <ziqiang_xu@yeah.net>

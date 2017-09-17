@@ -1,11 +1,56 @@
+/* -*- Mode: C++; indent-tabs-mode: nil; tab-width: 4 -*-
+ * -*- coding: utf-8 -*-
+ *
+ * Copyright (C) Ziqiang Xu
+ *
+ * Author:     Ziqiang Xu <ziqiang_xu@yeah.net>
+ * Maintainer: Ziqiang Xu <ziqiang_xu@yeah.net>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "mainwindow.h"
 #include <QApplication>
 #include "event/eventmonitor.h"
 #include <QDebug>
 
+#if defined Q_OS_LINUX
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+bool check_only()
+{
+    const char filename[] = "/tmp/lockfile_for_freedict";
+    int fd = open (filename, O_WRONLY | O_CREAT , 0644);
+    int flock = lockf(fd, F_TLOCK, 0);
+    if (fd == -1) {
+        perror("open lockfile/n");
+        return false;
+    }
+    if (flock == -1) {
+        perror("lock file error/n");
+        return false;
+    }
+    return true;
+}
+#endif
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    if (check_only() == false)
+        return 0;
     MainWindow w;
     EventMonitor event_monitor;
     event_monitor.start();
@@ -59,3 +104,4 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+

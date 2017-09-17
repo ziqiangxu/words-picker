@@ -41,7 +41,6 @@ public:
     void query();
     void show_result();
     int button_time;
-    bool isAboutCreated = false;
     void show_about();
     void derive_words();
 private:
