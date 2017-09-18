@@ -29,8 +29,12 @@ Linux平台通用
 3.其他的一些小调整。    
 
 ### 软件截图
+主窗口    
 ![主窗口](./README/mainwindow.png)    
+管理生词
 ![管理生词](./README/manage_words.gif)    
+屏幕选词
+![屏幕选词](./README/using.gif)
 
 ### 致谢    
 有道词典，本项目使用了有道的翻译api    
