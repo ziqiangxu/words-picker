@@ -5,13 +5,13 @@ freedict(原名opendict，后来在打包的时候发现软件仓库有同名，
 
 ### 发行注记
 二进制安装包在本仓库deb目录下      
-- 2017-3.0    
+- 2017-3.0[下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2017-3.0_amd64.deb)    
 1.新增单词本管理功能；    
 2.应用只能创建一个实例；    
 3.其他的一些小调整。 
-- 2017-2.0     
+- 2017-2.0[下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2017-2.0_amd64.deb)     
 专为Deepin平台开发，欢迎各位大佬移植，只需要把相关控件修改为Qt原生控件就可以
-- 2017-1.0     
+- 2017-1.0[下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2017-1.0_amd64.deb)     
 Linux平台通用        
 
 ### 软件截图
