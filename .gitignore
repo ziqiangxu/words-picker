@@ -37,3 +37,5 @@ Makefile*
 # QtCtreator CMake
 CMakeLists.txt.user*
 
+# 忽略build
+build
