@@ -53,12 +53,12 @@ void Word_table::signals_slots()
         get_word();
     }, Qt::QueuedConnection);
 
-    QObject::connect(derive, &DPushButton::clicked,
+    QObject::connect(derive, &QPushButton::clicked,
                      table, [=]{
         derive_word();
     });
 
-    QObject::connect(remove, &DPushButton::clicked,
+    QObject::connect(remove, &QPushButton::clicked,
                      table, [=]{
         remove_selection();
     });
@@ -75,14 +75,14 @@ void Word_table::buildGUI()
     modle->setHeaderData(0, Qt::Horizontal, QString::fromLocal8Bit("单词"));
     modle->setHeaderData(1, Qt::Horizontal, QString::fromLocal8Bit("解释"));
 
-    remove = new DPushButton(table);
+    remove = new QPushButton(table);
     //remove->setWindowFlags(Qt::FramelessWindowHint);
     remove->setText("删除");
     remove->move(600, 0);
     remove->setVisible(true);
     remove->adjustSize();
 
-    derive = new DPushButton(table);
+    derive = new QPushButton(table);
     derive->setText("导出");
     derive->move(500, 0);
     derive->setVisible(true);

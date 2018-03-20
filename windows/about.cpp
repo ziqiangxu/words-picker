@@ -25,13 +25,13 @@
 #include <QTableView>
 #include <QStandardItemModel>
 
-About::About(QWidget *parent) : DMainWindow(parent)
+About::About(QWidget *parent) : QMainWindow(parent)
 {
     word_table = nullptr;
     buildGUI();
-    connect(update, &DPushButton::clicked,
+    connect(update, &QPushButton::clicked,
             this, &About::get_update);
-    connect(derive, &DPushButton::clicked,
+    connect(derive, &QPushButton::clicked,
             this, &About::manage_new);
 }
 
@@ -53,12 +53,12 @@ About::~About()
      help->setGeometry(0,0,400,270);
      help->setText(help_text());
 
-     derive = new DPushButton(this);
+     derive = new QPushButton(this);
      derive->setText(tr("管理生词"));
      derive->move(220,10);
      derive->adjustSize();
 
-     update = new DPushButton(this);
+     update = new QPushButton(this);
      update->move(310,10);
      update->setText(tr("获取更新"));
      update->adjustSize();
@@ -80,10 +80,11 @@ About::~About()
  {
      QString content;
      content =
-             "应用版本：2017-2.0\n\
+             "应用版本：2017-4.0\n\
 特别鸣谢:有道词典、谷歌翻译\n\
 使用了有道词典的翻译API，谷歌网页翻译\n\
-1.支持翻译选中文本\n\
-2.bug反馈：ziqiang_xu@yeah.net";
+1.切换至Qt原生控件，方便非deepin系统的用户使用\n\
+2.修复Google网页翻译的错误\n\
+bug反馈：ziqiang_xu@yeah.net";
      return content;
  }

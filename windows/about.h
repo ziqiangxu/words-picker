@@ -1,12 +1,11 @@
 #ifndef ABOUT_H
 #define ABOUT_H
 
-#include <DMainWindow>
+#include <QMainWindow>
 #include <QTextBrowser>
-#include <dpushbutton.h>
+#include <QPushButton>
 #include "word_table.h"
-DWIDGET_USE_NAMESPACE
-class About : public DMainWindow
+class About : public QMainWindow
 {
     Q_OBJECT
 public:
@@ -14,8 +13,8 @@ public:
     ~About();
 
     QTextBrowser *help;
-    DPushButton *derive;
-    DPushButton *update;
+    QPushButton *derive;
+    QPushButton *update;
     Word_table *word_table;
 
 signals:

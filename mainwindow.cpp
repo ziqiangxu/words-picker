@@ -28,7 +28,7 @@
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
-    : DMainWindow(parent)
+    : QMainWindow(parent)
 {
     clipboard = QApplication::clipboard();
     sqlite = SQLite();
@@ -57,7 +57,7 @@ void MainWindow::build_GUI()
     move(100,100);
     setFixedSize(400,270);
 
-    input = new DLineEdit(this);
+    input = new QLineEdit(this);
     input->setGeometry(20,10,230,30);
     input->setText(clipboard->text());
     input->selectAll();
@@ -65,7 +65,7 @@ void MainWindow::build_GUI()
     browser = new QTextBrowser(this);
     browser->setGeometry(20,50,230,200);
 
-    exchange_language = new DPushButton(this);
+    exchange_language = new QPushButton(this);
     exchange_language->move(280,50);
     exchange_language->setText(tr("交换语言"));
     exchange_language->adjustSize();
@@ -79,12 +79,12 @@ void MainWindow::build_GUI()
     des_language->setFixedSize(button_size);
     init_language();
 
-    derive = new DPushButton(this);
+    derive = new QPushButton(this);
     derive->setText(tr("导出生词"));
     derive->move(280,130);
     derive->setFixedSize(button_size);
 
-    about = new DPushButton(this);
+    about = new QPushButton(this);
     about->setText(tr("关于"));
     about->move(280,210);
     about->setFixedSize(button_size);
@@ -119,7 +119,7 @@ void MainWindow::signals_slots()
 
 //------Response the "mainwindow"
     //Query when "Enter" pressed in "input"
-    connect(input, &DLineEdit::returnPressed,
+    connect(input, &QLineEdit::returnPressed,
             this, [=]{
         src_word = input->text();
         who_query = Requestor::Mainwindow;
@@ -131,7 +131,7 @@ void MainWindow::signals_slots()
     });
 
     //"input" get focus when language changed
-    connect(exchange_language,&DPushButton::clicked,
+    connect(exchange_language,&QPushButton::clicked,
             this, [=]{
         int int_temp = src_language->currentIndex();
         src_language->setCurrentIndex(des_language->currentIndex());
@@ -170,7 +170,7 @@ void MainWindow::signals_slots()
         float_browser->input->setFocus();
     });
 //------Response the "float_browser"
-    connect(float_browser->input, &DLineEdit::returnPressed,
+    connect(float_browser->input, &QLineEdit::returnPressed,
             this, [=]{
         src_word = float_browser->input->text();
         who_query = Requestor::Float_browser;
@@ -179,7 +179,7 @@ void MainWindow::signals_slots()
         float_browser->input->selectAll();
     });
 
-    connect(float_browser->query, &DPushButton::clicked,
+    connect(float_browser->query, &QPushButton::clicked,
             this, [=]{
         src_word = float_browser->input->text();
         who_query = Requestor::Float_browser;
@@ -188,29 +188,31 @@ void MainWindow::signals_slots()
         float_browser->input->selectAll();
     });
 
-    connect(float_browser->add_new, &DPushButton::clicked,
+    connect(float_browser->add_new, &QPushButton::clicked,
             this, [=]{
         QString sql("UPDATE history SET sort='new' WHERE word='");
         sql += src_word + "'";
         sqlite.exec(sql);
     });
 
-    connect(float_browser->google_translate, &DPushButton::clicked,
+    connect(float_browser->google_translate, &QPushButton::clicked,
             this, [=]{
+        qDebug() << src_language->currentText() << des_language->currentText();
+        src_word = float_browser->input->text();
         float_browser->google_web_translate(src_word,
                                             src_language->currentText(),
                                             des_language->currentText());
     });
 
 //------Response the "about"
-    connect(about, &DPushButton::clicked,
+    connect(about, &QPushButton::clicked,
             this, [=]{
         show_about();
         input->setFocus();
     });
 
 //------Response the "derive"
-    connect(derive, &DPushButton::clicked,
+    connect(derive, &QPushButton::clicked,
             this, [=]{
         derive_words();
         input->setFocus();
@@ -297,15 +299,15 @@ void MainWindow::show_result()
 {
     switch (who_query) {
     case Requestor::Float_browser:
-        qDebug() << "DLineEdit object--input of mainwindow request";
+        qDebug() << "QLineEdit object--input of mainwindow request";
         float_browser->browser->setText(des_word);
         break;
     case Requestor::Float_button:
-        qDebug() << "DLineEdit object--input of mainwindow request";
+        qDebug() << "QLineEdit object--input of mainwindow request";
         float_browser->browser->setText(des_word);
         break;
     default:
-        qDebug() << "DLineEdit object--input of mainwindow request";
+        qDebug() << "QLineEdit object--input of mainwindow request";
         browser->setText(des_word);
         break;
     }
