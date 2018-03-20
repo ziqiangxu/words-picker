@@ -21,22 +21,21 @@
  */
 #ifndef FLOUT_BROWSER_H
 #define FLOUT_BROWSER_H
-#include <DMainWindow>
-#include <dlineedit.h>
+#include <QMainWindow>
+#include <QLineEdit>
 #include <QTextBrowser>
-#include <dpushbutton.h>
+#include <QPushButton>
 
-DWIDGET_USE_NAMESPACE
-class Float_Browser : public DMainWindow
+class Float_Browser : public QMainWindow
 {
 public:
     Float_Browser();
     ~Float_Browser();
     QTextBrowser *browser;
-    DPushButton *google_translate;
-    DPushButton *query;
-    DPushButton *add_new;
-    DLineEdit *input;
+    QPushButton *google_translate;
+    QPushButton *query;
+    QPushButton *add_new;
+    QLineEdit *input;
     bool isMouseOn();
     void google_web_translate(QString src_word,
                               QString src_language = "en",

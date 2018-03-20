@@ -12,7 +12,7 @@ TARGET = freedict
 INCLUDEPATH +=.
 TEMPLATE = app
 CONFIG += link_pkgconfig c++11
-PKGCONFIG += dtkwidget xcb xcb-util dtkwm
+PKGCONFIG += xcb xcb-util
 LIBS += -lX11 -lXext -lXtst
 
 # The following define makes your compiler emit warnings if you use

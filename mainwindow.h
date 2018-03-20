@@ -1,9 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <DMainWindow>
-#include <dpushbutton.h>
-#include <dlineedit.h>
+#include <QMainWindow>
+#include <QPushButton>
+#include <QLineEdit>
 #include <QComboBox>
 #include <QTextBrowser>
 #include "api/youdaoapi.h"
@@ -13,19 +13,17 @@
 #include "SQL/sqlite.h"
 #include <windows/about.h>
 
-DWIDGET_USE_NAMESPACE
-
-class MainWindow : public DMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    DLineEdit *input;
-    DPushButton *exchange_language;
-    DPushButton *about;
-    DPushButton *derive;
+    QLineEdit *input;
+    QPushButton *exchange_language;
+    QPushButton *about;
+    QPushButton *derive;
     QComboBox *src_language;
     QComboBox *des_language;
     QTextBrowser *browser;

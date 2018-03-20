@@ -32,7 +32,7 @@ Float_Browser::Float_Browser()
     setFixedSize(280,300);
     setWindowFlags(Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
 
-    input = new DLineEdit(this);
+    input = new QLineEdit(this);
     input->setGeometry(0,0,190,30);
 
     browser = new QTextBrowser(this);
@@ -41,17 +41,17 @@ Float_Browser::Float_Browser()
     qDebug() << browser->size();
 
 
-    add_new = new DPushButton(this);
+    add_new = new QPushButton(this);
     add_new->move(195,40);
     add_new->setText(tr("加入生词"));
     add_new->adjustSize();
 
-    query = new DPushButton(this);
+    query = new QPushButton(this);
     query->move(195,0);
     query->setText(tr("查询"));
     query->setFixedSize(add_new->size());
 
-    google_translate = new DPushButton(this);
+    google_translate = new QPushButton(this);
     google_translate->move(195,80);
     google_translate->setText(tr("Google翻译"));
     google_translate->setFixedSize(add_new->size());
@@ -80,9 +80,13 @@ void Float_Browser::google_web_translate(QString src_word,
                                          QString src_language,
                                          QString des_language)
 {
-    QMap<QString,QString> language;
-    src_language = language[src_language];
-    des_language = language[des_language];
+    if (src_language == "zh_CHS"){
+        src_language = "zh-CN";
+    }
+    if (des_language == "zh_CHS"){
+        des_language == "zh-cn";
+    }
+    qDebug() << "源语言：" << src_language << "\n目标语言：" << des_language;
     QUrl google_url(tr("https://translate.google.cn/#%1/%2/%3")
                     .arg(src_language)
                     .arg(des_language)
