@@ -223,7 +223,7 @@ void MainWindow::signals_slots()
     connect(float_button, &Float_Button::clicked,
             float_browser, [=]{
         //显示透明蒙板
-        hyaline_window->showFullScreen();
+        //hyaline_window->showFullScreen();
 
         src_word = qApp->clipboard()->text(QClipboard::Selection);
         who_query = Requestor::Float_button;
