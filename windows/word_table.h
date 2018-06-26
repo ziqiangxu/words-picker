@@ -5,8 +5,12 @@
 #include <QPushButton>
 #include "SQL/sqlite.h"
 #include <QComboBox>
+#include <QMenu>
+#include <QAction>
+#include <QPoint>
+#include <QObject>
 
-class Word_table
+class Word_table : public QObject
 {
 public:
     Word_table();
@@ -23,6 +27,12 @@ public:
     void remove_selection();
 private:
     void buildGUI();
+    QMenu *menu;
+    QAction *action_delete;
+    QAction *action_test;
+    void build_menu();
+private slots:
+    void show_menu(const QPoint pos);
 };
 
 #endif // WORD_TABLE_H

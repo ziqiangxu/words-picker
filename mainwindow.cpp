@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    //QObject会被Qt自动释放，无需手动删除
+    /*
     delete input;
     delete exchange_language;
     delete about;
@@ -50,6 +52,13 @@ MainWindow::~MainWindow()
     delete src_language;
     delete des_language;
     delete browser;
+    */
+}
+
+void MainWindow::closeEvent(QCloseEvent *event){
+    //点击关闭的时候，收起到系统托盘
+    this->hide();
+    event->ignore();
 }
 
 void MainWindow::build_GUI()
@@ -66,35 +75,61 @@ void MainWindow::build_GUI()
     browser->setGeometry(20,50,230,200);
 
     exchange_language = new QPushButton(this);
-    exchange_language->move(280,50);
+    exchange_language->move(280,90);
     exchange_language->setText(tr("交换语言"));
     exchange_language->adjustSize();
     QSize button_size = exchange_language->size();
 
+    query_button = new QPushButton(this);
+    query_button->setText(tr("查询"));
+    query_button->move(280, 10);
+    query_button->setFixedSize(button_size);
+
     src_language = new QComboBox(this);
-    src_language->move(280,10);
+    src_language->move(280,50);
     src_language->setFixedSize(button_size);
     des_language = new QComboBox(this);
-    des_language->move(280,90);
+    des_language->move(280,130);
     des_language->setFixedSize(button_size);
     init_language();
 
     derive = new QPushButton(this);
     derive->setText(tr("导出生词"));
-    derive->move(280,130);
+    derive->move(280,170);
     derive->setFixedSize(button_size);
 
     about = new QPushButton(this);
-    about->setText(tr("关于"));
+    about->setText(tr("更多"));
     about->move(280,210);
     about->setFixedSize(button_size);
 
-    float_button = new Float_Button;
-    float_browser = new Float_Browser;
+    test_button = new QPushButton(this);
+    test_button->setText("测试");
+    test_button->move(200, 210);
+    test_button->setFixedSize(button_size);
+    test_button->hide();
+
+    float_button = new Float_Button();
+    float_browser = new Float_Browser();
+
+    hyaline_window = new Hyaline_Window();
 
 
     about_window = new About;
+/*
+    tray_icon = new QSystemTrayIcon(this);
+    QIcon icon = QIcon(":/image/src/tran.png");
+    tray_icon->setIcon(icon);
+    tray_icon->setToolTip(QObject::trUtf8("freedict"));
+    tray_icon->setToolTip("freedict");
+    tray_icon->show();
 
+    quit = new QAction(tray_icon);
+    quit->setText("退出");
+    this->addAction(quit);
+    */
+    tray_icon = new SystemTrayIcon(this);
+    tray_icon->show();
 
     //*Test area
     //setWindowFlags(Qt::WindowStaysOnTopHint);
@@ -114,12 +149,42 @@ void MainWindow::init_language()
 
 void MainWindow::signals_slots()
 {
+    //测试按钮的点击事件
+    connect(test_button, &QPushButton::clicked,
+            this, [=]{
+
+    });
+
+    //系统托盘事件处理
+    connect(tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+            this, SLOT(tray_icon_actived(QSystemTrayIcon::ActivationReason))
+            );
+
+    //选择退出菜单
+    connect(tray_icon->action_quit,&QAction::triggered,
+            this, [=]{
+        qDebug() << "Received the signal of tray_icon，quit the application";
+        qApp->quit();
+    });
+
     connect(youdao_api, &YoudaoAPI::finish,
             this,&MainWindow::get_result);
 
 //------Response the "mainwindow"
     //Query when "Enter" pressed in "input"
     connect(input, &QLineEdit::returnPressed,
+            this, [=]{
+        src_word = input->text();
+        who_query = Requestor::Mainwindow;
+        query();
+        browser->setText(tr("查询中"));
+        input->selectAll();
+        if (sender() == input) qDebug() << "test complite!";
+        qDebug() << "The sender is:" << sender();
+    });
+
+    //Query when query_button clicked
+    connect(query_button, &QPushButton::clicked,
             this, [=]{
         src_word = input->text();
         who_query = Requestor::Mainwindow;
@@ -157,6 +222,9 @@ void MainWindow::signals_slots()
     //Show "float_browser" after clicked the "float_button"
     connect(float_button, &Float_Button::clicked,
             float_browser, [=]{
+        //显示透明蒙板
+        hyaline_window->showFullScreen();
+
         src_word = qApp->clipboard()->text(QClipboard::Selection);
         who_query = Requestor::Float_button;
         float_browser->browser->setText(tr("正在查询"));
@@ -217,6 +285,21 @@ void MainWindow::signals_slots()
         derive_words();
         input->setFocus();
     });
+}
+
+void MainWindow::tray_icon_actived(QSystemTrayIcon::ActivationReason reason)
+{
+    switch (reason) {
+    case QSystemTrayIcon::Trigger:
+        qDebug() << "Trigger";
+        this->show();
+        break;
+    case QSystemTrayIcon::Context:
+        qDebug() << "Context";
+        break;
+    default:
+        break;
+    }
 }
 
 void MainWindow::query()

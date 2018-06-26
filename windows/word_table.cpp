@@ -34,19 +34,16 @@ Word_table::Word_table()
 
 Word_table::~Word_table()
 {
-    delete table;
-    delete modle;
-    delete remove;
-    delete sqlite;
 }
 
 void Word_table::signals_slots()
 {
+
     QObject::connect(table, &QTableView::clicked,
-                     remove, [=]{
-        remove->move(QCursor::pos().x() - table->x(),
-                     QCursor::pos().y() - table->y());
+                     this, [=]{
+        menu->exec(QCursor::pos());
     },Qt::QueuedConnection);
+
 
     QObject::connect(sort, &QComboBox::currentTextChanged,
                      table, [=]{
@@ -57,16 +54,11 @@ void Word_table::signals_slots()
                      table, [=]{
         derive_word();
     });
-
-    QObject::connect(remove, &QPushButton::clicked,
-                     table, [=]{
-        remove_selection();
-    });
 }
 
 void Word_table::buildGUI()
 {
-    table = new QTableView;
+    table = new QTableView();
     table->move(100, 100);
     table->setWindowTitle("管理单词");
     table->show();
@@ -74,13 +66,6 @@ void Word_table::buildGUI()
     modle->setColumnCount(2);
     modle->setHeaderData(0, Qt::Horizontal, QString::fromLocal8Bit("单词"));
     modle->setHeaderData(1, Qt::Horizontal, QString::fromLocal8Bit("解释"));
-
-    remove = new QPushButton(table);
-    //remove->setWindowFlags(Qt::FramelessWindowHint);
-    remove->setText("删除");
-    remove->move(600, 0);
-    remove->setVisible(true);
-    remove->adjustSize();
 
     derive = new QPushButton(table);
     derive->setText("导出");
@@ -93,6 +78,25 @@ void Word_table::buildGUI()
     sort->addItem(QObject::tr("生词本"), "new");
     sort->addItem(QObject::tr("所有历史"), "%");
     sort->setVisible(true);
+
+    table->setContextMenuPolicy(Qt::CustomContextMenu);
+    menu = new QMenu();
+    build_menu();
+}
+
+void Word_table::build_menu()
+{
+    action_delete = new QAction(table);
+    action_test = new QAction(table);
+    action_delete->setText(QObject::tr("删除"));
+    connect(action_delete, &QAction::triggered,
+            table, [=]{
+        qDebug() << "You clicked the action_delete!";
+        remove_selection();
+    });
+    action_test->setText(QObject::tr("Test"));
+    menu->addAction(action_delete);
+    menu->addAction(action_test);
 }
 
 void Word_table::get_word()

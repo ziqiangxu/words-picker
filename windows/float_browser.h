@@ -25,6 +25,7 @@
 #include <QLineEdit>
 #include <QTextBrowser>
 #include <QPushButton>
+#include <QCloseEvent>
 
 class Float_Browser : public QMainWindow
 {
@@ -41,6 +42,8 @@ public:
                               QString src_language = "en",
                               QString des_language = "zh-CN");
 protected:
+private slots:
+    void closeEvent(QCloseEvent *event);
 
 signals:
     void add_new_word();

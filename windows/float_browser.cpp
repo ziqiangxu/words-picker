@@ -93,3 +93,10 @@ void Float_Browser::google_web_translate(QString src_word,
                     .arg(src_word));
     QDesktopServices::openUrl(google_url);
 }
+
+void Float_Browser::closeEvent(QCloseEvent *event)
+{
+    qDebug() << "You have clicked the close button of flout browser!";
+    this->hide();
+    event->ignore();
+}
