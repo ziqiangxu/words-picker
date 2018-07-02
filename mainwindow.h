@@ -54,6 +54,7 @@ private:
     void build_GUI();
     void init_language();
     void signals_slots();
+    bool recognize_image();
 
 private slots:
     void get_result(QByteArray re);

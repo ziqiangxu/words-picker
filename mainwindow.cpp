@@ -219,6 +219,23 @@ void MainWindow::signals_slots()
         button_time = startTimer(5000);
     });
 
+    connect(clipboard, &QClipboard::dataChanged,
+            this, [=]{
+        qDebug() << "Clipboard changed";
+        QImage image = clipboard->image(QClipboard::Clipboard);
+        if (image.isNull())
+        {
+            qDebug() << "Image not exist!";
+        } else {
+            image.save("ocr.png", "PNG", -1);
+            qDebug() << "Image found!";
+            /*
+             * in the file /usr/include/tesseract/baseapi.h
+             * fuction TesseractRect will return the result */
+            recognize_image();
+        }
+    });
+
     //Show "float_browser" after clicked the "float_button"
     connect(float_button, &Float_Button::clicked,
             float_browser, [=]{
@@ -285,6 +302,11 @@ void MainWindow::signals_slots()
         derive_words();
         input->setFocus();
     });
+}
+
+bool MainWindow::recognize_image()
+{
+
 }
 
 void MainWindow::tray_icon_actived(QSystemTrayIcon::ActivationReason reason)
