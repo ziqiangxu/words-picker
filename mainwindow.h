@@ -15,7 +15,9 @@
 #include <QCloseEvent>
 #include "systemtrayicon.h"
 #include "windows/hyaline_window.h"
+//#include <tesseract/baseapi.h>
 
+//using namespace tesseract;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -40,7 +42,7 @@ public:
     About *about_window;
     QString src_word;
     QString des_word;
-    enum Requestor {Mainwindow, Float_button, Float_browser} who_query;
+    enum Requestor {Mainwindow, Float_button, Float_browser, ocr} who_query;
     YoudaoAPI *youdao_api;
     SQLite sqlite;
     void query();
@@ -49,12 +51,14 @@ public:
     void show_about();
     void derive_words();
     SystemTrayIcon *tray_icon;
+    //TessBaseAPI *ocr_ins;
 
 private:
     void build_GUI();
     void init_language();
     void signals_slots();
     bool recognize_image();
+    bool clipboard_flag;
 
 private slots:
     void get_result(QByteArray re);

@@ -26,15 +26,22 @@
 #include <QDebug>
 #include <QApplication>
 #include <QMessageBox>
+#include <QProcess>
+#include <QFile>
+#include <QTextStream>
 
+//using namespace tesseract;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    //init the variates
     clipboard = QApplication::clipboard();
+    youdao_api = new YoudaoAPI;
     sqlite = SQLite();
+    clipboard_flag = true;
 
     build_GUI();
-    youdao_api = new YoudaoAPI;
+    //ocr_ins = new tesseract::TessBaseAPI();
     signals_slots();
     //*Test area
     //setStyleSheet("background-color:blue");
@@ -203,6 +210,7 @@ void MainWindow::signals_slots()
         des_language->setCurrentIndex(int_temp);
         input->setFocus();
     });
+
     /*Note: Signal activated is overloaded in this class. To connect to this one
      *  using the function pointer syntax, you must specify the signal type in a
      *  static cast*/
@@ -210,15 +218,8 @@ void MainWindow::signals_slots()
             this,[=]{input->setFocus();});
     connect(des_language, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
             this, [=]{input->setFocus();});
-//------Response the "float_button"
-    //Show "float_button" when the selected text changed,it's not a button but a window in fact
-    connect(clipboard, &QClipboard::selectionChanged,
-            float_button, [=]{
-        float_button->setVisible(true);
-        float_button->move(QCursor::pos().x() + 10, QCursor::pos().y() + 10);
-        button_time = startTimer(5000);
-    });
 
+    //Get the image from the clipboard
     connect(clipboard, &QClipboard::dataChanged,
             this, [=]{
         qDebug() << "Clipboard changed";
@@ -227,13 +228,35 @@ void MainWindow::signals_slots()
         {
             qDebug() << "Image not exist!";
         } else {
-            image.save("ocr.png", "PNG", -1);
-            qDebug() << "Image found!";
-            /*
-             * in the file /usr/include/tesseract/baseapi.h
-             * fuction TesseractRect will return the result */
-            recognize_image();
+            if(clipboard_flag)
+            {
+                //Show the flout_browser right now
+                who_query = Requestor::ocr;
+                float_browser->browser->setText(tr("正在查询"));
+                float_browser->move(QCursor::pos());
+                float_browser->setVisible(true);
+                clipboard_flag = false;
+
+                image.save("ocr.png", "PNG", -1);
+                qDebug() << "Image found!";
+    /*
+     * in the file /usr/include/tesseract/baseapi.h
+     * fuction TesseractRect will return the result
+     */
+                recognize_image();
+            } else {
+                clipboard_flag = true;
+            }
         }
+    });
+
+//------Response the "float_button"
+    //Show "float_button" when the selected text changed,it's not a button but a window in fact
+    connect(clipboard, &QClipboard::selectionChanged,
+            float_button, [=]{
+        float_button->setVisible(true);
+        float_button->move(QCursor::pos().x() + 10, QCursor::pos().y() + 10);
+        button_time = startTimer(5000);
     });
 
     //Show "float_browser" after clicked the "float_button"
@@ -254,6 +277,7 @@ void MainWindow::signals_slots()
         float_browser->input->selectAll();
         float_browser->input->setFocus();
     });
+
 //------Response the "float_browser"
     connect(float_browser->input, &QLineEdit::returnPressed,
             this, [=]{
@@ -306,7 +330,32 @@ void MainWindow::signals_slots()
 
 bool MainWindow::recognize_image()
 {
-
+    qDebug() << "Recognize the image";
+    QProcess::execute("tesseract ocr.png out");
+    QProcess::execute("cat out.txt");
+    QFile file("out.txt");
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "Failed to read the out.txt";
+        return false;
+    } else {
+        QTextStream in(&file);
+        QString ocr_result;
+        QString line = in.readLine();
+        while (!line.isNull()) {
+            qDebug() << "readline";
+            ocr_result.append(line);
+            line = in.readLine();
+        }
+        qDebug() << "The ocr_result is:" << ocr_result;
+        src_word = ocr_result;
+        query();
+        //line_edit of float_browser get focus
+        float_browser->input->setText(src_word);
+        float_browser->input->selectAll();
+        float_browser->input->setFocus();
+        return true;
+    }
 }
 
 void MainWindow::tray_icon_actived(QSystemTrayIcon::ActivationReason reason)
@@ -404,15 +453,19 @@ void MainWindow::show_result()
 {
     switch (who_query) {
     case Requestor::Float_browser:
-        qDebug() << "QLineEdit object--input of mainwindow request";
+        qDebug() << "QLineEdit object--input of float_browser request,float_browser";
         float_browser->browser->setText(des_word);
         break;
     case Requestor::Float_button:
-        qDebug() << "QLineEdit object--input of mainwindow request";
+        qDebug() << "QLineEdit object--input of float_browser request,float_button";
+        float_browser->browser->setText(des_word);
+        break;
+    case Requestor::ocr:
+        qDebug() << "QLineEdit object--input of float_browser request,ocr";
         float_browser->browser->setText(des_word);
         break;
     default:
-        qDebug() << "QLineEdit object--input of mainwindow request";
+        qDebug() << "QLineEdit object--input of mainwindow request,default";
         browser->setText(des_word);
         break;
     }
