@@ -237,6 +237,15 @@ void MainWindow::signals_slots()
                 float_browser->setVisible(true);
                 clipboard_flag = false;
 
+                int height = image.height();
+                int width = image.width();
+                qDebug() << "Width of image:" << width << "Height of image:" << height;
+                if (height < 30)
+                {
+                    //The image is too small, need to be enlarged.
+                    image = image.scaled(width*3, height*3, Qt::KeepAspectRatio);
+                }
+
                 image.save("ocr.png", "PNG", -1);
                 qDebug() << "Image found!";
     /*
