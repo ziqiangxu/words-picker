@@ -36,25 +36,22 @@ Float_Browser::Float_Browser()
     input->setGeometry(0,0,190,30);
 
     browser = new QTextBrowser(this);
-    browser->setGeometry(0,40,280,260);
+    browser->setGeometry(0,30,280,240);
     qDebug("Float_browser object creating");
     qDebug() << browser->size();
 
+    query = new QPushButton(this);
+    query->setGeometry(195, 0, 80, 30);
+    query->setText(tr("查询"));
 
     add_new = new QPushButton(this);
-    add_new->move(195,40);
+    add_new->setGeometry(5, 270, 80, 30);
     add_new->setText(tr("加入生词"));
     add_new->adjustSize();
 
-    query = new QPushButton(this);
-    query->move(195,0);
-    query->setText(tr("查询"));
-    query->setFixedSize(add_new->size());
-
     google_translate = new QPushButton(this);
-    google_translate->move(195,80);
+    google_translate->setGeometry(100, 270, 80, 30);
     google_translate->setText(tr("Google翻译"));
-    google_translate->setFixedSize(add_new->size());
 }
 
 Float_Browser::~Float_Browser()
@@ -71,8 +68,13 @@ bool Float_Browser::isMouseOn()
     int cursor_x = QCursor::pos().x();
     int cursor_y = QCursor::pos().y();
     if (cursor_x > x() && cursor_x < (x() + width()) &&
-            cursor_y > y() && cursor_y <(y() + height()))
+            cursor_y > y() && cursor_y < (y() + height() + 35))
+    {
+        qDebug() << "pos_x:" << cursor_x << "pos_y:" << cursor_y;
+        qDebug() << "x():" << x() << "y()" << y();
+        qDebug() << "width:" <<width() << "height" << height();
         return true;
+    }
     return false;
 }
 
@@ -80,12 +82,13 @@ void Float_Browser::google_web_translate(QString src_word,
                                          QString src_language,
                                          QString des_language)
 {
-    if (src_language == "zh_CHS"){
-        src_language = "zh-CN";
-    }
-    if (des_language == "zh_CHS"){
-        des_language == "zh-cn";
-    }
+    qDebug() << "src_language:" << src_language;
+    qDebug() << "des_language:" << des_language;
+    if (src_language == "zh_CHS") src_language = "zh-CN";
+    if (src_language == "EN") src_language = "en";
+    if (des_language == "zh_CHS") des_language = "zh-CN";
+    if (des_language == "EN") des_language = "en";
+
     qDebug() << "源语言：" << src_language << "\n目标语言：" << des_language;
     QUrl google_url(tr("https://translate.google.cn/#%1/%2/%3")
                     .arg(src_language)
