@@ -4,7 +4,7 @@ freedict(原名opendict，后来在打包的时候发现软件仓库有同名，
 学习Qt和Deepin系统下软件的开发，与此同时学习其他的计算机技术，需要阅读英文资料。Google浏览器的翻译插件和深度用户社区的Rekols-dict都很好用，但是我觉得还不够，需要一个记录查询历史的功能，以便日后复习，这样对英语水平的提高是有帮助的。本应用超轻量的，由于目前基本都是我自己和同学在使用这个软件，Linux版本的有道词典也在重构中，所以我并没有对本应用做进一步进行优化。如果有同学需要我修改一些东西，我很乐意帮助的，直接在issue中提出或者给我发邮件就好了。感谢wtz设计的图标！
 ### 发行注记
 二进制安装包在本仓库deb目录下   
-- 2018-5.1
+- 2018-5.1    
 适用于deepin [下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2018-5.1_amd64_deepin.deb)    
 适用于ubuntu（仅在18.04和16.04.4版本测试）[下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2018-5.1_amd64_ubuntu.deb)    
 1. 对较小文字的识别略有改善；
