@@ -5,6 +5,7 @@ freedict(原名opendict，后来在打包的时候发现软件仓库有同名，
 ### 发行注记
 二进制安装包在本仓库deb目录下   
 #### - 2018-5.1    
+2018.07.05
 适用于deepin [下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2018-5.1_amd64_deepin.deb)    
 适用于ubuntu（仅在18.04和16.04.4版本测试）[下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2018-5.1_amd64_ubuntu.deb)    
 1. 对较小文字的识别略有改善；
