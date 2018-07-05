@@ -1,2 +1,1 @@
-ln -s /usr/lib/x86_64-linux-gnu/libxcb-util.so.1.0.0 /usr/lib/x86_64-linux-gnu/libxcb-util.so.0.tmp
-mv /usr/lib/x86_64-linux-gnu/libxcb-util.so.0.tmp /usr/lib/x86_64-linux-gnu/libxcb-util.so.0
+# 
