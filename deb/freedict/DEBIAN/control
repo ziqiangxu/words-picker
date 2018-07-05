@@ -1,0 +1,11 @@
+Source: freedict
+Version: 2018-5.1
+Section: base
+Priority: optional
+Maintainer: Daryl <ziqiang_xu@yeah.net>
+Depends: debhelper (>= 9),tesseract-ocr
+Standards-Version: 2018-5.1
+Homepage: https://github.com/ziqiangxu/freedict
+Package: freedict
+Architecture: amd64
+Description: A simple dictionary for deepin.

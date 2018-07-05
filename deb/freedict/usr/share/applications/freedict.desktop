@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Categories=Dictionary;Application;Utility;
+Comment=freedict
+Encoding=UTF-8
+Exec=/opt/freedict/freedict
+Icon=/opt/freedict/freedict.png
+Name=freedict
+StartupNotify=true
+Terminal=false
+Type=Application

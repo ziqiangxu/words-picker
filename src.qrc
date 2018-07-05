@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/image">
         <file>src/tran.png</file>
+        <file>src/freedict.png</file>
     </qresource>
 </RCC>

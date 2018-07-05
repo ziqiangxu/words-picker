@@ -1,0 +1,35 @@
+Chinese to English
+
+{"web":[
+	{"value":["Computer","Calculator","Computing"],"key":"计算机"},
+	{"value":["computer room","computer house","computer lab"],"key":"计算机房"},
+	{"value":["Computer Science","computer science","BSc Computer Science"],"key":"计算机科学"}
+	],
+"query":"计算机",
+
+"translation":["The computer"],
+
+"errorCode":"0",
+
+"basic":{"explains":["computers"]},
+
+"l":"zh-CHS2EN"}
+
+---------------------------------------------------------------------------------------------------
+English to Chinese
+
+{"web":[
+	{"value":["计算机","计算器","光学"],"key":"computor"},
+	{"value":["计算器模块"],"key":"Computor module"},
+	{"value":["计算机控制","计算机监控"],"key":"computor control"}
+	],
+
+"query":"computor",
+
+"translation":["的计算机"],
+
+"errorCode":"0",
+
+"basic":{"us-phonetic":"kəm'pju:tə","phonetic":"kəm'pjuːtə","uk-phonetic":"kəm'pjuːtə","explains":["n. 计算机"]},
+
+"l":"EN2zh-CHS"}

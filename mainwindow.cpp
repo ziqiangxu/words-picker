@@ -246,7 +246,7 @@ void MainWindow::signals_slots()
                     image = image.scaled(width*3, height*3, Qt::KeepAspectRatio);
                 }
 
-                image.save("ocr.png", "PNG", -1);
+                image.save("/opt/freedict/ocr.png", "PNG", -1);
                 qDebug() << "Image found!";
     /*
      * in the file /usr/include/tesseract/baseapi.h
@@ -340,9 +340,9 @@ void MainWindow::signals_slots()
 bool MainWindow::recognize_image()
 {
     qDebug() << "Recognize the image";
-    QProcess::execute("tesseract ocr.png out");
-    QProcess::execute("cat out.txt");
-    QFile file("out.txt");
+    QProcess::execute("tesseract /opt/freedict/ocr.png out");
+    QProcess::execute("cat /opt/freedict/out.txt");
+    QFile file("/opt/freedict/out.txt");
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         qDebug() << "Failed to read the out.txt";
