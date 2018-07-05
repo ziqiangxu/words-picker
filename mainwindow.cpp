@@ -340,7 +340,7 @@ void MainWindow::signals_slots()
 bool MainWindow::recognize_image()
 {
     qDebug() << "Recognize the image";
-    QProcess::execute("tesseract /opt/freedict/ocr.png out");
+    QProcess::execute("tesseract /opt/freedict/ocr.png /opt/freedict/out");
     QProcess::execute("cat /opt/freedict/out.txt");
     QFile file("/opt/freedict/out.txt");
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
