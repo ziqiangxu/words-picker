@@ -5,12 +5,13 @@ freedict(原名opendict，后来在打包的时候发现软件仓库有同名，
 ### 发行注记
 二进制安装包在本仓库deb目录下   
 - 2018-5.1
-[For deepin 下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2018-5.1_amd64_deepin.deb)
-[For ubuntu 下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2018-5.1_amd64_ubuntu.deb)
+适用于deepin [下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2018-5.1_amd64_deepin.deb)    
+适用于ubuntu（仅在18.04和16.04.4版本测试）[下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2018-5.1_amd64_ubuntu.deb)    
 1. 对较小文字的识别略有改善；
 2. 新增对Ubuntu的支持；
 3. 更换了图标；
 4. 跟进了Google网页翻译的URL变化。
+温馨提醒
 
 - 2018-5.0[下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2018-5.0_amd64.deb)
 1. 新增收起到托盘；
