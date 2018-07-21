@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = freedict
 INCLUDEPATH +=. \
-              /usr/include/
+#              /usr/include/
 TEMPLATE = app
 CONFIG += link_pkgconfig c++11
 PKGCONFIG += xcb xcb-util
