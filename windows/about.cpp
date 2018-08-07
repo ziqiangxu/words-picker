@@ -54,7 +54,7 @@ About::~About()
      help->setText(help_text());
 
      derive = new QPushButton(this);
-     derive->setText(tr("管理生词"));
+     derive->setText(tr("单词本"));
      derive->move(220,10);
      derive->adjustSize();
 

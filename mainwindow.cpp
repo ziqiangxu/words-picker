@@ -32,7 +32,7 @@
 
 //using namespace tesseract;
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QWidget(parent)
 {
     //init the variates
     clipboard = QApplication::clipboard();
@@ -50,16 +50,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    //QObject会被Qt自动释放，无需手动删除
-    /*
-    delete input;
-    delete exchange_language;
-    delete about;
-    delete derive;
-    delete src_language;
-    delete des_language;
-    delete browser;
-    */
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
@@ -71,49 +61,54 @@ void MainWindow::closeEvent(QCloseEvent *event){
 void MainWindow::build_GUI()
 {
     move(100,100);
-    setFixedSize(400,270);
+    setFixedSize(400,245);
+
+    //Layout
+    layout_root = new QHBoxLayout(this);
+    layout_view = new QVBoxLayout;
+    layout_root->addLayout(layout_view);
+    layout_button = new QVBoxLayout;
+    layout_root->addLayout(layout_button);
 
     input = new QLineEdit(this);
-    input->setGeometry(20,10,230,30);
     input->setText(clipboard->text());
     input->selectAll();
+    layout_view->addWidget(input);
 
     browser = new QTextBrowser(this);
-    browser->setGeometry(20,50,230,200);
-
-    exchange_language = new QPushButton(this);
-    exchange_language->move(280,90);
-    exchange_language->setText(tr("交换语言"));
-    exchange_language->adjustSize();
-    QSize button_size = exchange_language->size();
+    layout_view->addWidget(browser);
 
     query_button = new QPushButton(this);
     query_button->setText(tr("查询"));
-    query_button->move(280, 10);
-    query_button->setFixedSize(button_size);
+    layout_button->addWidget(query_button);
 
     src_language = new QComboBox(this);
-    src_language->move(280,50);
-    src_language->setFixedSize(button_size);
-    des_language = new QComboBox(this);
-    des_language->move(280,130);
-    des_language->setFixedSize(button_size);
-    init_language();
+    layout_button->addWidget(src_language);
 
+    exchange_language = new QPushButton(this);
+    exchange_language->setText(tr("交换语言"));
+    exchange_language->adjustSize();
+    layout_button->addWidget(exchange_language);
+
+    des_language = new QComboBox(this);
+    init_language();
+    layout_button->addWidget(des_language);
+
+    settings_button = new QPushButton(tr("设置"));
+    layout_button->addWidget(settings_button);
+
+    /*
     derive = new QPushButton(this);
     derive->setText(tr("导出生词"));
-    derive->move(280,170);
-    derive->setFixedSize(button_size);
+    layout_button->addWidget(derive);
+    */
 
     about = new QPushButton(this);
     about->setText(tr("更多"));
-    about->move(280,210);
-    about->setFixedSize(button_size);
+    layout_button->addWidget(about);
 
     test_button = new QPushButton(this);
     test_button->setText("测试");
-    test_button->move(200, 210);
-    test_button->setFixedSize(button_size);
     test_button->hide();
 
     float_button = new Float_Button();
@@ -243,7 +238,8 @@ void MainWindow::signals_slots()
                 if (height < 30)
                 {
                     //The image is too small, need to be enlarged.
-                    image = image.scaled(width*3, height*3, Qt::KeepAspectRatio);
+                    float scale = 50/height;
+                    image = image.scaled(width*scale, 50, Qt::KeepAspectRatio);
                 }
 
                 image.save("/opt/freedict/ocr.png", "PNG", -1);
@@ -330,10 +326,19 @@ void MainWindow::signals_slots()
     });
 
 //------Response the "derive"
+    /*
     connect(derive, &QPushButton::clicked,
             this, [=]{
         derive_words();
         input->setFocus();
+    });
+    */
+
+//------Response the "setting"
+    connect(settings_button, &QPushButton::clicked,
+            this, [=]{
+        settings_window = new SettingsWindow;
+        settings_window->show();
     });
 }
 
@@ -504,6 +509,7 @@ void MainWindow::show_about()
     about_window->show();
 }
 
+/*
 void MainWindow::derive_words()
 {
     SQLite sqlite;
@@ -515,3 +521,4 @@ void MainWindow::derive_words()
         QMessageBox::critical(this, tr("警告"), tr("非常抱歉，导出生词出错！"));
     }
 }
+*/

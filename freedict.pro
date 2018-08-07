@@ -40,7 +40,8 @@ SOURCES += \
     windows/word_table.cpp \
     settings.cpp \
     systemtrayicon.cpp \
-    windows/hyaline_window.cpp
+    windows/hyaline_window.cpp \
+    windows/settings_window.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -53,7 +54,8 @@ HEADERS += \
     windows/word_table.h \
     settings.h \
     systemtrayicon.h \
-    windows/hyaline_window.h
+    windows/hyaline_window.h \
+    windows/settings_window.h
 
 RESOURCES += \
     src.qrc
