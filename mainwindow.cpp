@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
     //init the variates
+    settings_window = new SettingsWindow;
     clipboard = QApplication::clipboard();
     youdao_api = new YoudaoAPI;
     sqlite = SQLite();
@@ -217,6 +218,10 @@ void MainWindow::signals_slots()
     //Get the image from the clipboard
     connect(clipboard, &QClipboard::dataChanged,
             this, [=]{
+        if (settings_window->setting_map->find("is_ocr").value() == "false")
+        {
+            return;
+        }
         qDebug() << "Clipboard changed";
         QImage image = clipboard->image(QClipboard::Clipboard);
         if (image.isNull())
@@ -259,6 +264,10 @@ void MainWindow::signals_slots()
     //Show "float_button" when the selected text changed,it's not a button but a window in fact
     connect(clipboard, &QClipboard::selectionChanged,
             float_button, [=]{
+        if (settings_window->setting_map->find("is_selected").value() == "false")
+        {
+            return;
+        }
         float_button->setVisible(true);
         float_button->move(QCursor::pos().x() + 10, QCursor::pos().y() + 10);
         button_time = startTimer(5000);
@@ -337,8 +346,7 @@ void MainWindow::signals_slots()
 //------Response the "setting"
     connect(settings_button, &QPushButton::clicked,
             this, [=]{
-        settings_window = new SettingsWindow;
-        settings_window->show();
+        settings_window->show_options();
     });
 }
 
