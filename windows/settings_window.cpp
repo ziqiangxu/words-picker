@@ -1,3 +1,24 @@
+/* -*- Mode: C++; indent-tabs-mode: nil; tab-width: 4 -*-
+ * -*- coding: utf-8 -*-
+ *
+ * Copyright (C) Ziqiang Xu
+ *
+ * Author:     Ziqiang Xu <ziqiang_xu@yeah.net>
+ * Maintainer: Ziqiang Xu <ziqiang_xu@yeah.net>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 #include "settings_window.h"
 #include <QDebug>
 
@@ -7,6 +28,34 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent)
     setWindowTitle(tr("设置"));
     layout_root = new QFormLayout(this);
     config = new QSettings("/opt/freedict/freedict.conf", QSettings::IniFormat);
+    ocr = new QPushButton("关");
+    selected = new QPushButton("关");
+    layout_root->addRow(tr("截图翻译"), ocr);
+    layout_root->addRow(tr("选中翻译"), selected);
+    connect(ocr, &QPushButton::clicked,
+            this, [=]{
+        if (ocr->text() == "开"){
+            ocr->setText("关");
+            config->setValue("switch/ocr", "false");
+        } else {
+            ocr->setText("开");
+            config->setValue("switch/ocr", "true");
+        }
+        load_settings();
+    });
+
+    connect(selected, &QPushButton::clicked,
+            this, [=]{
+        if (selected->text() == "开"){
+            selected->setText("关");
+            config->setValue("switch/selected", "false");
+        } else {
+            selected->setText("开");
+            config->setValue("switch/selected", "true");
+        }
+        load_settings();
+    });
+
     load_settings();
 }
 
@@ -34,10 +83,6 @@ void SettingsWindow::show_options()
         ++i;
     }
     */
-    ocr = new QPushButton("关");
-    selected = new QPushButton("关");
-    layout_root->addRow(tr("截图翻译"), ocr);
-    layout_root->addRow(tr("选中翻译"), selected);
 
     if (setting_map->find("is_ocr").value() == "true"){
         ocr->setText("开");
@@ -45,30 +90,6 @@ void SettingsWindow::show_options()
     if (setting_map->find("is_selected").value() == "true"){
         selected->setText("开");
     }
-
-    connect(ocr, &QPushButton::clicked,
-            this, [=]{
-        if (ocr->text() == "开"){
-            ocr->setText("关");
-            config->setValue("switch/ocr", "false");
-        } else {
-            ocr->setText("开");
-            config->setValue("switch/ocr", "true");
-        }
-        load_settings();
-    });
-
-    connect(selected, &QPushButton::clicked,
-            this, [=]{
-        if (selected->text() == "开"){
-            selected->setText("关");
-            config->setValue("switch/selected", "false");
-        } else {
-            selected->setText("开");
-            config->setValue("switch/selected", "true");
-        }
-        load_settings();
-    });
 
     show();
 }
