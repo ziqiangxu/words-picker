@@ -243,7 +243,9 @@ void MainWindow::signals_slots()
                 if (height < 30)
                 {
                     //The image is too small, need to be enlarged.
-                    image = image.scaled(width*3, height*3, Qt::KeepAspectRatio);
+                    float scale = 50/height;
+                    //image = image.scaled(width*3, height*3, Qt::KeepAspectRatio);
+                    image = image.scaled(width*scale, 50, Qt::KeepAspectRatio);
                 }
 
                 image.save("/opt/freedict/ocr.png", "PNG", -1);

@@ -3,7 +3,7 @@ Version: 2018-5.1
 Section: base
 Priority: optional
 Maintainer: Daryl <ziqiang_xu@yeah.net>
-Depends: debhelper (>= 9),tesseract-ocr
+Depends: debhelper (>= 9),tesseract-ocr,libqt5sql5
 Standards-Version: 2018-5.1
 Homepage: https://github.com/ziqiangxu/freedict
 Package: freedict
