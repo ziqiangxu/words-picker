@@ -30,7 +30,7 @@
 SQLite::SQLite()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("dict.sqlite");
+    db.setDatabaseName("/opt/freedict/dict.sqlite");
     create();
 }
 
@@ -43,6 +43,7 @@ bool SQLite::save(QString word, QString result, QString sort)
     if (!match.hasMatch())
     {
         qDebug() << "Queried the word but not a single word";
+        db.close();
         return false;
     }
 

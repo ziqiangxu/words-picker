@@ -30,6 +30,7 @@ Word_table::Word_table()
     sqlite = new SQLite;
     get_word();
     signals_slots();
+    show();
 }
 
 Word_table::~Word_table()
@@ -58,26 +59,29 @@ void Word_table::signals_slots()
 
 void Word_table::buildGUI()
 {
+    setWindowTitle(tr("单词管理"));
+    layout_root = new QVBoxLayout(this);
+    layout_buttonArea = new QHBoxLayout();
+    layout_root->addLayout(layout_buttonArea);
+
     table = new QTableView();
-    table->move(100, 100);
-    table->setWindowTitle("管理单词");
-    table->show();
+    layout_root->addWidget(table);
+
     modle = new QStandardItemModel(table);
     modle->setColumnCount(2);
     modle->setHeaderData(0, Qt::Horizontal, QString::fromLocal8Bit("单词"));
     modle->setHeaderData(1, Qt::Horizontal, QString::fromLocal8Bit("解释"));
 
-    derive = new QPushButton(table);
-    derive->setText("导出");
-    derive->move(500, 0);
-    derive->setVisible(true);
-    derive->adjustSize();
-
-    sort = new QComboBox(table);
-    sort->move(140, 0);
+    sort = new QComboBox();
     sort->addItem(QObject::tr("生词本"), "new");
     sort->addItem(QObject::tr("所有历史"), "%");
-    sort->setVisible(true);
+    layout_buttonArea->addWidget(sort);
+
+    layout_buttonArea->addStretch();
+
+    derive = new QPushButton();
+    derive->setText("导出");
+    layout_buttonArea->addWidget(derive);
 
     table->setContextMenuPolicy(Qt::CustomContextMenu);
     menu = new QMenu();
@@ -96,7 +100,7 @@ void Word_table::build_menu()
     });
     action_test->setText(QObject::tr("Test"));
     menu->addAction(action_delete);
-    menu->addAction(action_test);
+    //menu->addAction(action_test);
 }
 
 void Word_table::get_word()

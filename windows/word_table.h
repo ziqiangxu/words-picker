@@ -9,8 +9,11 @@
 #include <QAction>
 #include <QPoint>
 #include <QObject>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
-class Word_table : public QObject
+class Word_table : public QWidget
 {
 public:
     Word_table();
@@ -31,6 +34,8 @@ private:
     QAction *action_delete;
     QAction *action_test;
     void build_menu();
+    QVBoxLayout *layout_root;
+    QHBoxLayout *layout_buttonArea;
 private slots:
     void show_menu(const QPoint pos);
 };
