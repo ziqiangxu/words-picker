@@ -9,6 +9,11 @@ OCR识别使用的是Tesseract，计划后面进行深入研究后，对模型�
 
 ### 发行注记
 二进制安装包在本仓库deb目录下   
+#### - 2018-5.2
+2018.08.08
+适用于deepin [下载](https://github.com/ziqiangxu/freedict/blob/master/deb/freedict_v2018-5.2_amd64_deepin.deb)
+1. 增加设置页面，增加选中翻译和截图翻译的开关
+
 #### - 2018-5.1    
 2018.07.05
 适用于deepin [下载](https://github.com/ziqiangxu/freedict/raw/master/deb/freedict_v2018-5.1_amd64_deepin.deb)    
