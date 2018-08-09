@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
+#include <QWidget>
 #include <QPushButton>
 #include <QLineEdit>
 #include <QComboBox>
@@ -15,10 +15,13 @@
 #include <QCloseEvent>
 #include "systemtrayicon.h"
 #include "windows/hyaline_window.h"
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include "windows/settings_window.h"
 //#include <tesseract/baseapi.h>
 
 //using namespace tesseract;
-class MainWindow : public QMainWindow
+class MainWindow : public QWidget
 {
     Q_OBJECT
 
@@ -27,13 +30,9 @@ public:
     ~MainWindow();
     QLineEdit *input;
 
-    QPushButton *query_button;
-    QPushButton *exchange_language;
-    QPushButton *about;
-    QPushButton *derive;
-    QPushButton *test_button;
-    QComboBox *src_language;
-    QComboBox *des_language;
+    QPushButton *query_button, *exchange_language, *about, *test_button;
+    //QPushButton *derive;
+    QComboBox *src_language, *des_language;
     QTextBrowser *browser;
     QClipboard *clipboard;
     Float_Button *float_button;
@@ -49,7 +48,7 @@ public:
     void show_result();
     int button_time;
     void show_about();
-    void derive_words();
+    //void derive_words();
     SystemTrayIcon *tray_icon;
     //TessBaseAPI *ocr_ins;
 
@@ -59,6 +58,10 @@ private:
     void signals_slots();
     bool recognize_image();
     bool clipboard_flag;
+    QPushButton *settings_button;
+    QHBoxLayout *layout_root;
+    QVBoxLayout *layout_view, *layout_button;
+    SettingsWindow *settings_window;
 
 private slots:
     void get_result(QByteArray re);

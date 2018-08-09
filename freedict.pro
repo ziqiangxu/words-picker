@@ -37,9 +37,9 @@ SOURCES += \
     SQL/sqlite.cpp \
     windows/about.cpp \
     windows/word_table.cpp \
-    settings.cpp \
     systemtrayicon.cpp \
-    windows/hyaline_window.cpp
+    windows/hyaline_window.cpp \
+    windows/settings_window.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -50,9 +50,9 @@ HEADERS += \
     SQL/sqlite.h \
     windows/about.h \
     windows/word_table.h \
-    settings.h \
     systemtrayicon.h \
-    windows/hyaline_window.h
+    windows/hyaline_window.h \
+    windows/settings_window.h
 
 RESOURCES += \
     src.qrc
