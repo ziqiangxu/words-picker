@@ -9,8 +9,7 @@ QT       += core gui network widgets x11extras dbus sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = freedict
-INCLUDEPATH +=. \
-#              /usr/include/
+
 TEMPLATE = app
 CONFIG += link_pkgconfig c++11
 PKGCONFIG += xcb xcb-util

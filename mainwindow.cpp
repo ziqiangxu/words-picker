@@ -244,6 +244,7 @@ void MainWindow::signals_slots()
                 {
                     //The image is too small, need to be enlarged.
                     float scale = 50/height;
+                    //image = image.scaled(width*3, height*3, Qt::KeepAspectRatio);
                     image = image.scaled(width*scale, 50, Qt::KeepAspectRatio);
                 }
 
