@@ -21,7 +21,7 @@
  */
 #include "mainwindow.h"
 #include <QApplication>
-#include "event/eventmonitor.h"
+//#include "event/eventmonitor.h"
 #include <QDebug>
 
 #if defined Q_OS_LINUX
@@ -52,12 +52,12 @@ int main(int argc, char *argv[])
     if (check_only() == false)
         return 0;
     MainWindow w;
-    EventMonitor event_monitor;
-    event_monitor.start();
-    QObject::connect(&event_monitor, &EventMonitor::EscPressed,
-                     &w, &MainWindow::hide_float);
-    QObject::connect(&event_monitor, &EventMonitor::buttonPress,
-                     &w,&MainWindow::hide_float);
+//    EventMonitor event_monitor;
+//    event_monitor.start();
+//    QObject::connect(&event_monitor, &EventMonitor::EscPressed,
+//                     &w, &MainWindow::hide_float);
+//    QObject::connect(&event_monitor, &EventMonitor::buttonPress,
+//                     &w,&MainWindow::hide_float);
     /*
     QObject::connect(
         &event_monitor,

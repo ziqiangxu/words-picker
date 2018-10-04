@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "event/eventmonitor.h"
+#include "eventmonitor.h"
 #include <X11/Xlibint.h>
 
 EventMonitor::EventMonitor(QObject *parent) : QThread(parent)

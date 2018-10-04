@@ -25,7 +25,6 @@
 #include <QDebug>
 #include <QDesktopServices>
 #include <QFile>
-#include <QMessageBox>
 
 SQLite::SQLite()
 {

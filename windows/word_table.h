@@ -3,7 +3,7 @@
 #include <QTableView>
 #include <QStandardItemModel>
 #include <QPushButton>
-#include "SQL/sqlite.h"
+#include "../SQL/sqlite.h"
 #include <QComboBox>
 #include <QMenu>
 #include <QAction>

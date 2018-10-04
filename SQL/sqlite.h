@@ -1,7 +1,10 @@
 #ifndef SQLITE_H
 #define SQLITE_H
-#include <QSqlDatabase>
+//#include <QSqlDatabase>
 #include <QStandardItemModel>
+#include <QMessageBox>
+// todo cmake included
+#include <QtSql/QSqlDatabase>
 
 class SQLite
 {

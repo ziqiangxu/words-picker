@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "about.h"
-#include "SQL/sqlite.h"
+#include "../SQL/sqlite.h"
 #include "QDesktopServices"
 #include <QTableView>
 #include <QStandardItemModel>
