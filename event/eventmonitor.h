@@ -2,8 +2,15 @@
 #define EVENTMONITOR_H
 
 #include <QThread>
+
+//#ifdef __cplusplus
+//extern "C"
+//{
 #include <X11/Xlib.h>
 #include <X11/extensions/record.h>
+//#include <X11/Xlibint.h>
+//}
+//#endif
 
 // Virtual button codes that are not defined by X11.
 #define Button1			1
