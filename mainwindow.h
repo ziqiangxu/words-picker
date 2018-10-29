@@ -18,6 +18,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include "windows/settings_window.h"
+#include <QTimer>
 //#include <tesseract/baseapi.h>
 
 //using namespace tesseract;
@@ -41,36 +42,44 @@ public:
     About *about_window;
     QString src_word;
     QString des_word;
+    // 查询单词的请求者
+    // Requestor of the query
     enum Requestor {Mainwindow, Float_button, Float_browser, ocr} who_query;
     YoudaoAPI *youdao_api;
     SQLite sqlite;
     void query();
-    void show_result();
+    void showResult();
     int button_time;
-    void show_about();
+    void showAbout();
     //void derive_words();
     SystemTrayIcon *tray_icon;
     //TessBaseAPI *ocr_ins;
 
 private:
-    void build_GUI();
-    void init_language();
-    void signals_slots();
-    bool recognize_image();
+    void buildGui();
+    void initLanguage();
+    void signalsAndSlots();
+    bool recognizeImage();
     bool clipboard_flag;
     QPushButton *settings_button;
     QHBoxLayout *layout_root;
     QVBoxLayout *layout_view, *layout_button;
     SettingsWindow *settings_window;
 
+    // 定时器用于input内容被修改后，延迟进行自动查询
+    // Timer for auto query once the content in the "input" changed
+    QTimer *timer;
+
 private slots:
-    void get_result(QByteArray re);
+    void getResult(QByteArray re);
     void closeEvent(QCloseEvent *event);
-    void tray_icon_actived(QSystemTrayIcon::ActivationReason reason);
+    void trayIconActived(QSystemTrayIcon::ActivationReason reason);
+    void getImageFromClipboard();
 
 public slots:
-    void hide_float();
+    void hideFloat();
     void timerEvent(QTimerEvent *event);
+    void queryInput();
 };
 
 #endif // MAINWINDOW_H

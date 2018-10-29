@@ -40,10 +40,11 @@ MainWindow::MainWindow(QWidget *parent)
     youdao_api = new YoudaoAPI;
     sqlite = SQLite();
     clipboard_flag = true;
+    timer = new QTimer();
 
-    build_GUI();
+    buildGui();
     //ocr_ins = new tesseract::TessBaseAPI();
-    signals_slots();
+    signalsAndSlots();
     //*Test area
     //setStyleSheet("background-color:blue");
     //*/
@@ -54,12 +55,13 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
-    //点击关闭的时候，收起到系统托盘
+    // 点击关闭的时候，收起到系统托盘
+    // When the close button clicked, fold up to system tray
     this->hide();
     event->ignore();
 }
 
-void MainWindow::build_GUI()
+void MainWindow::buildGui()
 {
     move(100,100);
     setFixedSize(400,245);
@@ -92,7 +94,7 @@ void MainWindow::build_GUI()
     layout_button->addWidget(exchange_language);
 
     des_language = new QComboBox(this);
-    init_language();
+    initLanguage();
     layout_button->addWidget(des_language);
 
     settings_button = new QPushButton(tr("设置"));
@@ -108,6 +110,8 @@ void MainWindow::build_GUI()
     about->setText(tr("更多"));
     layout_button->addWidget(about);
 
+    // 测试的东西
+    // Just for test
     test_button = new QPushButton(this);
     test_button->setText("测试");
     test_button->hide();
@@ -119,18 +123,7 @@ void MainWindow::build_GUI()
 
 
     about_window = new About;
-/*
-    tray_icon = new QSystemTrayIcon(this);
-    QIcon icon = QIcon(":/image/src/tran.png");
-    tray_icon->setIcon(icon);
-    tray_icon->setToolTip(QObject::trUtf8("freedict"));
-    tray_icon->setToolTip("freedict");
-    tray_icon->show();
 
-    quit = new QAction(tray_icon);
-    quit->setText("退出");
-    this->addAction(quit);
-    */
     tray_icon = new SystemTrayIcon(this);
     tray_icon->show();
 
@@ -139,7 +132,7 @@ void MainWindow::build_GUI()
     //*/
 }
 
-void MainWindow::init_language()
+void MainWindow::initLanguage()
 {
     QStringList language;
     language << "EN" << "zh_CHS" << "ja" << "ko" << "fr" << "ru"
@@ -150,7 +143,7 @@ void MainWindow::init_language()
     des_language->setCurrentIndex(1);
 }
 
-void MainWindow::signals_slots()
+void MainWindow::signalsAndSlots()
 {
     //测试按钮的点击事件
     connect(test_button, &QPushButton::clicked,
@@ -158,110 +151,81 @@ void MainWindow::signals_slots()
 
     });
 
-    //系统托盘事件处理
+    // 系统托盘事件处理
+    // Deal with the tray event
     connect(tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(tray_icon_actived(QSystemTrayIcon::ActivationReason))
+            this, SLOT(trayIconActived(QSystemTrayIcon::ActivationReason))
             );
 
-    //选择退出菜单
+    // 选择退出菜单
+    // quit the application
     connect(tray_icon->action_quit,&QAction::triggered,
             this, [=]{
         qDebug() << "Received the signal of tray_icon，quit the application";
         qApp->quit();
     });
 
+    // 有道api返回结果后获取内容
+    // Get result after youdao api response
     connect(youdao_api, &YoudaoAPI::finish,
-            this,&MainWindow::get_result);
+            this, &MainWindow::getResult);
 
 //------Response the "mainwindow"
-    //Query when "Enter" pressed in "input"
+    // 按下Enter进行查询
+    // Query when "Enter" pressed in "input"
     connect(input, &QLineEdit::returnPressed,
-            this, [=]{
-        src_word = input->text();
-        who_query = Requestor::Mainwindow;
-        query();
-        browser->setText(tr("查询中"));
-        input->selectAll();
-        if (sender() == input) qDebug() << "test complite!";
-        qDebug() << "The sender is:" << sender();
-    });
+            this, &MainWindow::queryInput);
 
-    //Query when query_button clicked
+    // 按下窗口的按钮查询
+    // Query when query_button clicked
     connect(query_button, &QPushButton::clicked,
-            this, [=]{
-        src_word = input->text();
-        who_query = Requestor::Mainwindow;
-        query();
-        browser->setText(tr("查询中"));
-        input->selectAll();
-        if (sender() == input) qDebug() << "test complite!";
-        qDebug() << "The sender is:" << sender();
+            this, &MainWindow::queryInput);
+
+    // 时间到即查询,然后停止计时器，这种情况不要全选文本
+    // query once timeout, and stop the timer, do not select all text
+    connect(timer, &QTimer::timeout,
+            this, [=] {
+        queryInput();
+        int l = input->text().length();
+        input->setCursorPosition(l);
+        timer->stop();
     });
 
-    //"input" get focus when language changed
+    // input文本改变之后，启动定时器，将延迟0.5秒自动查询内容
+    // start timer once content in "input" changed，auto query delay 0.5 seconds
+    connect(input, &QLineEdit::textChanged,
+            this, [=] {
+        timer->start(500);
+    });
+
+    // 语言发生变化后让input获得焦点
+    // "input" get focus when language changed
     connect(exchange_language,&QPushButton::clicked,
             this, [=]{
         int int_temp = src_language->currentIndex();
         src_language->setCurrentIndex(des_language->currentIndex());
         des_language->setCurrentIndex(int_temp);
-        input->setFocus();
+        queryInput();
+        input->selectAll();
     });
 
+    /* 注意，activated信号在QComBox这个类中被重载了。要使用函数指针的语法来连接，你必须在
+     * 静态强制转换中指定信号类型 */
     /*Note: Signal activated is overloaded in this class. To connect to this one
-     *  using the function pointer syntax, you must specify the signal type in a
-     *  static cast*/
+     * using the function pointer syntax, you must specify the signal type in a
+     * static cast */
     connect(src_language, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
             this,[=]{input->setFocus();});
     connect(des_language, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
             this, [=]{input->setFocus();});
 
-    //Get the image from the clipboard
+    // 从剪切板获取图像
+    // Get the image from the clipboard
     connect(clipboard, &QClipboard::dataChanged,
-            this, [=]{
-        if (settings_window->setting_map->find("is_ocr").value() == "false")
-        {
-            return;
-        }
-        qDebug() << "Clipboard changed";
-        QImage image = clipboard->image(QClipboard::Clipboard);
-        if (image.isNull())
-        {
-            qDebug() << "Image not exist!";
-        } else {
-            if(clipboard_flag)
-            {
-                //Show the flout_browser right now
-                who_query = Requestor::ocr;
-                float_browser->browser->setText(tr("正在查询"));
-                float_browser->move(QCursor::pos());
-                float_browser->setVisible(true);
-                clipboard_flag = false;
-
-                int height = image.height();
-                int width = image.width();
-                qDebug() << "Width of image:" << width << "Height of image:" << height;
-                if (height < 30)
-                {
-                    //The image is too small, need to be enlarged.
-                    float scale = 50/height;
-                    //image = image.scaled(width*3, height*3, Qt::KeepAspectRatio);
-                    image = image.scaled(width*scale, 50, Qt::KeepAspectRatio);
-                }
-
-                image.save("/opt/freedict/ocr.png", "PNG", -1);
-                qDebug() << "Image found!";
-    /*
-     * in the file /usr/include/tesseract/baseapi.h
-     * fuction TesseractRect will return the result
-     */
-                recognize_image();
-            } else {
-                clipboard_flag = true;
-            }
-        }
-    });
+            this, &MainWindow::getImageFromClipboard);
 
 //------Response the "float_button"
+    // 文本被选中的时候显示悬浮按钮，但它不是一个按钮，实际上是一个悬浮的窗口。5s后自动消失
     //Show "float_button" when the selected text changed,it's not a button but a window in fact
     connect(clipboard, &QClipboard::selectionChanged,
             float_button, [=]{
@@ -331,7 +295,7 @@ void MainWindow::signals_slots()
 //------Response the "about"
     connect(about, &QPushButton::clicked,
             this, [=]{
-        show_about();
+        showAbout();
         input->setFocus();
     });
 
@@ -351,7 +315,63 @@ void MainWindow::signals_slots()
     });
 }
 
-bool MainWindow::recognize_image()
+void MainWindow::getImageFromClipboard()
+{
+    if (settings_window->setting_map->find("is_ocr").value() == "false")
+    {
+        return;
+    }
+    qDebug() << "Clipboard changed";
+    QImage image = clipboard->image(QClipboard::Clipboard);
+    if (image.isNull())
+    {
+        qDebug() << "Image not exist!";
+    } else {
+        if(clipboard_flag)
+        {
+            //Show the flout_browser right now
+            who_query = Requestor::ocr;
+            float_browser->browser->setText(tr("正在查询"));
+            float_browser->move(QCursor::pos());
+            float_browser->setVisible(true);
+            clipboard_flag = false;
+
+            int height = image.height();
+            int width = image.width();
+            qDebug() << "Width of image:" << width << "Height of image:" << height;
+            if (height < 30)
+            {
+                //The image is too small, need to be enlarged.
+                float scale = 50/height;
+                //image = image.scaled(width*3, height*3, Qt::KeepAspectRatio);
+                image = image.scaled(width*scale, 50, Qt::KeepAspectRatio);
+            }
+
+            image.save("/opt/freedict/ocr.png", "PNG", -1);
+            qDebug() << "Image found!";
+/*
+ * in the file /usr/include/tesseract/baseapi.h
+ * fuction TesseractRect will return the result
+ */
+            recognizeImage();
+        } else {
+            clipboard_flag = true;
+        }
+    }
+}
+
+void MainWindow::queryInput()
+{
+    src_word = input->text();
+    who_query = Requestor::Mainwindow;
+    query();
+    browser->setText(tr("查询中"));
+    input->selectAll();
+    if (sender() == input) qDebug() << "test complite!";
+    qDebug() << "The sender is:" << sender();
+}
+
+bool MainWindow::recognizeImage()
 {
     qDebug() << "Recognize the image";
     QProcess::execute("tesseract /opt/freedict/ocr.png /opt/freedict/out");
@@ -381,7 +401,7 @@ bool MainWindow::recognize_image()
     }
 }
 
-void MainWindow::tray_icon_actived(QSystemTrayIcon::ActivationReason reason)
+void MainWindow::trayIconActived(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason) {
     case QSystemTrayIcon::Trigger:
@@ -403,7 +423,7 @@ void MainWindow::query()
                           des_language->currentText());
 }
 
-void MainWindow::get_result(QByteArray re)
+void MainWindow::getResult(QByteArray re)
 {
     qDebug() << "the reply text:" <<QString(re);
 
@@ -458,7 +478,7 @@ void MainWindow::get_result(QByteArray re)
     if (translation_array.isEmpty() || erroCode != 0)
     {
         des_word = "查询失败，请检查网络";
-        show_result();
+        showResult();
         qDebug() << "Query failed";
     }
     else {
@@ -467,12 +487,12 @@ void MainWindow::get_result(QByteArray re)
                 + "翻译：" +translation
                 + "解释：\n" +explains;
         qDebug() << "query finished";
-        show_result();
+        showResult();
         sqlite.save(src_word, des_word, "history");
     }
 }
 
-void MainWindow::show_result()
+void MainWindow::showResult()
 {
     switch (who_query) {
     case Requestor::Float_browser:
@@ -494,7 +514,7 @@ void MainWindow::show_result()
     }
 }
 
-void MainWindow::hide_float()
+void MainWindow::hideFloat()
 {
     if (float_browser->isVisible() && !float_browser->isMouseOn())
         float_browser->setVisible(false);
@@ -512,22 +532,8 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }
 }
 
-void MainWindow::show_about()
+void MainWindow::showAbout()
 {
     about_window = new About;
     about_window->show();
 }
-
-/*
-void MainWindow::derive_words()
-{
-    SQLite sqlite;
-    if (sqlite.derive("new"))
-    {
-        QMessageBox::about(this, tr("提示"), tr("导出生词成功！文件已保存到桌面“new.txt”"));
-    }
-    else {
-        QMessageBox::critical(this, tr("警告"), tr("非常抱歉，导出生词出错！"));
-    }
-}
-*/
