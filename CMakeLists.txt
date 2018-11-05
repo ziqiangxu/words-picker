@@ -33,7 +33,8 @@ add_subdirectory (SQL)
 add_subdirectory(windows)
 add_subdirectory(event)
 
-add_executable (${TARGET_NAME} main.cpp mainwindow.cpp systemtrayicon.cpp)
+# 对于QT项目来说，ui文件和qrc文件也是需要编译的
+add_executable (${TARGET_NAME} ${RESOURCES} main.cpp mainwindow.cpp systemtrayicon.cpp)# ${FORMS})
 
 # 导入Qt包，需要放在add_executable之后
 set(QT Core Gui Widgets Network DBus Sql X11Extras)
