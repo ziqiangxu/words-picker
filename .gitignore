@@ -38,4 +38,7 @@ Makefile*
 CMakeLists.txt.user*
 
 # 忽略build
-build
+*build
+
+# 忽略deb文件
+*.deb
