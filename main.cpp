@@ -23,6 +23,7 @@
 #include <QApplication>
 #include "event/eventmonitor.h"
 #include <QDebug>
+#include <QFile>
 
 #if defined Q_OS_LINUX
 #include <sys/types.h>
@@ -46,11 +47,24 @@ bool check_only()
 }
 #endif
 
+void setStyle(QApplication *app)
+{
+//    QFile qss("/home/xu/git/freedict/src/style.qss");
+//    QFile qss(":/qss/resources/black.qss");
+    QFile qss(":/qss/resources/light.qss");
+    qss.open(QFile::ReadOnly);
+//    qApp->setStyle(qss.readAll());
+    app->setStyleSheet(qss.readAll());
+    qss.close();
+}
+
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
     if (check_only() == false)
         return 0;
+    // 设置样式
+    setStyle(&app);
     MainWindow w;
     EventMonitor event_monitor;
     event_monitor.start();
@@ -102,6 +116,6 @@ int main(int argc, char *argv[])
     //*/
     w.show();
 
-    return a.exec();
+    return app.exec();
 }
 

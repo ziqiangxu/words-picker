@@ -48,7 +48,7 @@ void Float_Button::mousePressEvent(QMouseEvent *event)
 void Float_Button::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.drawImage(rect(), QImage(":image/src/tran.png"));
+    painter.drawImage(rect(), QImage(":/image/resources/tran.png"));
 }
 
 bool Float_Button::isMouseOn()

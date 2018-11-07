@@ -55,6 +55,6 @@ HEADERS += \
     windows/settings_window.h
 
 RESOURCES += \
-    src.qrc
+    resources.qrc
 
 QMAKE_CXXFLAGS += -g

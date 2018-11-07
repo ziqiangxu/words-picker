@@ -73,8 +73,9 @@ void Word_table::buildGUI()
     modle->setHeaderData(1, Qt::Horizontal, QString::fromLocal8Bit("解释"));
 
     sort = new QComboBox();
-    sort->addItem(QObject::tr("生词本"), "new");
-    sort->addItem(QObject::tr("所有历史"), "%");
+    sort->setMinimumContentsLength(6);
+    sort->addItem(QObject::tr("收藏"), "new");
+    sort->addItem(QObject::tr("历史"), "%");
     layout_buttonArea->addWidget(sort);
 
     layout_buttonArea->addStretch();

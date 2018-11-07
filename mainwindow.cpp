@@ -68,17 +68,18 @@ void MainWindow::buildGui()
 
     //Layout
     layout_root = new QHBoxLayout(this);
+    layout_root->setMargin(1);
     layout_view = new QVBoxLayout;
     layout_root->addLayout(layout_view);
     layout_button = new QVBoxLayout;
     layout_root->addLayout(layout_button);
 
-    input = new QLineEdit(this);
+    input = new QLineEdit();
     input->setText(clipboard->text());
     input->selectAll();
     layout_view->addWidget(input);
 
-    browser = new QTextBrowser(this);
+    browser = new QTextBrowser();
     layout_view->addWidget(browser);
 
     query_button = new QPushButton(this);

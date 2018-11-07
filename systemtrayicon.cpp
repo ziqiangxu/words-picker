@@ -3,7 +3,7 @@
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent)
 {
-    QIcon icon = QIcon(":image/src/freedict.png");
+    QIcon icon = QIcon(":image/resources/freedict.png");
     setToolTip(QString("freedict"));
     setIcon(icon);
     build_menu();
