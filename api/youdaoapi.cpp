@@ -24,7 +24,6 @@
 #include <QObject>
 #include <QMessageBox>
 #include <QDebug>
-#include <QUrl>
 
 YoudaoAPI::YoudaoAPI()
 {
@@ -42,12 +41,12 @@ void YoudaoAPI::translate(QString query, QString from,
     url.append("&appKey=" + appKey);
     url.append("&salt=" + salt);
     url.append("&sign=" + MD5(appKey + query + salt + key));
-    QUrl url_encode(url);
+    this->query_url = QUrl(url);
     qDebug() << "the request URL:" << url;
-    request(url_encode.toString(QUrl::FullyEncoded));  //Cause block when a wrong URL give
+    request();  //Cause block when a wrong URL give
 }
 
-void YoudaoAPI::request(QString url)
+void YoudaoAPI::request()
 {
     QNetworkAccessManager *manager;
     manager = new QNetworkAccessManager(this);
@@ -55,7 +54,7 @@ void YoudaoAPI::request(QString url)
     connect(manager, &QNetworkAccessManager::finished,
             this, &YoudaoAPI::reply);
 
-    manager->get(QNetworkRequest(QUrl(url)));
+    manager->get(QNetworkRequest(this->query_url));
 
 
     qDebug("YoudaoAPI::request");
@@ -65,6 +64,14 @@ void YoudaoAPI::request(QString url)
 void YoudaoAPI::reply(QNetworkReply *re)
 {
     QByteArray result = re->readAll();
+    if (result.isEmpty() && this->query_count < 3)
+    {
+        qDebug() << this->query_count << " times retry";
+        this->query_count++;
+        this->request();
+        return;
+    }
+    this->query_count = 0;
     emit finish(result);
 }
 

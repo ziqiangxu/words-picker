@@ -476,7 +476,7 @@ void MainWindow::getResult(QByteArray re)
     int erroCode = json_obj.take("erroCode").toInt();
 
     //Save the result in the database
-    if (translation_array.isEmpty() || erroCode != 0)
+    if (translation_array.isEmpty())
     {
         des_word = "查询失败，请检查网络";
         showResult();
