@@ -14,17 +14,20 @@
 /**********子界面背景**********/
 QWidget#customWidget {
         background: rgb(173, 202, 232);
+/*          background: red;*/
 }
 
 /**********子界面中央背景**********/
 QWidget#centerWidget {
         background: rgb(232, 241, 252);
+/*          background: red;*/
 }
 
 /**********主界面样式**********/
 QWidget#mainWindow {
         border: 1px solid rgb(111, 156, 207);
         background: rgb(232, 241, 252);
+/*        background: red;*/
 }
 
 QWidget#messageWidget {
@@ -551,10 +554,19 @@ QTextEdit {
         background: rgb(187, 212, 238);
 }
 
+
+/***** 文本浏览框  ****/
+QTextBrowser {
+        border: 0px solid rgb(111, 156, 207);
+        color: rgb(70, 71, 73);
+/*        border-radius: 10;*/
+        background: rgb(239, 239, 239);
+}
+
 /**********滚动区域**********/
 QScrollArea {
         border: 1px solid rgb(111, 156, 207);
-        background: rgb(187, 212, 238);
+/*        background: rgb(187, 212, 238);*/
 }
 
 /**********滚动区域**********/
