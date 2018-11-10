@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QMessageBox>
 #include <QDebug>
+#include <QUrl>
 
 YoudaoAPI::YoudaoAPI()
 {
@@ -41,8 +42,9 @@ void YoudaoAPI::translate(QString query, QString from,
     url.append("&appKey=" + appKey);
     url.append("&salt=" + salt);
     url.append("&sign=" + MD5(appKey + query + salt + key));
+    QUrl url_encode(url);
     qDebug() << "the request URL:" << url;
-    request(url);  //Cause block when a wrong URL give
+    request(url_encode.toString(QUrl::FullyEncoded));  //Cause block when a wrong URL give
 }
 
 void YoudaoAPI::request(QString url)
