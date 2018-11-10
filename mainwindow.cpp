@@ -61,6 +61,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
     event->ignore();
 }
 
+// 构建GUI
 void MainWindow::buildGui()
 {
     move(100,100);
@@ -133,6 +134,7 @@ void MainWindow::buildGui()
     //*/
 }
 
+// 初始化支持的语言列表
 void MainWindow::initLanguage()
 {
     QStringList language;
@@ -144,6 +146,7 @@ void MainWindow::initLanguage()
     des_language->setCurrentIndex(1);
 }
 
+// 连接信号和槽
 void MainWindow::signalsAndSlots()
 {
     //测试按钮的点击事件
@@ -363,18 +366,23 @@ void MainWindow::getImageFromClipboard()
 
 void MainWindow::queryInput()
 {
-    src_word = input->text();
-    who_query = Requestor::Mainwindow;
-    query();
+    if (this->input->text() == ""){
+        // 空文本不查询
+        return;
+    }
+    this->src_word = this->input->text();
+    this->who_query = this->Requestor::Mainwindow;
+    this->query();
     browser->setText(tr("查询中"));
     input->selectAll();
-    if (sender() == input) qDebug() << "test complite!";
+    // if (sender() == input) qDebug() << "test complite!";
     qDebug() << "The sender is:" << sender();
 }
 
+// 对截取的图像进行识别
 bool MainWindow::recognizeImage()
 {
-    qDebug() << "Recognize the image";
+    qDebug() << "Recognizing the image";
     QProcess::execute("tesseract /opt/freedict/ocr.png /opt/freedict/out");
     QProcess::execute("cat /opt/freedict/out.txt");
     QFile file("/opt/freedict/out.txt");
