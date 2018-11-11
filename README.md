@@ -21,7 +21,14 @@
 生词管理
 ![管理生词](./README/manage_words.gif)
 
-### 致谢
+## 参与开发
+
+欢迎各位贡献代码， happy hacking！
+开发库安装：
+`sudo apt install g++ qt5-default libxtst-dev`
+- `libxtst-dev`是x11的开发库
+
+## 致谢
 
 - [有道智云](https://ai.youdao.com)： 本项目使用了有道的翻译api
 - [Google翻译](https://translate.google.cn)： 本项目调用了Google的网页翻译
@@ -37,4 +44,4 @@
   
 ## 一些题外话
 
-freedict(原名opendict，后来在打包的时候发现软件仓库有同名，遂改之),不过最近发现freedict也已经被使用了，真是好名字争着取啊！最红定为words picker
+freedict(原名opendict，后来在打包的时候发现软件仓库有同名，遂改之),不过最近发现freedict也已经被使用了，真是好名字争着取啊！最后定为words picker
