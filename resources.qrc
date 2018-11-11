@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/image">
         <file>resources/freedict.png</file>
-        <file>resources/tran.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/black.qss</file>

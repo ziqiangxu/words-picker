@@ -25,7 +25,7 @@
 #include <QTableView>
 #include <QStandardItemModel>
 
-About::About(QWidget *parent) : QMainWindow(parent)
+About::About(QWidget *parent) : QWidget(parent)
 {
     word_table = nullptr;
     buildGUI();
@@ -47,10 +47,12 @@ About::~About()
  {
      setWindowTitle(tr("关于"));
      setWindowFlags(Qt::WindowStaysOnTopHint);
-     move(100,100);
+     int pos_x = QCursor::pos().x();
+     int pos_y = QCursor::pos().y();
+     move(pos_x - 30, pos_y - 30);
      setFixedSize(400,270);
      help = new QTextBrowser(this);
-     help->setGeometry(0,0,400,270);
+     help->setGeometry(0, 0, 400, 270);
      help->setText(help_text());
 
      derive = new QPushButton(this);
@@ -66,7 +68,7 @@ About::~About()
 
  void About::get_update()
  {
-     QUrl url("https://github.com/ziqiangxu/freedict");
+     QUrl url("https://github.com/ziqiangxu/words-picker/releases");
      QDesktopServices::openUrl(url);
  }
 

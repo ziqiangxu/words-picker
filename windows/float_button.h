@@ -35,7 +35,6 @@ public:
     bool isMouseOn();
 
 private:
-    QPushButton *btn;
 
 protected:
     void mousePressEvent(QMouseEvent *);

@@ -298,19 +298,7 @@ void MainWindow::signalsAndSlots()
 
 //------Response the "about"
     connect(about, &QPushButton::clicked,
-            this, [=]{
-        showAbout();
-        input->setFocus();
-    });
-
-//------Response the "derive"
-    /*
-    connect(derive, &QPushButton::clicked,
-            this, [=]{
-        derive_words();
-        input->setFocus();
-    });
-    */
+            this, &MainWindow::showAbout);
 
 //------Response the "setting"
     connect(settings_button, &QPushButton::clicked,
@@ -321,6 +309,7 @@ void MainWindow::signalsAndSlots()
 
 void MainWindow::getImageFromClipboard()
 {
+//    从剪切板获取图像
     if (settings_window->setting_map->find("is_ocr").value() == "false")
     {
         return;
@@ -366,6 +355,9 @@ void MainWindow::getImageFromClipboard()
 
 void MainWindow::queryInput()
 {
+   /* 1. 获取要查询的文本
+      2. 设置查询者为主窗口
+      3. 进行查询 */
     if (this->input->text() == ""){
         // 空文本不查询
         return;
@@ -412,6 +404,7 @@ bool MainWindow::recognizeImage()
 
 void MainWindow::trayIconActived(QSystemTrayIcon::ActivationReason reason)
 {
+    // 响应托盘的事件
     switch (reason) {
     case QSystemTrayIcon::Trigger:
         qDebug() << "Trigger";
@@ -427,6 +420,7 @@ void MainWindow::trayIconActived(QSystemTrayIcon::ActivationReason reason)
 
 void MainWindow::query()
 {
+//    查询
     youdao_api->translate(src_word,
                           src_language->currentText(),
                           des_language->currentText());
@@ -434,6 +428,7 @@ void MainWindow::query()
 
 void MainWindow::getResult(QByteArray re)
 {
+//    获取查询结果
     qDebug() << "the reply text:" <<QString(re);
 
     QJsonDocument json_doc = QJsonDocument::fromJson(re);
@@ -503,6 +498,7 @@ void MainWindow::getResult(QByteArray re)
 
 void MainWindow::showResult()
 {
+//    显示查询结果
     switch (who_query) {
     case Requestor::Float_browser:
         qDebug() << "QLineEdit object--input of float_browser request,float_browser";
@@ -525,6 +521,7 @@ void MainWindow::showResult()
 
 void MainWindow::hideFloat()
 {
+//    隐藏悬浮按钮
     if (float_browser->isVisible() && !float_browser->isMouseOn())
         float_browser->setVisible(false);
 

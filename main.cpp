@@ -32,6 +32,7 @@
 #include <unistd.h>
 bool check_only()
 {
+//    创建文件锁
     const char filename[] = "/tmp/lockfile_for_freedict";
     int fd = open (filename, O_WRONLY | O_CREAT , 0644);
     int flock = lockf(fd, F_TLOCK, 0);
@@ -49,6 +50,7 @@ bool check_only()
 
 void setStyle(QApplication *app)
 {
+//    从资源文件读取样式
 //    QFile qss("/home/xu/git/freedict/src/style.qss");
 //    QFile qss(":/qss/resources/black.qss");
     QFile qss(":/qss/resources/light.qss");
@@ -71,7 +73,7 @@ int main(int argc, char *argv[])
     QObject::connect(&event_monitor, &EventMonitor::EscPressed,
                      &w, &MainWindow::hideFloat);
     QObject::connect(&event_monitor, &EventMonitor::buttonPress,
-                     &w,&MainWindow::hideFloat);
+                     &w, &MainWindow::hideFloat);
     /*
     QObject::connect(
         &event_monitor,

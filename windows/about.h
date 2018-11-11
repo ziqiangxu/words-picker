@@ -5,7 +5,7 @@
 #include <QTextBrowser>
 #include <QPushButton>
 #include "word_table.h"
-class About : public QMainWindow
+class About : public QWidget
 {
     Q_OBJECT
 public:

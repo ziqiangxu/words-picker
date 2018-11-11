@@ -65,6 +65,7 @@ Float_Browser::~Float_Browser()
 
 bool Float_Browser::isMouseOn()
 {
+//    检查鼠标是否在窗口区域
     int cursor_x = QCursor::pos().x();
     int cursor_y = QCursor::pos().y();
     if (cursor_x > x() && cursor_x < (x() + width()) &&
@@ -82,6 +83,7 @@ void Float_Browser::google_web_translate(QString src_word,
                                          QString src_language,
                                          QString des_language)
 {
+//    用浏览器打开google网页翻译
     qDebug() << "src_language:" << src_language;
     qDebug() << "des_language:" << des_language;
     if (src_language == "zh_CHS") src_language = "zh-CN";
@@ -99,7 +101,8 @@ void Float_Browser::google_web_translate(QString src_word,
 
 void Float_Browser::closeEvent(QCloseEvent *event)
 {
-    qDebug() << "You have clicked the close button of flout browser!";
+//    隐藏窗口而不是关闭窗口
+    qDebug() << "hide the window";
     this->hide();
     event->ignore();
 }

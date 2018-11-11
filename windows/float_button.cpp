@@ -28,21 +28,21 @@ Float_Button::Float_Button()
     setFixedSize(48,48);
     // 设置窗口透明
     setAttribute(Qt::WA_TranslucentBackground, true);
-    setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip);
-
-//    btn = new QPushButton(this);
+    // 设置无边框
+    setWindowFlags(Qt::FramelessWindowHint);
 
     /*Test area*/
-    qDebug("float_button");
+    qDebug("build float_button");
 }
 
 void Float_Button::mousePressEvent(QMouseEvent *event)
 {
+//    重写窗口鼠标按下事件
     qDebug("Rceived a mouse event");
     if (event->button() == Qt::LeftButton)
     {
         emit clicked();
-        qDebug("emit the click signal of Float_Button");
+        qDebug("flout_btton clicked");
         this->hide();
     }
 }
@@ -50,13 +50,14 @@ void Float_Button::mousePressEvent(QMouseEvent *event)
 
 void Float_Button::paintEvent(QPaintEvent *)
 {
+//    绘制图标
     QPainter painter(this);
-//    painter.drawImage(rect(), QImage(":/image/resources/tran.png"));
     painter.drawImage(rect(), QImage(":/image/resources/freedict.png"));
 }
 
 bool Float_Button::isMouseOn()
 {
+//    检查鼠标是否悬浮按钮区域
     int cursor_x = QCursor::pos().x();
     int cursor_y = QCursor::pos().y();
     if (cursor_x > x() && cursor_x < (x() + width()) &&
