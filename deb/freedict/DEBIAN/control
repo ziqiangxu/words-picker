@@ -1,4 +1,4 @@
-Source: freedict
+Source: words-picker
 Version: 53
 Section: base
 Priority: optional
@@ -6,6 +6,6 @@ Maintainer: Daryl.Xu <ziqiang_xu@yeah.net>
 Depends: tesseract-ocr,libqt5sql5
 Standards-Version: 53
 Homepage: https://github.com/ziqiangxu/freedict
-Package: freedict
+Package: words-picker
 Architecture: amd64
 Description: A simple dictionary.
