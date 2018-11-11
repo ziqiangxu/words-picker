@@ -80,11 +80,13 @@ About::~About()
  {
      QString content;
      content =
-             "应用版本：2018-5.2\n\
-特别鸣谢:有道词典、谷歌翻译\n\n\
-1. 翻译选中的文本：选中文本即可弹出翻译图标；\n\
-2. 翻译截图区域的文字：主要识别英文字母，目前对较小的文字识别很糟糕。\
-使用方法：Ctrl+Alt+A启动截图程序，选中要识别翻译的区域，然后Ctrl+C将截图保存在剪切板中。\n\
-bug反馈：ziqiang_xu@yeah.net";
+             "应用版本：53\n\n\
+特别鸣谢:有道词典、谷歌翻译、Deepin\n\
+       本应用组合了有道翻译API和谷歌网页翻译，本应用主要在Deepin平台下开发。\n\n\
+OCR取词使用方法：\n\
+       以Deepin为例，Ctrl+Alt+A启动截图程序，选中要识别翻译的区域，然后Ctrl+C将截图保存在剪切板中。\n\n\
+主页：https://github.com/ziqiangxu/freedict/blob/master/README.md\n\n\
+bug反馈：https://github.com/ziqiangxu/freedict/issues/new\n\
+E-mail：ziqiang_xu@yeah.net";
      return content;
  }
