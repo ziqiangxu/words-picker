@@ -1,4 +1,6 @@
-# freedict
+# words picker
+
+原名freedict，由于freedict和已有包冲突，所以正式更名为words picker，代码中的freedict也将逐步去除。
 
 [下载体验](https://github.com/ziqiangxu/freedict/releases)
 
@@ -35,4 +37,4 @@
   
 ## 一些题外话
 
-freedict(原名opendict，后来在打包的时候发现软件仓库有同名，遂改之),不过最近发现freedict也已经被使用了，真是好名字争着取啊！
+freedict(原名opendict，后来在打包的时候发现软件仓库有同名，遂改之),不过最近发现freedict也已经被使用了，真是好名字争着取啊！最红定为words picker
