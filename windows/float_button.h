@@ -23,15 +23,20 @@
 #define FLOAT_BUTTON_H
 
 #include <QPainter>
-#include <QMainWindow>
+#include <QWidget>
+#include <QPushButton>
 
-class Float_Button : public QMainWindow
+class Float_Button : public QWidget
 {
     Q_OBJECT
 public:
     Float_Button();
     QPainter painter;
     bool isMouseOn();
+
+private:
+    QPushButton *btn;
+
 protected:
     void mousePressEvent(QMouseEvent *);
 

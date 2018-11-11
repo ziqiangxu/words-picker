@@ -25,9 +25,12 @@
 
 Float_Button::Float_Button()
 {
-    setFixedSize(30,30);
-    //setAttribute(Qt::WA_TranslucentBackground);
+    setFixedSize(48,48);
+    // 设置窗口透明
+    setAttribute(Qt::WA_TranslucentBackground, true);
     setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip);
+
+//    btn = new QPushButton(this);
 
     /*Test area*/
     qDebug("float_button");
@@ -48,7 +51,8 @@ void Float_Button::mousePressEvent(QMouseEvent *event)
 void Float_Button::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.drawImage(rect(), QImage(":/image/resources/tran.png"));
+//    painter.drawImage(rect(), QImage(":/image/resources/tran.png"));
+    painter.drawImage(rect(), QImage(":/image/resources/freedict.png"));
 }
 
 bool Float_Button::isMouseOn()
