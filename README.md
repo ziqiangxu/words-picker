@@ -1,6 +1,6 @@
 # freedict
 
-[下载体验](https://github.com/ziqiangxu/freedict/releases/tag/cmake-first)
+[下载体验](https://github.com/ziqiangxu/freedict/releases)
 
 ## 产品理念
 

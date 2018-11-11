@@ -1,11 +1,11 @@
 Source: freedict
-Version: 2018-5.2
+Version: 53
 Section: base
 Priority: optional
 Maintainer: Daryl.Xu <ziqiang_xu@yeah.net>
 Depends: tesseract-ocr,libqt5sql5
-Standards-Version: 2018-5.2
+Standards-Version: 53
 Homepage: https://github.com/ziqiangxu/freedict
 Package: freedict
 Architecture: amd64
-Description: A simple dictionary for deepin.
+Description: A simple dictionary.
