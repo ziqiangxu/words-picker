@@ -392,7 +392,7 @@ bool MainWindow::recognizeImage()
             line = in.readLine();
         }
         qDebug() << "The ocr_result is:" << ocr_result;
-        src_word = ocr_result;
+        src_word = ocr_result.trimmed();
         query();
         //line_edit of float_browser get focus
         float_browser->input->setText(src_word);
