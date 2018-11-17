@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTextBrowser>
 #include <QPushButton>
+#include <QSettings>
 #include "word_table.h"
 class About : public QWidget
 {
@@ -16,6 +17,9 @@ public:
     QPushButton *derive;
     QPushButton *update;
     Word_table *word_table;
+    QSettings *info;     // 读取信息
+    int version_main;         // 主要版本号
+    int version_subordinate;  // 次要版本号
 
 signals:
 

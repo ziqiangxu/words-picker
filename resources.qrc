@@ -6,4 +6,7 @@
         <file>resources/black.qss</file>
         <file>resources/light.qss</file>
     </qresource>
+    <qresource prefix="/">
+        <file>resources/info</file>
+    </qresource>
 </RCC>

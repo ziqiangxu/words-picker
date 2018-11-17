@@ -24,10 +24,15 @@
 #include "QDesktopServices"
 #include <QTableView>
 #include <QStandardItemModel>
+#include <QDebug>
 
 About::About(QWidget *parent) : QWidget(parent)
 {
-    word_table = nullptr;
+    word_table = nullptr; 
+    info = new QSettings(":/resources/info", QSettings::IniFormat);
+//    qDebug() << info->value("version/main").toString();
+    version_main = info->value("version/main").toInt();
+    version_subordinate = info->value("version/subordinate").toInt();
     buildGUI();
     connect(update, &QPushButton::clicked,
             this, &About::get_update);
@@ -68,6 +73,8 @@ About::~About()
 
  void About::get_update()
  {
+     // 从github下载文件，然后进行和本地版本进行比较
+     // https://raw.githubusercontent.com/ziqiangxu/words-picker/master/deb/freedict/DEBIAN/control
      QUrl url("https://github.com/ziqiangxu/words-picker/releases");
      QDesktopServices::openUrl(url);
  }
@@ -81,14 +88,14 @@ About::~About()
  QString About::help_text()
  {
      QString content;
-     content =
-             "应用版本：53.1\n\n\
+     content.sprintf(
+             "应用版本：%d.%d\n\n\
 特别鸣谢:有道词典、谷歌翻译、Deepin\n\
        本应用组合了有道翻译API和谷歌网页翻译，本应用主要在Deepin平台下开发。\n\n\
 OCR取词使用方法：\n\
        以Deepin为例，Ctrl+Alt+A启动截图程序，选中要识别翻译的区域，然后Ctrl+C将截图保存在剪切板中。\n\n\
-主页：https://github.com/ziqiangxu/freedict/blob/master/README.md\n\n\
-bug反馈：https://github.com/ziqiangxu/freedict/issues/new\n\
-E-mail：ziqiang_xu@yeah.net";
+主页：https://github.com/ziqiangxu/words-picker/blob/master/README.md\n\n\
+bug反馈：https://github.com/ziqiangxu/words-picker/issues/new\n\
+E-mail：ziqiang_xu@yeah.net", version_main, version_subordinate);
      return content;
  }
