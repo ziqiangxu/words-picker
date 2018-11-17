@@ -1,10 +1,10 @@
 Source: words-picker
-Version: 53.1
+Version: 53.2
 Section: base
 Priority: optional
 Maintainer: Daryl.Xu <ziqiang_xu@yeah.net>
 Depends: tesseract-ocr,libqt5sql5
-Standards-Version: 53
+Standards-Version: 53.2
 Homepage: https://github.com/ziqiangxu/freedict
 Package: words-picker
 Architecture: amd64
