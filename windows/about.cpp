@@ -35,9 +35,9 @@ About::About(QWidget *parent) : QWidget(parent)
     version_subordinate = info->value("version/subordinate").toInt();
     buildGUI();
     connect(update, &QPushButton::clicked,
-            this, &About::get_update);
+            this, &About::getUpdate);
     connect(derive, &QPushButton::clicked,
-            this, &About::manage_new);
+            this, &About::showWordsTable);
 }
 
 About::~About()
@@ -71,18 +71,54 @@ About::~About()
      update->adjustSize();
  }
 
- void About::get_update()
+ void About::getUpdate()
  {
-     // 从github下载文件，然后进行和本地版本进行比较
-     // https://raw.githubusercontent.com/ziqiangxu/words-picker/master/deb/freedict/DEBIAN/control
-     QUrl url("https://github.com/ziqiangxu/words-picker/releases");
-     QDesktopServices::openUrl(url);
+     /* 从github下载文件，然后进行和本地版本进行比较
+     *  https://raw.githubusercontent.com/ziqiangxu/words-picker/master/deb/
+     *  freedict/DEBIAN/control */
+     manager = new QNetworkAccessManager(this);
+     QNetworkRequest request = QNetworkRequest(
+//                 QUrl("http://raw.githubusercontent.com/ziqiangxu/words-picker/"
+//                      "master/resources/info")
+                 QUrl("https://www.baidu.com")
+                 );
+//     QNetworkRequest request = QNetworkRequest(
+//                 QUrl("https://blog.csdn.net/GoForwardToStep/article/details/53588961")
+//                 );
+
+     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
+     config.setPeerVerifyMode(QSslSocket::VerifyNone);
+     config.setProtocol(QSsl::TlsV1SslV3);
+     request.setSslConfiguration(config);
+
+     qDebug() << "version:" << QSslSocket::sslLibraryVersionString();
+     qDebug() << QSslSocket::sslLibraryBuildVersionNumber();
+
+     connect(manager, &QNetworkAccessManager::finished,
+             this, &About::replyFinished);
+     manager->get(request);
  }
 
- void About::manage_new()
+ void About::replyFinished(QNetworkReply *reply)
+ {
+     QString res = reply->readAll();
+     qDebug() << "res:" << res;
+
+     // deal with the result
+     if (false){
+         QUrl url("https://github.com/ziqiangxu/words-picker/releases");
+         QDesktopServices::openUrl(url);
+     } else {
+         QUrl url("https://github.com/ziqiangxu/words-picker/releases");
+         QDesktopServices::openUrl(url);
+         // QMessageBox::information(this, tr("检查更新"), tr("您这已经是最新版本了"));
+     }
+ }
+
+ void About::showWordsTable()
  {
      word_table = new Word_table;
-     setVisible(false);
+     this->setVisible(false);
  }
 
  QString About::help_text()
