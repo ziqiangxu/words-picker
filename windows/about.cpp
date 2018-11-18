@@ -67,7 +67,7 @@ About::~About()
 
      update = new QPushButton(this);
      update->move(310,10);
-     update->setText(tr("获取更新"));
+     update->setText(tr("检查更新"));
      update->adjustSize();
  }
 
@@ -112,14 +112,23 @@ About::~About()
      outFile.open(QIODevice::WriteOnly | QIODevice::WriteOnly);
      QTextStream in(&outFile);
      in << res;
+     outFile.close();
+     // 这一步很重要:
+     // 1. 打开的文件要关闭是好习惯
+     // 2. QSetting无法读到文件，也不报错，没办法调试
 
      info_ = new QSettings("/opt/freedict/info", QSettings::IniFormat);
 
      int version_main_ = info_->value("version/main").toInt();
      int version_subordinate_ = info_->value("version/subordinate").toInt();
 
+     if (!this->isVisible()) {
+         return;
+     }
+
+     qDebug() << version_main_ << version_subordinate_;
      // 如果主版本号或者次版本号大于本版本，则直接打开浏览器跳转到下载页面
-     if (version_main_ > version_main | version_subordinate_ > version_subordinate){
+     if ((version_main_ > version_main) || (version_subordinate_ > version_subordinate)){
          QUrl url("https://github.com/ziqiangxu/words-picker/releases");
          QDesktopServices::openUrl(url);
      } else {
