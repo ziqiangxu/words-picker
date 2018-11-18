@@ -74,6 +74,8 @@ int main(int argc, char *argv[])
                      &w, &MainWindow::hideFloat);
     QObject::connect(&event_monitor, &EventMonitor::buttonPress,
                      &w, &MainWindow::hideFloat);
+    QObject::connect(&event_monitor, &EventMonitor::buttonRelease,
+                     &w, &MainWindow::onButtonReleased);
     /*
     QObject::connect(
         &event_monitor,

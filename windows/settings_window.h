@@ -37,9 +37,11 @@ public:
     void show_options();
     QMap<QString, QString> * setting_map;
 private:
+    void signalSlot();
+
     QFormLayout *layout_root;
     QSettings *config;
-    QPushButton *ocr, *selected;
+    QPushButton *ocr, *selected, *auto_translate;
 
 
 signals:

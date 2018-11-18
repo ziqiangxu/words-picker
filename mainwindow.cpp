@@ -529,6 +529,16 @@ void MainWindow::hideFloat()
         float_button->setVisible(false);
 }
 
+void MainWindow::onButtonReleased(int x, int y)
+{
+    if (settings_window->setting_map->find("is_auto_translate").value() == "true")
+    {
+        // 相当于点击了一下悬浮按钮，直接弹出悬浮窗口
+        // todo 进行过滤
+        float_button->clicked();
+    }
+}
+
 void MainWindow::timerEvent(QTimerEvent *event)
 {
     if (event->timerId() == button_time && !float_button->isMouseOn())
