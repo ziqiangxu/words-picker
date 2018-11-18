@@ -30,7 +30,9 @@ Float_Browser::Float_Browser()
 {
     setWindowTitle(tr("快速查词"));
     setFixedSize(280,300);
-    setWindowFlags(Qt::WindowStaysOnTopHint | Qt::WindowCloseButtonHint);
+    setWindowFlags(Qt::WindowStaysOnTopHint |
+                   Qt::WindowCloseButtonHint |
+                   Qt::Tool);
 
     input = new QLineEdit(this);
     input->setGeometry(0,0,190,30);

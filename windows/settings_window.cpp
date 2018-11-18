@@ -28,8 +28,8 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent)
     setWindowTitle(tr("设置"));
     layout_root = new QFormLayout(this);
     config = new QSettings("/opt/freedict/freedict.conf", QSettings::IniFormat);
-    ocr = new QPushButton("关");
-    selected = new QPushButton("关");
+    ocr = new QPushButton(tr("关"));
+    selected = new QPushButton(tr("关"));
     layout_root->addRow(tr("截图翻译"), ocr);
     layout_root->addRow(tr("选中翻译"), selected);
     connect(ocr, &QPushButton::clicked,

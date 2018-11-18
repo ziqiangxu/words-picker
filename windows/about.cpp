@@ -78,18 +78,18 @@ About::~About()
      *  freedict/DEBIAN/control */
      manager = new QNetworkAccessManager(this);
      QNetworkRequest request = QNetworkRequest(
-//                 QUrl("http://raw.githubusercontent.com/ziqiangxu/words-picker/"
-//                      "master/resources/info")
-                 QUrl("https://www.baidu.com")
+                 QUrl("https://raw.githubusercontent.com/ziqiangxu/words-picker/"
+                      "master/resources/info")
                  );
 //     QNetworkRequest request = QNetworkRequest(
 //                 QUrl("https://blog.csdn.net/GoForwardToStep/article/details/53588961")
 //                 );
 
-     QSslConfiguration config = QSslConfiguration::defaultConfiguration();
-     config.setPeerVerifyMode(QSslSocket::VerifyNone);
-     config.setProtocol(QSsl::TlsV1SslV3);
-     request.setSslConfiguration(config);
+//     QSslConfiguration config = request.sslConfiguration();
+//     config.setPeerVerifyMode(QSslSocket::VerifyNone);
+//     config.setProtocol(QSsl::AnyProtocol);
+//     config.setProtocol(QSsl::TlsV1SslV3);
+//     request.setSslConfiguration(config);
 
      qDebug() << "version:" << QSslSocket::sslLibraryVersionString();
      qDebug() << QSslSocket::sslLibraryBuildVersionNumber();
@@ -104,14 +104,26 @@ About::~About()
      QString res = reply->readAll();
      qDebug() << "res:" << res;
 
-     // deal with the result
-     if (false){
+     if(res.isEmpty()) {
+         QMessageBox::warning(this, tr("检查更新失败"), tr("检查更新失败，可能是网络问题，重试一下吧"));
+         return;
+     }
+     QFile outFile("/opt/freedict/info");
+     outFile.open(QIODevice::WriteOnly | QIODevice::WriteOnly);
+     QTextStream in(&outFile);
+     in << res;
+
+     info_ = new QSettings("/opt/freedict/info", QSettings::IniFormat);
+
+     int version_main_ = info_->value("version/main").toInt();
+     int version_subordinate_ = info_->value("version/subordinate").toInt();
+
+     // 如果主版本号或者次版本号大于本版本，则直接打开浏览器跳转到下载页面
+     if (version_main_ > version_main | version_subordinate_ > version_subordinate){
          QUrl url("https://github.com/ziqiangxu/words-picker/releases");
          QDesktopServices::openUrl(url);
      } else {
-         QUrl url("https://github.com/ziqiangxu/words-picker/releases");
-         QDesktopServices::openUrl(url);
-         // QMessageBox::information(this, tr("检查更新"), tr("您这已经是最新版本了"));
+         QMessageBox::information(this, tr("检查更新"), tr("您这已经是最新版本了"));
      }
  }
 
