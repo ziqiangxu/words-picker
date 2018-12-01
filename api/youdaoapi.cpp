@@ -33,16 +33,19 @@ void YoudaoAPI::translate(QString query, QString from,
                     QString to, QString appKey,
                     QString key)
 {
-    QString salt = QString(Randon());
+//    QString salt = QString(Randon());
+    QString salt = "s";
     QString url = "http://openapi.youdao.com/api?";
-    url.append("q=" + query);
+    QString query_encoded = QUrl::toPercentEncoding(query);
+    url.append("q=" + query_encoded);
     url.append("&from=" + from);
     url.append("&to=" + to);
     url.append("&appKey=" + appKey);
     url.append("&salt=" + salt);
     url.append("&sign=" + MD5(appKey + query + salt + key));
     this->query_url = QUrl(url);
-    qDebug() << "the request URL:" << url;
+    qDebug() << "Url before encode:" << url;
+    qDebug() << "Encode URL:" << endl << this->query_url.toEncoded();
     request();  //Cause block when a wrong URL give
 }
 
