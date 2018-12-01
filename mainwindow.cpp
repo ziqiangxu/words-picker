@@ -566,6 +566,7 @@ void MainWindow::onButtonReleased(int x, int y)
     {
         float_button->setVisible(true);
         float_button->move(QCursor::pos().x() + 10, QCursor::pos().y() + 10);
+        this->is_selection_changed = false;
     }
 }
 
