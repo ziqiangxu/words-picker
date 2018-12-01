@@ -61,6 +61,8 @@ private:
     void signalsAndSlots();
     bool recognizeImage();
     bool clipboard_flag;
+    bool is_selection_changed;
+    bool isButtonPressed;
     QPushButton *settings_button;
     QHBoxLayout *layout_root;
     QVBoxLayout *layout_view, *layout_button;
@@ -77,9 +79,10 @@ private slots:
     void getImageFromClipboard();
 
 public slots:
-    void hideFloat();
+    void onButtonPressed();
     void timerEvent(QTimerEvent *event);
     void queryInput();
+    void onButtonReleased(int x, int y);
 };
 
 #endif // MAINWINDOW_H

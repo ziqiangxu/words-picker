@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent)
     youdao_api = new YoudaoAPI;
     sqlite = SQLite();
     clipboard_flag = true;
+    is_selection_changed = false;
+    isButtonPressed = false;
     timer = new QTimer();
 
     buildGui();
@@ -233,6 +235,12 @@ void MainWindow::signalsAndSlots()
     //Show "float_button" when the selected text changed,it's not a button but a window in fact
     connect(clipboard, &QClipboard::selectionChanged,
             float_button, [=]{
+        /* 主要是在chrome浏览器中鼠标未释放就会弹出悬浮按钮
+         * 如果鼠标处于按下状态，直接返回 */
+        this->is_selection_changed = true;
+        if (this->isButtonPressed) return;
+        this->is_selection_changed = false;
+
         qDebug() << "the selected text:" << clipboard->text(QClipboard::Selection);
 
         // 检查是否开启自动翻译选项
@@ -528,8 +536,9 @@ void MainWindow::showResult()
     }
 }
 
-void MainWindow::hideFloat()
+void MainWindow::onButtonPressed()
 {
+    this->isButtonPressed = true;
 //    隐藏悬浮按钮
     if (float_browser->isVisible() && !float_browser->isMouseOn())
         float_browser->setVisible(false);
@@ -544,6 +553,19 @@ void MainWindow::timerEvent(QTimerEvent *event)
     {
         float_button->setVisible(false);
         button_time = 0;
+    }
+}
+
+void MainWindow::onButtonReleased(int x, int y)
+{
+    this->isButtonPressed = false;
+
+    // 对chrome浏览器的特殊优化
+    // 检测选中的文本是否改变
+    if (this->is_selection_changed)
+    {
+        float_button->setVisible(true);
+        float_button->move(QCursor::pos().x() + 10, QCursor::pos().y() + 10);
     }
 }
 

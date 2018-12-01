@@ -70,10 +70,10 @@ int main(int argc, char *argv[])
     MainWindow w;
     EventMonitor event_monitor;
     event_monitor.start();
-    QObject::connect(&event_monitor, &EventMonitor::EscPressed,
-                     &w, &MainWindow::hideFloat);
     QObject::connect(&event_monitor, &EventMonitor::buttonPress,
-                     &w, &MainWindow::hideFloat);
+                     &w, &MainWindow::onButtonPressed);
+    QObject::connect(&event_monitor, &EventMonitor::buttonRelease,
+                     &w, &MainWindow::onButtonReleased);
     /*
     QObject::connect(
         &event_monitor,
