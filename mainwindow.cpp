@@ -233,6 +233,15 @@ void MainWindow::signalsAndSlots()
     //Show "float_button" when the selected text changed,it's not a button but a window in fact
     connect(clipboard, &QClipboard::selectionChanged,
             float_button, [=]{
+        qDebug() << "the selected text:" << clipboard->text(QClipboard::Selection);
+
+        // 检查是否开启自动翻译选项
+        if (settings_window->setting_map->find("is_auto_translate").value() == "true")
+        {
+            // 相当于点击了一下悬浮按钮，直接弹出悬浮窗口
+            float_button->clicked();
+            return;
+        }
         if (settings_window->setting_map->find("is_selected").value() == "false")
         {
             return;
@@ -527,16 +536,6 @@ void MainWindow::hideFloat()
 
     if (float_button->isVisible() && !float_browser->isMouseOn())
         float_button->setVisible(false);
-}
-
-void MainWindow::onButtonReleased(int x, int y)
-{
-    if (settings_window->setting_map->find("is_auto_translate").value() == "true")
-    {
-        // 相当于点击了一下悬浮按钮，直接弹出悬浮窗口
-        // todo 进行过滤
-        float_button->clicked();
-    }
 }
 
 void MainWindow::timerEvent(QTimerEvent *event)

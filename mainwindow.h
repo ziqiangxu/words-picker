@@ -80,7 +80,6 @@ public slots:
     void hideFloat();
     void timerEvent(QTimerEvent *event);
     void queryInput();
-    void onButtonReleased(int x, int y);
 };
 
 #endif // MAINWINDOW_H
