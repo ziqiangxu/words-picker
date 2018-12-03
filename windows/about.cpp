@@ -34,6 +34,7 @@ About::About(QWidget *parent) : QWidget(parent)
     version_main = info->value("version/main").toInt();
     version_subordinate = info->value("version/subordinate").toInt();
     buildGUI();
+    getUpdate();
     connect(update, &QPushButton::clicked,
             this, &About::getUpdate);
     connect(derive, &QPushButton::clicked,
@@ -122,15 +123,20 @@ About::~About()
      int version_main_ = info_->value("version/main").toInt();
      int version_subordinate_ = info_->value("version/subordinate").toInt();
 
-     if (!this->isVisible()) {
-         return;
-     }
-
      qDebug() << version_main_ << version_subordinate_;
      // 如果主版本号或者次版本号大于本版本，则直接打开浏览器跳转到下载页面
-     if ((version_main_ > version_main) || (version_subordinate_ > version_subordinate)){
-         QUrl url("https://github.com/ziqiangxu/words-picker/releases");
-         QDesktopServices::openUrl(url);
+     if ((version_main_ > version_main) || (version_subordinate_ > version_subordinate))
+     {
+         QString msg;
+         QMessageBox msg_box(this);
+         msg_box.setWindowTitle(tr("新版本"));
+         msg_box.setText(msg.sprintf("新版本%d.%d已发布，是否下载？", version_main_, version_subordinate_));
+         msg_box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+         if (msg_box.exec() == QMessageBox::Yes)
+         {
+             QUrl url("https://github.com/ziqiangxu/words-picker/releases");
+             QDesktopServices::openUrl(url);
+         }
      } else {
          QMessageBox::information(this, tr("检查更新"), tr("您这已经是最新版本了"));
      }
