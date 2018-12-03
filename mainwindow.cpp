@@ -127,6 +127,7 @@ void MainWindow::buildGui()
 
 
     about_window = new About;
+    about_window->getUpdate();
 
     tray_icon = new SystemTrayIcon(this);
     tray_icon->show();

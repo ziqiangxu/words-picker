@@ -34,7 +34,6 @@ About::About(QWidget *parent) : QWidget(parent)
     version_main = info->value("version/main").toInt();
     version_subordinate = info->value("version/subordinate").toInt();
     buildGUI();
-    getUpdate();
     connect(update, &QPushButton::clicked,
             this, &About::getUpdate);
     connect(derive, &QPushButton::clicked,
@@ -138,6 +137,8 @@ About::~About()
              QDesktopServices::openUrl(url);
          }
      } else {
+       // 如果本窗口不可见，说明是应用启动时调用的自动检查更新
+       if (this->isVisible())
          QMessageBox::information(this, tr("检查更新"), tr("您这已经是最新版本了"));
      }
  }
