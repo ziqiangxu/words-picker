@@ -28,12 +28,9 @@
 
 About::About(QWidget *parent) : QWidget(parent)
 {
-    word_table = nullptr; 
-    info = new QSettings(":/resources/info", QSettings::IniFormat);
+    word_table = nullptr;
 //    qDebug() << info->value("version/main").toString();
-    version_main = info->value("version/main").toInt();
-    version_subordinate = info->value("version/subordinate").toInt();
-    version_patch = info->value("version/patch").toInt();
+    version = 1;
     buildGUI();
     connect(update, &QPushButton::clicked,
             this, &About::getUpdate);
@@ -118,20 +115,16 @@ About::~About()
      // 1. 打开的文件要关闭是好习惯
      // 2. QSetting无法读到文件，也不报错，没办法调试
 
-     info_ = new QSettings("/opt/freedict/info", QSettings::IniFormat);
+     info = new QSettings("/opt/freedict/info", QSettings::IniFormat);
 
-     int version_main_ = info_->value("version/main").toInt();
-     int version_subordinate_ = info_->value("version/subordinate").toInt();
-     int version_patch_ = info_->value("version/patch").toInt();
+     int version_ = info->value("version/value").toInt();
 
-     qDebug() << version_main_ << version_subordinate_;
-     // 如果主版本号或者次版本号大于本版本，则直接打开浏览器跳转到下载页面
-     if ((version_main_ > version_main) || (version_subordinate_ > version_subordinate) || (version_patch_ > version_patch))
+     qDebug() << "latest version:" << version_;
+     if (version_ > version)
      {
-         QString msg;
          QMessageBox msg_box(this);
          msg_box.setWindowTitle(tr("新版本"));
-         msg_box.setText(msg.sprintf("新版本%d.%d.%d已发布，是否下载？", version_main_, version_subordinate_, version_patch_));
+         msg_box.setText("检测到新版本，是否前往下载？");
 
          msg_box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
          if (msg_box.exec() == QMessageBox::Yes)
@@ -156,13 +149,13 @@ About::~About()
  {
      QString content;
      content.sprintf(
-             "应用版本：%d.%d.%d\n\n\
+             "应用版本：53.4.1\n\n\
 特别鸣谢:有道词典、谷歌翻译、Deepin\n\
        本应用组合了有道翻译API和谷歌网页翻译，本应用主要在Deepin平台下开发。\n\n\
 OCR取词使用方法：\n\
        以Deepin为例，Ctrl+Alt+A启动截图程序，选中要识别翻译的区域，然后Ctrl+C将截图保存在剪切板中。\n\n\
 主页：https://github.com/ziqiangxu/words-picker/blob/master/README.md\n\n\
 bug反馈：https://github.com/ziqiangxu/words-picker/issues/new\n\
-E-mail：ziqiang_xu@yeah.net", version_main, version_subordinate, version_patch);
+E-mail：ziqiang_xu@yeah.net");
      return content;
  }
