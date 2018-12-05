@@ -35,7 +35,7 @@ void YoudaoAPI::translate(QString query, QString from,
 {
 //    QString salt = QString(Randon());
     QString salt = "s";
-    QString url = "http://openapi.youdao.com/api?";
+    QString url = "https://openapi.youdao.com/api?";
     QString query_encoded = QUrl::toPercentEncoding(query);
     url.append("q=" + query_encoded);
     url.append("&from=" + from);
