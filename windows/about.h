@@ -23,6 +23,7 @@ public:
     QSettings *info_;         // 从github下载下来的info文件
     int version_main;         // 主要版本号
     int version_subordinate;  // 次要版本号
+    int version_patch;        // 补丁号
 
 private:
     QNetworkAccessManager *manager;
