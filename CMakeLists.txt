@@ -2,10 +2,11 @@ cmake_minimum_required (VERSION 2.8)
 
 # aux_source_directory(. DIR_SRCS)
 # 定义变量
-set(TARGET_NAME freedict)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_CXX_STANDARD 17)
-#set(LINK_DIR /usr/lib/x86_64-linux-gnu)
+set(TARGET_NAME words-picker)      # 设置目标名字
+set(CMAKE_INCLUDE_CURRENT_DIR ON)  # 
+set(CMAKE_CXX_STANDARD 11)         # 指定C++标准
+set(CMAKE_BUILD_TYPE Release)      # 指定构建类型
+set(CMAKE_CXX_COMPILER clang++)    # 指定编译器
 
 # Q_OBJECT宏展开、资源文件、界面文件
 set(CMAKE_AUTOMOC ON)
@@ -43,11 +44,11 @@ qt5_use_modules(${TARGET_NAME} ${QT})
 
 #link_directories(${LINK_DIR})
 
-# 链接子目录生成的静态链接库
-set(X11_LIBS X11 Xext Xtst)
+link_directories(/usr/lib/x86_64-linux-gnu)
+
 target_link_libraries(
     ${TARGET_NAME}
-    ${X11_LIBS}  # 这个是X11所需要的链接库
     event api SQL windows)
 
 # set(CMAKE_INSTALL_PREFIX /usr)
+install(TARGETS words-picker DESTINATION /opt/words-picker/)

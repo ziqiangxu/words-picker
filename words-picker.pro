@@ -8,7 +8,7 @@ QT       += core gui network widgets x11extras dbus sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = freedict
+TARGET = words-picker
 
 TEMPLATE = app
 CONFIG += link_pkgconfig c++11
