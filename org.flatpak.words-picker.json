@@ -1,7 +1,7 @@
 {
     "app-id": "org.flatpak.words-picker",
     "runtime": "org.kde.Platform",
-    "runtime-version": "5.9",
+    "runtime-version": "5.11",
     "sdk": "org.kde.Sdk",
     "command": "/app/words-picker",
     "finish-args": [
@@ -15,8 +15,8 @@
 	    "config-opts":["-DCMAKE_BUILD_TYPE=RelWithDebInfo"],
             "sources": [
                 {
-                    "type": "dir",
-                    "path": "./words-picker"
+                    "type": "git",
+                    "url": "https://github.com/ziqiangxu/words-picker.git"
                 }
             ]
         }
