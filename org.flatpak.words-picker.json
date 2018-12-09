@@ -1,0 +1,24 @@
+{
+    "app-id": "org.flatpak.words-picker",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.9",
+    "sdk": "org.kde.Sdk",
+    "command": "/app/words-picker",
+    "finish-args": [
+	"--socket=x11",
+	"--share=network"
+    ],
+    "modules": [
+        {
+            "name": "words-picker",
+	    "buildsystem": "cmake",
+	    "config-opts":["-DCMAKE_BUILD_TYPE=RelWithDebInfo"],
+            "sources": [
+                {
+                    "type": "dir",
+                    "path": "./words-picker"
+                }
+            ]
+        }
+    ]
+}
