@@ -131,7 +131,6 @@ void MainWindow::buildGui()
 
     tray_icon = new SystemTrayIcon(this);
     tray_icon->show();
-
     //*Test area
     //setWindowFlags(Qt::WindowStaysOnTopHint);
     //*/
