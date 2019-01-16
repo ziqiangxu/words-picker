@@ -29,6 +29,10 @@
 #include <QProcess>
 #include <QFile>
 #include <QTextStream>
+#define OCR_IMG_PATH "/opt/words-picker/ocr.png"
+#define OCR_RES_PATH "/opt/words-picker/out.txt"
+#define OCR_IMG2TXT "tesseract /opt/words-picker/ocr.png /opt/words-picker/out"
+// out会自动加上txt后缀
 
 //using namespace tesseract;
 MainWindow::MainWindow(QWidget *parent)
@@ -357,7 +361,7 @@ void MainWindow::getImageFromClipboard()
                 image = image.scaled(width*scale, 50, Qt::KeepAspectRatio);
             }
 
-            image.save("/opt/freedict/ocr.png", "PNG", -1);
+            image.save(OCR_IMG_PATH, "PNG", -1);
             qDebug() << "Image found!";
 /*
  * in the file /usr/include/tesseract/baseapi.h
@@ -392,9 +396,9 @@ void MainWindow::queryInput()
 bool MainWindow::recognizeImage()
 {
     qDebug() << "Recognizing the image";
-    QProcess::execute("tesseract /opt/freedict/ocr.png /opt/freedict/out");
-    QProcess::execute("cat /opt/freedict/out.txt");
-    QFile file("/opt/freedict/out.txt");
+    QProcess::execute(OCR_IMG2TXT);
+//    QProcess::execute("cat /opt/freedict/out.txt");
+    QFile file(OCR_RES_PATH);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         qDebug() << "Failed to read the out.txt";

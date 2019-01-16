@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 2.8)
 # aux_source_directory(. DIR_SRCS)
 # 定义变量
 set(TARGET_NAME words-picker)      # 设置目标名字
-set(CMAKE_INCLUDE_CURRENT_DIR ON)  # 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)  #
 set(CMAKE_CXX_STANDARD 11)         # 指定C++标准
 set(CMAKE_BUILD_TYPE Release)      # 指定构建类型
 set(CMAKE_CXX_COMPILER clang++)    # 指定编译器
@@ -51,4 +51,7 @@ target_link_libraries(
     event api SQL windows)
 
 # set(CMAKE_INSTALL_PREFIX /usr)
+install(TARGETS ../deb/words-picker/usr/share/applications/words-picker.desktop /usr/share/applications/)
+# 复制words-picker目录
+install(TARGETS ../deb/words-picker/opt/words-picker /opt/words-picker)
 install(TARGETS words-picker DESTINATION /opt/words-picker/)

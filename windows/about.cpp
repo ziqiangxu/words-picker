@@ -25,6 +25,7 @@
 #include <QTableView>
 #include <QStandardItemModel>
 #include <QDebug>
+#define INFO_FILE_PATH "/opt/words-picker/info"
 
 About::About(QWidget *parent) : QWidget(parent)
 {
@@ -102,11 +103,13 @@ About::~About()
      QString res = reply->readAll();
      qDebug() << "res:" << res;
 
-     if(res.isEmpty()) {
+     // 如果检查更新失败，且本窗口可见，说明是手动检查更新，则需要弹出提示框
+     // 本窗口不可见，则是启动时自检，这时网络可能未连接，所以不进行提示
+     if(res.isEmpty() && this->isVisible()) {
          QMessageBox::warning(this, tr("检查更新失败"), tr("检查更新失败，可能是网络问题，重试一下吧"));
          return;
      }
-     QFile outFile("/opt/freedict/info");
+     QFile outFile(INFO_FILE_PATH);
      outFile.open(QIODevice::WriteOnly | QIODevice::WriteOnly);
      QTextStream in(&outFile);
      in << res;
@@ -115,7 +118,7 @@ About::~About()
      // 1. 打开的文件要关闭是好习惯
      // 2. QSetting无法读到文件，也不报错，没办法调试
 
-     info = new QSettings("/opt/freedict/info", QSettings::IniFormat);
+     info = new QSettings(INFO_FILE_PATH, QSettings::IniFormat);
 
      int version_ = info->value("version/value").toInt();
 
@@ -133,7 +136,8 @@ About::~About()
              QDesktopServices::openUrl(url);
          }
      } else {
-       // 如果本窗口不可见，说明是应用启动时调用的自动检查更新
+       // 如果本窗口可见，说明是手动检查，需要进行提示。
+       // 否则是应用启动时调用的自动检查更新，不进行提示
        if (this->isVisible())
          QMessageBox::information(this, tr("检查更新"), tr("您这已经是最新版本了"));
      }

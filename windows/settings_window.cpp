@@ -27,7 +27,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent)
 {
     setWindowTitle(tr("设置"));
     layout_root = new QFormLayout(this);
-    config = new QSettings("/opt/freedict/freedict.conf", QSettings::IniFormat);
+    config = new QSettings("/opt/words-picker/conf", QSettings::IniFormat);
 
     ocr = new QPushButton(tr("关"));
     ocr->setToolTip(tr("识别剪切板的图像中的文字"));
