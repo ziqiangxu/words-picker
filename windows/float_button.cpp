@@ -52,7 +52,7 @@ void Float_Button::paintEvent(QPaintEvent *)
 {
 //    绘制图标
     QPainter painter(this);
-    painter.drawImage(rect(), QImage(":/image/resources/freedict.png"));
+    painter.drawImage(rect(), QImage(":/image/resources/words-picker.png"));
 }
 
 bool Float_Button::isMouseOn()

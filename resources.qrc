@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/image">
-        <file>resources/freedict.png</file>
+        <file>resources/words-picker.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>resources/black.qss</file>
