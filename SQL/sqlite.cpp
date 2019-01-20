@@ -29,7 +29,7 @@
 SQLite::SQLite()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("/opt/freedict/dict.sqlite");
+    db.setDatabaseName("/opt/words-picker/dict.sqlite");
     create();
 }
 

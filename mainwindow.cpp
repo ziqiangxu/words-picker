@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
     settings_window = new SettingsWindow;
     clipboard = QApplication::clipboard();
     youdao_api = new YoudaoAPI;
-    sqlite = SQLite();
+//    sqlite = SQLite();
     clipboard_flag = true;
     is_selection_changed = false;
     isButtonPressed = false;
