@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "settings_window.h"
-#include <QDebug>
+#include "../defined.h"
 
 
 SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent)
@@ -105,7 +105,7 @@ void SettingsWindow::show_options()
     QString is_selected = i.value();
     while (i != res.end() && i.key() == "is_ocr") {
         QString is_ocr = i.value();
-        qDebug() << is_ocr;
+        DEBUG << is_ocr;
         ++i;
     }
     */

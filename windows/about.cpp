@@ -24,13 +24,13 @@
 #include "QDesktopServices"
 #include <QTableView>
 #include <QStandardItemModel>
-#include <QDebug>
+#include "defined.h"
 #define INFO_FILE_PATH "/opt/words-picker/info"
 
 About::About(QWidget *parent) : QWidget(parent)
 {
     word_table = nullptr;
-//    qDebug() << info->value("version/main").toString();
+//    DEBUG << info->value("version/main").toString();
     version = 1;
     buildGUI();
     connect(update, &QPushButton::clicked,
@@ -90,8 +90,8 @@ About::~About()
 //     config.setProtocol(QSsl::TlsV1SslV3);
 //     request.setSslConfiguration(config);
 
-     qDebug() << "version:" << QSslSocket::sslLibraryVersionString();
-     qDebug() << QSslSocket::sslLibraryBuildVersionNumber();
+     DEBUG << "version:" << QSslSocket::sslLibraryVersionString();
+     DEBUG << QSslSocket::sslLibraryBuildVersionNumber();
 
      connect(manager, &QNetworkAccessManager::finished,
              this, &About::replyFinished);
@@ -101,7 +101,7 @@ About::~About()
  void About::replyFinished(QNetworkReply *reply)
  {
      QString res = reply->readAll();
-     qDebug() << "res:" << res;
+     DEBUG << "res:" << res;
 
      // 如果检查更新失败，且本窗口可见，说明是手动检查更新，则需要弹出提示框
      // 本窗口不可见，则是启动时自检，这时网络可能未连接，所以不进行提示
@@ -122,7 +122,7 @@ About::~About()
 
      int version_ = info->value("version/value").toInt();
 
-     qDebug() << "latest version:" << version_;
+     DEBUG << "latest version:" << version_;
      if (version_ > version)
      {
          QMessageBox msg_box(this);

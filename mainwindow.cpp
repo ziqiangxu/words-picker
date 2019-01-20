@@ -23,7 +23,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-#include <QDebug>
+#include "defined.h"
 #include <QApplication>
 #include <QMessageBox>
 #include <QProcess>
@@ -171,7 +171,7 @@ void MainWindow::signalsAndSlots()
     // quit the application
     connect(tray_icon->action_quit,&QAction::triggered,
             this, [=]{
-        qDebug() << "Received the signal of tray_icon，quit the application";
+        DEBUG << "Received the signal of tray_icon，quit the application";
         qApp->quit();
     });
 
@@ -249,7 +249,7 @@ void MainWindow::signalsAndSlots()
          * 如果鼠标处于按下状态，直接返回 */
         this->is_selection_changed = true;
         this->src_word = this->clipboard->text(QClipboard::Selection);
-        qDebug() << "selection changed!";
+        DEBUG << "selection changed!";
         if (this->isButtonPressed) return;
         this->is_selection_changed = false;
 
@@ -269,7 +269,7 @@ void MainWindow::signalsAndSlots()
         query();
         float_browser->move(QCursor::pos());
         float_browser->setVisible(true);
-        qDebug() << __FILE__ << __LINE__ << "Show the float browser";
+        DEBUG << __FILE__ << __LINE__ << "Show the float browser";
         float_button->setVisible(false);
         //line_edit of float_browser get focus
         float_browser->input->setText(src_word);
@@ -305,7 +305,7 @@ void MainWindow::signalsAndSlots()
 
     connect(float_browser->google_translate, &QPushButton::clicked,
             this, [=]{
-        qDebug() << src_language->currentText() << des_language->currentText();
+        DEBUG << src_language->currentText() << des_language->currentText();
         src_word = float_browser->input->text();
         float_browser->google_web_translate(src_word,
                                             src_language->currentText(),
@@ -351,11 +351,11 @@ void MainWindow::getImageFromClipboard()
     {
         return;
     }
-    qDebug() << "Clipboard changed";
+    DEBUG << "Clipboard changed";
     QImage image = clipboard->image(QClipboard::Clipboard);
     if (image.isNull())
     {
-        qDebug() << "Image not exist!";
+        DEBUG << "Image not exist!";
     } else {
         if(clipboard_flag)
         {
@@ -368,7 +368,7 @@ void MainWindow::getImageFromClipboard()
 
             int height = image.height();
             int width = image.width();
-            qDebug() << "Width of image:" << width << "Height of image:" << height;
+            DEBUG << "Width of image:" << width << "Height of image:" << height;
             if (height < 30)
             {
                 //The image is too small, need to be enlarged.
@@ -378,7 +378,7 @@ void MainWindow::getImageFromClipboard()
             }
 
             image.save(OCR_IMG_PATH, "PNG", -1);
-            qDebug() << "Image found!";
+            DEBUG << "Image found!";
 /*
  * in the file /usr/include/tesseract/baseapi.h
  * fuction TesseractRect will return the result
@@ -403,31 +403,31 @@ void MainWindow::queryInput()
     this->who_query = this->Requestor::Mainwindow;
     this->query();
     browser->setText(tr("查询中"));
-    // if (sender() == input) qDebug() << "test complite!";
-    qDebug() << "The sender is:" << sender();
+    // if (sender() == input) DEBUG << "test complite!";
+    DEBUG << "The sender is:" << sender();
 }
 
 // 对截取的图像进行识别 Recognize the scratched image
 bool MainWindow::recognizeImage()
 {
-    qDebug() << "Recognizing the image";
+    DEBUG << "Recognizing the image";
     QProcess::execute(OCR_IMG2TXT);
 //    QProcess::execute("cat /opt/freedict/out.txt");
     QFile file(OCR_RES_PATH);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "Failed to read the out.txt";
+        DEBUG << "Failed to read the out.txt";
         return false;
     } else {
         QTextStream in(&file);
         QString ocr_result;
         QString line = in.readLine();
         while (!line.isNull()) {
-            qDebug() << "readline";
+            DEBUG << "readline";
             ocr_result.append(line);
             line = in.readLine();
         }
-        qDebug() << "The ocr_result is:" << ocr_result;
+        DEBUG << "The ocr_result is:" << ocr_result;
         src_word = ocr_result.trimmed();
         query();
         //line_edit of float_browser get focus
@@ -443,11 +443,11 @@ void MainWindow::trayIconActived(QSystemTrayIcon::ActivationReason reason)
     // 响应托盘的事件
     switch (reason) {
     case QSystemTrayIcon::Trigger:
-        qDebug() << "Trigger";
+        DEBUG << "Trigger";
         this->show();
         break;
     case QSystemTrayIcon::Context:
-        qDebug() << "Context";
+        DEBUG << "Context";
         break;
     default:
         break;
@@ -465,12 +465,12 @@ void MainWindow::query()
 void MainWindow::getResult(QByteArray re)
 {
 //    获取查询结果
-    qDebug() << "the reply text:" <<QString(re);
+    DEBUG << "the reply text:" <<QString(re);
 
     QJsonDocument json_doc = QJsonDocument::fromJson(re);
     QJsonObject json_obj = json_doc.object();
     QStringList L1 = json_obj.keys();
-    qDebug() << "the reply keys:" <<L1;
+    DEBUG << "the reply keys:" <<L1;
 
     //Get the translatin
     QJsonArray translation_array = json_obj.take("translation").toArray();
@@ -504,11 +504,11 @@ void MainWindow::getResult(QByteArray re)
     for (int i = 0; i < counter; i++){
         explains.append(explains_array.at(i).toString() + "\n");
     }
-    qDebug() << "explains" << ":" << explains;
+    DEBUG << "explains" << ":" << explains;
 
     //Get the way of translation：from English to Chinese-simple as the default way
     QString language = json_obj.take("l").toString();
-    qDebug() << "way of translation:" << language;
+    DEBUG << "way of translation:" << language;
 
     //Get the erroCode：0 means everything on it's way.You can get more from
     //http://ai.youdao.com/docs/api.s
@@ -519,14 +519,14 @@ void MainWindow::getResult(QByteArray re)
     {
         des_word = "查询失败，请检查网络";
         showResult();
-        qDebug() << "Query failed";
+        DEBUG << "Query failed";
     }
     else {
         des_word =
                 "音标：US[ " + us_phonetic + " ] UK[ " + uk_phonetic +" ]\n"
                 + "翻译：" +translation
                 + "解释：\n" +explains;
-        qDebug() << "query finished";
+        DEBUG << "query finished";
         showResult();
 //        sqlite.save(src_word, des_word, "history");
     }
@@ -537,19 +537,19 @@ void MainWindow::showResult()
 //    显示查询结果
     switch (who_query) {
     case Requestor::Float_browser:
-        qDebug() << "QLineEdit object--input of float_browser request,float_browser";
+        DEBUG << "QLineEdit object--input of float_browser request,float_browser";
         float_browser->browser->setText(des_word);
         break;
     case Requestor::Float_button:
-        qDebug() << "QLineEdit object--input of float_browser request,float_button";
+        DEBUG << "QLineEdit object--input of float_browser request,float_button";
         float_browser->browser->setText(des_word);
         break;
     case Requestor::ocr:
-        qDebug() << "QLineEdit object--input of float_browser request,ocr";
+        DEBUG << "QLineEdit object--input of float_browser request,ocr";
         float_browser->browser->setText(des_word);
         break;
     default:
-        qDebug() << "QLineEdit object--input of mainwindow request,default";
+        DEBUG << "QLineEdit object--input of mainwindow request,default";
         browser->setText(des_word);
         break;
     }
@@ -578,7 +578,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
 void MainWindow::onButtonReleased(int x, int y)
 {
     this->isButtonPressed = false;
-    qDebug() << __FILE__ << __LINE__ << "button released";
+    DEBUG << __FILE__ << __LINE__ << "button released";
 
     // 对浏览器的特殊优化，浏览器网页内选中文本，鼠标还没有释放就会发送选中文本变化的信号
     // 检测选中的文本是否改变

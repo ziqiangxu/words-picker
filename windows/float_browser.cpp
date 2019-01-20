@@ -23,8 +23,8 @@
 #include <QFocusEvent>
 #include <QApplication>
 #include <QClipboard>
-#include <QDebug>
 #include <QDesktopServices>
+#include "../defined.h"
 
 Float_Browser::Float_Browser()
 {
@@ -40,7 +40,7 @@ Float_Browser::Float_Browser()
     browser = new QTextBrowser(this);
     browser->setGeometry(0,30,280,240);
     qDebug("Float_browser object creating");
-    qDebug() << browser->size();
+    DEBUG << browser->size();
 
     query = new QPushButton(this);
     query->setGeometry(195, 0, 80, 30);
@@ -73,9 +73,9 @@ bool Float_Browser::isMouseOn()
     if (cursor_x > x() && cursor_x < (x() + width()) &&
             cursor_y > y() && cursor_y < (y() + height() + 35))
     {
-        qDebug() << "pos_x:" << cursor_x << "pos_y:" << cursor_y;
-        qDebug() << "x():" << x() << "y()" << y();
-        qDebug() << "width:" <<width() << "height" << height();
+        DEBUG << "pos_x:" << cursor_x << "pos_y:" << cursor_y;
+        DEBUG << "x():" << x() << "y()" << y();
+        DEBUG << "width:" <<width() << "height" << height();
         return true;
     }
     return false;
@@ -86,14 +86,15 @@ void Float_Browser::google_web_translate(QString src_word,
                                          QString des_language)
 {
 //    用浏览器打开google网页翻译
-    qDebug() << "src_language:" << src_language;
-    qDebug() << "des_language:" << des_language;
+    // Visite google translation by browser
+    DEBUG << "src_language:" << src_language;
+    DEBUG << "des_language:" << des_language;
     if (src_language == "zh_CHS") src_language = "zh-CN";
     if (src_language == "EN") src_language = "en";
     if (des_language == "zh_CHS") des_language = "zh-CN";
     if (des_language == "EN") des_language = "en";
 
-    qDebug() << "源语言：" << src_language << "\n目标语言：" << des_language;
+    DEBUG << "源语言：" << src_language << "\n目标语言：" << des_language;
     QUrl google_url(tr("https://translate.google.cn/#%1/%2/%3")
                     .arg(src_language)
                     .arg(des_language)
@@ -104,7 +105,7 @@ void Float_Browser::google_web_translate(QString src_word,
 void Float_Browser::closeEvent(QCloseEvent *event)
 {
 //    隐藏窗口而不是关闭窗口
-    qDebug() << "hide the window";
+    DEBUG << "hide the window";
     this->hide();
     event->ignore();
 }

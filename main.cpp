@@ -22,7 +22,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include "event/eventmonitor.h"
-#include <QDebug>
+#include "defined.h"
 #include <QFile>
 
 #if defined Q_OS_LINUX

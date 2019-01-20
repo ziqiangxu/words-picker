@@ -22,7 +22,7 @@
 #include "word_table.h"
 #include <QTableView>
 #include <QStandardItemModel>
-#include <QDebug>
+#include "../defined.h"
 #include <QMessageBox>
 Word_table::Word_table()
 {

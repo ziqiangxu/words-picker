@@ -1,5 +1,4 @@
 #include "systemtrayicon.h"
-#include <QDebug>
 
 SystemTrayIcon::SystemTrayIcon(QObject *parent):QSystemTrayIcon(parent)
 {

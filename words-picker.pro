@@ -52,7 +52,8 @@ HEADERS += \
     windows/word_table.h \
     systemtrayicon.h \
     windows/hyaline_window.h \
-    windows/settings_window.h
+    windows/settings_window.h \
+    defined.h
 
 RESOURCES += \
     resources.qrc

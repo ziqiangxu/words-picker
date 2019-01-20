@@ -22,6 +22,7 @@
 #include "float_button.h"
 #include <QPainter>
 #include <QMouseEvent>
+#include "../defined.h"
 
 Float_Button::Float_Button()
 {
@@ -42,7 +43,7 @@ void Float_Button::mousePressEvent(QMouseEvent *event)
     if (event->button() == Qt::LeftButton)
     {
         emit clicked();
-        qDebug("flout_btton clicked");
+        DEBUG << "flout_btton clicked";
         this->hide();
     }
 }

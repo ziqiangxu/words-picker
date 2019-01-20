@@ -22,7 +22,7 @@
 #include "sqlite.h"
 #include <QRegularExpression>
 #include <QSqlQuery>
-#include <QDebug>
+#include "../defined.h"
 #include <QDesktopServices>
 #include <QFile>
 
@@ -41,7 +41,7 @@ bool SQLite::save(QString word, QString result, QString sort)
     QRegularExpressionMatch match = re.match(word);
     if (!match.hasMatch())
     {
-        qDebug() << "Queried the word but not a single word";
+        DEBUG << "Queried the word but not a single word";
         db.close();
         return false;
     }
@@ -103,10 +103,10 @@ bool SQLite::derive(QString sort)
                 /*
                 sort = query.value(2).toString();
                 times = query.value(3).toString();
-                qDebug() << " word:" <<word;
-                qDebug() << "\n result:" <<result;
-                qDebug() << "\n sort:" << sort;
-                qDebug() << "\n times:" << times;
+                DEBUG << " word:" <<word;
+                DEBUG << "\n result:" <<result;
+                DEBUG << "\n sort:" << sort;
+                DEBUG << "\n times:" << times;
                 */
             }
             file.close();
