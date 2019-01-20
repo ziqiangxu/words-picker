@@ -39,8 +39,7 @@ Float_Browser::Float_Browser()
 
     browser = new QTextBrowser(this);
     browser->setGeometry(0,30,280,240);
-    qDebug("Float_browser object creating");
-    DEBUG << browser->size();
+    DEBUG << "Float_browser object creating" << browser->size();
 
     query = new QPushButton(this);
     query->setGeometry(195, 0, 80, 30);
@@ -87,8 +86,7 @@ void Float_Browser::google_web_translate(QString src_word,
 {
 //    用浏览器打开google网页翻译
     // Visite google translation by browser
-    DEBUG << "src_language:" << src_language;
-    DEBUG << "des_language:" << des_language;
+    DEBUG << "src_language:" << src_language << " des_language:" << des_language;
     if (src_language == "zh_CHS") src_language = "zh-CN";
     if (src_language == "EN") src_language = "en";
     if (des_language == "zh_CHS") des_language = "zh-CN";

@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
         &EventMonitor::buttonPress,
         w.browser,
         [=] (int x, int y) {
-            qDebug() << (QString("Button press (%1, %2)").arg(x).arg(y));
+            DEBUG << (QString("Button press (%1, %2)").arg(x).arg(y));
         },
         Qt::QueuedConnection);
     QObject::connect(
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
         &EventMonitor::buttonDrag,
         w.browser,
         [=] (int x, int y) {
-            qDebug() << (QString("Button drag (%1, %2)").arg(x).arg(y));
+            DEBUG << (QString("Button drag (%1, %2)").arg(x).arg(y));
         },
         Qt::QueuedConnection);
     QObject::connect(
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
         &EventMonitor::buttonRelease,
         w.browser,
         [=] (int x, int y) {
-            qDebug() << (QString("Button release (%1, %2)").arg(x).arg(y));
+            DEBUG << (QString("Button release (%1, %2)").arg(x).arg(y));
         },
         Qt::QueuedConnection);
     QObject::connect(
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
         &EventMonitor::keyPress,
         w.browser,
         [=] (int code) {
-            qDebug() << (QString("Key press %1").arg(code));
+            DEBUG << (QString("Key press %1").arg(code));
         },
         Qt::QueuedConnection);
     QObject::connect(
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
         &EventMonitor::keyRelease,
         w.float_browser,
         [=] (int code) {
-            qDebug() << (QString("Key release %1").arg(code));
+            DEBUG << (QString("Key release %1").arg(code));
         },
         Qt::QueuedConnection);
     //*/

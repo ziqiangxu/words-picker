@@ -96,7 +96,7 @@ void Word_table::build_menu()
     action_delete->setText(QObject::tr("删除"));
     connect(action_delete, &QAction::triggered,
             table, [=]{
-        qDebug() << "You clicked the action_delete!";
+        DEBUG << "You clicked the action_delete!";
         remove_selection();
     });
     action_test->setText(QObject::tr("Test"));

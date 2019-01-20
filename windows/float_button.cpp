@@ -33,13 +33,13 @@ Float_Button::Float_Button()
     setWindowFlags(Qt::FramelessWindowHint | Qt::ToolTip);
 
     /*Test area*/
-    qDebug("build float_button");
+    DEBUG << "build float_button";
 }
 
 void Float_Button::mousePressEvent(QMouseEvent *event)
 {
 //    重写窗口鼠标按下事件
-    qDebug("Rceived a mouse event");
+    DEBUG << "Rceived a mouse event";
     if (event->button() == Qt::LeftButton)
     {
         emit clicked();

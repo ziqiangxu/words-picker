@@ -24,7 +24,7 @@
 #include "QDesktopServices"
 #include <QTableView>
 #include <QStandardItemModel>
-#include "defined.h"
+#include "../defined.h"
 #define INFO_FILE_PATH "/opt/words-picker/info"
 
 About::About(QWidget *parent) : QWidget(parent)
