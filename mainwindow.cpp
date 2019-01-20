@@ -67,7 +67,7 @@ void MainWindow::closeEvent(QCloseEvent *event){
     event->ignore();
 }
 
-// 构建GUI
+// 构建GUI Build the GUI
 void MainWindow::buildGui()
 {
     move(100,100);
@@ -301,12 +301,12 @@ void MainWindow::signalsAndSlots()
         float_browser->input->selectAll();
     });
 
-    connect(float_browser->add_new, &QPushButton::clicked,
-            this, [=]{
-        QString sql("UPDATE history SET sort='new' WHERE word='");
-        sql += src_word + "'";
-        sqlite.exec(sql);
-    });
+//    connect(float_browser->add_new, &QPushButton::clicked,
+//            this, [=]{
+//        QString sql("UPDATE history SET sort='new' WHERE word='");
+//        sql += src_word + "'";
+//        sqlite.exec(sql);
+//    });
 
     connect(float_browser->google_translate, &QPushButton::clicked,
             this, [=]{

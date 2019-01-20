@@ -46,10 +46,10 @@ Float_Browser::Float_Browser()
     query->setGeometry(195, 0, 80, 30);
     query->setText(tr("查询"));
 
-    add_new = new QPushButton(this);
-    add_new->setGeometry(5, 270, 80, 30);
-    add_new->setText(tr("加入生词"));
-    add_new->adjustSize();
+//    add_new = new QPushButton(this);
+//    add_new->setGeometry(5, 270, 80, 30);
+//    add_new->setText(tr("加入生词"));
+//    add_new->adjustSize();
 
     google_translate = new QPushButton(this);
     google_translate->setGeometry(100, 270, 80, 30);
@@ -62,7 +62,7 @@ Float_Browser::~Float_Browser()
     delete browser;
     delete google_translate;
     delete query;
-    delete add_new;
+//    delete add_new;
 }
 
 bool Float_Browser::isMouseOn()

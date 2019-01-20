@@ -35,8 +35,8 @@ About::About(QWidget *parent) : QWidget(parent)
     buildGUI();
     connect(update, &QPushButton::clicked,
             this, &About::getUpdate);
-    connect(derive, &QPushButton::clicked,
-            this, &About::showWordsTable);
+//    connect(derive, &QPushButton::clicked,
+//            this, &About::showWordsTable);
 }
 
 About::~About()
@@ -59,10 +59,10 @@ About::~About()
      help->setGeometry(0, 0, 400, 270);
      help->setText(help_text());
 
-     derive = new QPushButton(this);
-     derive->setText(tr("单词本"));
-     derive->move(220,10);
-     derive->adjustSize();
+//     derive = new QPushButton(this);
+//     derive->setText(tr("单词本"));
+//     derive->move(220,10);
+//     derive->adjustSize();
 
      update = new QPushButton(this);
      update->move(310,10);
