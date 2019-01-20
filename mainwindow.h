@@ -42,6 +42,7 @@ public:
     About *about_window;
     QString src_word;
     QString des_word;
+    QString selected_text;
     // 查询单词的请求者
     // Requestor of the query
     enum Requestor {Mainwindow, Float_button, Float_browser, ocr} who_query;
@@ -82,6 +83,7 @@ public slots:
     void onButtonPressed();
     void timerEvent(QTimerEvent *event);
     void queryInput();
+    void queryByMode();
     void onButtonReleased(int x, int y);
 };
 

@@ -140,7 +140,7 @@ void MainWindow::buildGui()
     //*/
 }
 
-// 初始化支持的语言列表
+// 初始化支持的语言列表 Init the supported language
 void MainWindow::initLanguage()
 {
     QStringList language;
@@ -152,7 +152,7 @@ void MainWindow::initLanguage()
     des_language->setCurrentIndex(1);
 }
 
-// 连接信号和槽
+// 连接信号和槽 Connect signals and slots
 void MainWindow::signalsAndSlots()
 {
     //测试按钮的点击事件
@@ -184,20 +184,26 @@ void MainWindow::signalsAndSlots()
     // 按下Enter进行查询
     // Query when "Enter" pressed in "input"
     connect(input, &QLineEdit::returnPressed,
-            this, &MainWindow::queryInput);
+            this, [=] {
+        queryInput();
+        this->input->selectAll();
+    });
 
     // 按下窗口的按钮查询
     // Query when query_button clicked
     connect(query_button, &QPushButton::clicked,
-            this, &MainWindow::queryInput);
+            this, [=] {
+        queryInput();
+        this->input->selectAll();
+    });
 
     // 时间到即查询,然后停止计时器，这种情况不要全选文本
     // query once timeout, and stop the timer, do not select all text
     connect(timer, &QTimer::timeout,
             this, [=] {
         queryInput();
-        int l = input->text().length();
-        input->setCursorPosition(l);
+//        int l = input->text().length();
+//        input->setCursorPosition(l);
         timer->stop();
     });
 
@@ -242,25 +248,13 @@ void MainWindow::signalsAndSlots()
         /* 主要是在chrome浏览器中鼠标未释放就会弹出悬浮按钮
          * 如果鼠标处于按下状态，直接返回 */
         this->is_selection_changed = true;
+        this->src_word = this->clipboard->text(QClipboard::Selection);
+        qDebug() << "selection changed!";
         if (this->isButtonPressed) return;
         this->is_selection_changed = false;
 
-        qDebug() << "the selected text:" << clipboard->text(QClipboard::Selection);
-
-        // 检查是否开启自动翻译选项
-        if (settings_window->setting_map->find("is_auto_translate").value() == "true")
-        {
-            // 相当于点击了一下悬浮按钮，直接弹出悬浮窗口
-            float_button->clicked();
-            return;
-        }
-        if (settings_window->setting_map->find("is_selected").value() == "false")
-        {
-            return;
-        }
-        float_button->setVisible(true);
-        float_button->move(QCursor::pos().x() + 10, QCursor::pos().y() + 10);
-        button_time = startTimer(5000);
+        // 根据翻译模式查询
+        this->queryByMode();
     });
 
     //Show "float_browser" after clicked the "float_button"
@@ -275,6 +269,7 @@ void MainWindow::signalsAndSlots()
         query();
         float_browser->move(QCursor::pos());
         float_browser->setVisible(true);
+        qDebug() << __FILE__ << __LINE__ << "Show the float browser";
         float_button->setVisible(false);
         //line_edit of float_browser get focus
         float_browser->input->setText(src_word);
@@ -328,9 +323,30 @@ void MainWindow::signalsAndSlots()
     });
 }
 
+void MainWindow::queryByMode()
+{
+    // 自动翻译选项
+    if (settings_window->setting_map->find("is_auto_translate").value() == "true")
+    {
+        // 相当于点击了一下悬浮按钮，直接弹出悬浮窗口
+        float_button->clicked();
+        return;
+    }
+    // 不开启对选中文本的翻译
+    if (settings_window->setting_map->find("is_selected").value() == "false")
+    {
+        return;
+    }
+
+    float_button->setVisible(true);
+    float_button->move(QCursor::pos().x() + 10, QCursor::pos().y() + 10);
+    button_time = startTimer(5000);
+}
+
 void MainWindow::getImageFromClipboard()
 {
-//    从剪切板获取图像
+    // 从剪切板获取图像
+    // Get image from clipboard
     if (settings_window->setting_map->find("is_ocr").value() == "false")
     {
         return;
@@ -387,12 +403,11 @@ void MainWindow::queryInput()
     this->who_query = this->Requestor::Mainwindow;
     this->query();
     browser->setText(tr("查询中"));
-    input->selectAll();
     // if (sender() == input) qDebug() << "test complite!";
     qDebug() << "The sender is:" << sender();
 }
 
-// 对截取的图像进行识别
+// 对截取的图像进行识别 Recognize the scratched image
 bool MainWindow::recognizeImage()
 {
     qDebug() << "Recognizing the image";
@@ -513,7 +528,7 @@ void MainWindow::getResult(QByteArray re)
                 + "解释：\n" +explains;
         qDebug() << "query finished";
         showResult();
-        sqlite.save(src_word, des_word, "history");
+//        sqlite.save(src_word, des_word, "history");
     }
 }
 
@@ -563,15 +578,16 @@ void MainWindow::timerEvent(QTimerEvent *event)
 void MainWindow::onButtonReleased(int x, int y)
 {
     this->isButtonPressed = false;
+    qDebug() << __FILE__ << __LINE__ << "button released";
 
-    // 对chrome浏览器的特殊优化
+    // 对浏览器的特殊优化，浏览器网页内选中文本，鼠标还没有释放就会发送选中文本变化的信号
     // 检测选中的文本是否改变
     if (this->is_selection_changed)
     {
-        float_button->setVisible(true);
-        float_button->move(QCursor::pos().x() + 10, QCursor::pos().y() + 10);
+        this->queryByMode();
         this->is_selection_changed = false;
     }
+
 }
 
 void MainWindow::showAbout()
