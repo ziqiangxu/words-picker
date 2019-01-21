@@ -34,7 +34,7 @@ sudo make install
 
 欢迎各位贡献代码， happy hacking！
 开发库安装：
-`sudo apt install g++ qt5-default libxtst-dev`
+`sudo apt install g++ qt5-default libxtst-dev tesseract`
 - `libxtst-dev`是x11的开发库
 
 ## 致谢
