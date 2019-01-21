@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Categories=Dictionary;Application;Utility;
+Comment=words-piker,dict
+Encoding=UTF-8
+Exec=/opt/words-picker/words-picker
+Icon=/opt/words-picker/words-picker.png
+Name=words-picker
+StartupNotify=true
+Terminal=false
+Type=Application
