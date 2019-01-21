@@ -1,12 +1,10 @@
 # words picker
 
-原名freedict，由于freedict和已有包冲突，所以正式更名为words picker，代码中的freedict也将逐步去除。
-
-[下载体验](https://github.com/ziqiangxu/freedict/releases)
+[下载体验](https://github.com/ziqiangxu/words-picker/releases)
 
 ## 产品理念
 
-这不是一款好的词典应用，但我希望它是一款好的取词应用。
+这不是一款好的词典应用，但希望它能成为一款好的取词应用。
 让取词更简单，减少阅读障碍。
 
 ## 使用体验
@@ -15,11 +13,22 @@
 
 ![主窗口](./README/mainwindow.png)
 
-文本识别
-![屏幕选词](./README/using.gif)
+OCR取词
 
-生词管理
-![管理生词](./README/manage_words.gif)
+![OCR取词](./README/ocr.gif)
+
+鼠标选词
+
+![鼠标选词](./README/selection.gif)
+
+## 编译安装
+
+目前本应用只提供debian系的二进制安装包，本应用理论上在其它系的Linux发行版都是可以运行的。不过要各位编译安装了。
+```
+mkdir build && cd build
+cmake .. && make
+sudo make install
+```
 
 ## 参与开发
 
