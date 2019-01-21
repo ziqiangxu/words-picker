@@ -10,7 +10,7 @@
 #include "windows/float_browser.h"
 #include "windows/float_button.h"
 #include <qclipboard.h>
-#include "SQL/sqlite.h"
+//#include "SQL/sqlite.h"
 #include <windows/about.h>
 #include <QCloseEvent>
 #include "systemtrayicon.h"

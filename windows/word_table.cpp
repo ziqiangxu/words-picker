@@ -24,10 +24,12 @@
 #include <QStandardItemModel>
 #include "../defined.h"
 #include <QMessageBox>
+#include "../SQL/sqlite.h"
+
 Word_table::Word_table()
 {
     buildGUI();
-    sqlite = new SQLite;
+    sqlite = new SQLite();
     get_word();
     signals_slots();
     show();

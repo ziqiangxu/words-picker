@@ -145,8 +145,8 @@ About::~About()
 
  void About::showWordsTable()
  {
-     word_table = new Word_table;
-     this->setVisible(false);
+//     word_table = new Word_table;
+//     this->setVisible(false);
  }
 
  QString About::help_text()
