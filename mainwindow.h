@@ -47,7 +47,7 @@ public:
     // Requestor of the query
     enum Requestor {Mainwindow, Float_button, Float_browser, ocr} who_query;
     YoudaoAPI *youdao_api;
-    SQLite sqlite;
+//    SQLite sqlite;
     void query();
     void showResult();
     int button_time;
