@@ -41,7 +41,7 @@ bool SQLite::save(QString word, QString result, QString sort)
     QRegularExpressionMatch match = re.match(word);
     if (!match.hasMatch())
     {
-        DEBUG << "Queried the word but not a single word";
+        INFO << "Queried the word but not a single word";
         db.close();
         return false;
     }

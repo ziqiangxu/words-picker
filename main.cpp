@@ -25,7 +25,7 @@
 #include "defined.h"
 #include <QFile>
 
-#if defined Q_OS_LINUX
+#if defined Q_OS_LINUX  // Just for Linux
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>

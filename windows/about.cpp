@@ -90,8 +90,8 @@ About::~About()
 //     config.setProtocol(QSsl::TlsV1SslV3);
 //     request.setSslConfiguration(config);
 
-     DEBUG << "version:" << QSslSocket::sslLibraryVersionString();
-     DEBUG << QSslSocket::sslLibraryBuildVersionNumber();
+     INFO << "version:" << QSslSocket::sslLibraryVersionString();
+     INFO << QSslSocket::sslLibraryBuildVersionNumber();
 
      connect(manager, &QNetworkAccessManager::finished,
              this, &About::replyFinished);
@@ -101,7 +101,7 @@ About::~About()
  void About::replyFinished(QNetworkReply *reply)
  {
      QString res = reply->readAll();
-     DEBUG << "res:" << res;
+     INFO << "res:" << res;
 
      // 如果检查更新失败，且本窗口可见，说明是手动检查更新，则需要弹出提示框
      // 本窗口不可见，则是启动时自检，这时网络可能未连接，所以不进行提示
@@ -122,7 +122,7 @@ About::~About()
 
      int version_ = info->value("version/value").toInt();
 
-     DEBUG << "latest version:" << version_;
+     INFO << "latest version:" << version_;
      if (version_ > version)
      {
          QMessageBox msg_box(this);

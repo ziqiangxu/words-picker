@@ -44,8 +44,8 @@ void YoudaoAPI::translate(QString query, QString from,
     url.append("&salt=" + salt);
     url.append("&sign=" + MD5(appKey + query + salt + key));
     this->query_url = QUrl(url);
-    DEBUG << "Url before encode:" << url;
-    DEBUG << "Encode URL:" << endl << this->query_url.toEncoded();
+    INFO << "Url before encode:" << url;
+    INFO << "Encode URL:" << endl << this->query_url.toEncoded();
     request();  //Cause block when a wrong URL give
 }
 
@@ -69,7 +69,7 @@ void YoudaoAPI::reply(QNetworkReply *re)
     QByteArray result = re->readAll();
     if (result.isEmpty() && this->query_count < 3)
     {
-        DEBUG << this->query_count << " times retry";
+        INFO << this->query_count << " times retry";
         this->query_count++;
         this->request();
         return;
@@ -87,13 +87,13 @@ QString YoudaoAPI::MD5(QString src)
     md.addData(ba);
     bb = md.result();
     md5.append(bb.toHex());
-    DEBUG << "the MD5:" << md5;
+    INFO << "the MD5:" << md5;
     return md5;
 }
 
 int YoudaoAPI::Randon()
 {
     int salt = qrand() % 10;
-    DEBUG << "randon number--salt:" << salt;
+    INFO << "randon number--salt:" << salt;
     return salt;
 }

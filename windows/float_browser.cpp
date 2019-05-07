@@ -39,7 +39,7 @@ Float_Browser::Float_Browser()
 
     browser = new QTextBrowser(this);
     browser->setGeometry(0,30,280,240);
-    DEBUG << "Float_browser object creating" << browser->size();
+    INFO << "Float_browser object creating" << browser->size();
 
     query = new QPushButton(this);
     query->setGeometry(195, 0, 80, 30);
@@ -72,9 +72,9 @@ bool Float_Browser::isMouseOn()
     if (cursor_x > x() && cursor_x < (x() + width()) &&
             cursor_y > y() && cursor_y < (y() + height() + 35))
     {
-        DEBUG << "pos_x:" << cursor_x << "pos_y:" << cursor_y;
-        DEBUG << "x():" << x() << "y()" << y();
-        DEBUG << "width:" <<width() << "height" << height();
+        INFO << "pos_x:" << cursor_x << "pos_y:" << cursor_y;
+        INFO << "x():" << x() << "y()" << y();
+        INFO << "width:" <<width() << "height" << height();
         return true;
     }
     return false;
@@ -86,13 +86,13 @@ void Float_Browser::google_web_translate(QString src_word,
 {
 //    用浏览器打开google网页翻译
     // Visite google translation by browser
-    DEBUG << "src_language:" << src_language << " des_language:" << des_language;
+    INFO << "src_language:" << src_language << " des_language:" << des_language;
     if (src_language == "zh_CHS") src_language = "zh-CN";
     if (src_language == "EN") src_language = "en";
     if (des_language == "zh_CHS") des_language = "zh-CN";
     if (des_language == "EN") des_language = "en";
 
-    DEBUG << "源语言：" << src_language << "\n目标语言：" << des_language;
+    INFO << "源语言：" << src_language << "\n目标语言：" << des_language;
     QUrl google_url(tr("https://translate.google.cn/#%1/%2/%3")
                     .arg(src_language)
                     .arg(des_language)
@@ -103,7 +103,7 @@ void Float_Browser::google_web_translate(QString src_word,
 void Float_Browser::closeEvent(QCloseEvent *event)
 {
 //    隐藏窗口而不是关闭窗口
-    DEBUG << "hide the window";
+    INFO << "hide the window";
     this->hide();
     event->ignore();
 }

@@ -3,6 +3,8 @@
 #define DEFINED_H
 #include <QDebug>
 
-#define DEBUG qDebug() << __FILE__ << __LINE__
-
+#define DEBUG qDebug() << "DEBUG" << __FILE__ << __LINE__
+#define INFO qDebug() << "INFO" << __FILE__ << __LINE__
+#define WARNING qDebug() << "WARNING" << __FILE__ << __LINE__
+#define ERROR qDebug() << "ERROR" << __FILE__ << __LINE__
 #endif // DEFINED_H
