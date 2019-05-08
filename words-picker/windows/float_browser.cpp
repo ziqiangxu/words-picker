@@ -26,7 +26,7 @@
 #include <QDesktopServices>
 #include "../defined.h"
 
-Float_Browser::Float_Browser()
+FloatBrowser::FloatBrowser()
 {
     setWindowTitle(tr("快速查词"));
     setFixedSize(280,300);
@@ -55,7 +55,7 @@ Float_Browser::Float_Browser()
     google_translate->setText(tr("Google翻译"));
 }
 
-Float_Browser::~Float_Browser()
+FloatBrowser::~FloatBrowser()
 {
     delete input;
     delete browser;
@@ -64,7 +64,7 @@ Float_Browser::~Float_Browser()
 //    delete add_new;
 }
 
-bool Float_Browser::isMouseOn()
+bool FloatBrowser::isMouseOn()
 {
 //    检查鼠标是否在窗口区域
     int cursor_x = QCursor::pos().x();
@@ -80,7 +80,7 @@ bool Float_Browser::isMouseOn()
     return false;
 }
 
-void Float_Browser::google_web_translate(QString src_word,
+void FloatBrowser::google_web_translate(QString src_word,
                                          QString src_language,
                                          QString des_language)
 {
@@ -100,7 +100,7 @@ void Float_Browser::google_web_translate(QString src_word,
     QDesktopServices::openUrl(google_url);
 }
 
-void Float_Browser::closeEvent(QCloseEvent *event)
+void FloatBrowser::closeEvent(QCloseEvent *event)
 {
 //    隐藏窗口而不是关闭窗口
     INFO << "hide the float window";

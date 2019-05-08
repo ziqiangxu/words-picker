@@ -24,7 +24,7 @@
 #include <QMouseEvent>
 #include "../defined.h"
 
-Float_Button::Float_Button()
+FloatButton::FloatButton()
 {
     setFixedSize(30, 30);
     // 设置窗口透明
@@ -36,7 +36,7 @@ Float_Button::Float_Button()
     INFO << "build float_button";
 }
 
-void Float_Button::mousePressEvent(QMouseEvent *event)
+void FloatButton::mousePressEvent(QMouseEvent *event)
 {
 //    重写窗口鼠标按下事件
     INFO << "Rceived a mouse event";
@@ -49,14 +49,14 @@ void Float_Button::mousePressEvent(QMouseEvent *event)
 }
 
 
-void Float_Button::paintEvent(QPaintEvent *)
+void FloatButton::paintEvent(QPaintEvent *)
 {
 //    绘制图标
     QPainter painter(this);
     painter.drawImage(rect(), QImage(":/image/resources/words-picker.png"));
 }
 
-bool Float_Button::isMouseOn()
+bool FloatButton::isMouseOn()
 {
 //    检查鼠标是否悬浮按钮区域
     int cursor_x = QCursor::pos().x();

@@ -18,6 +18,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include "windows/settings_window.h"
+#include "event/eventmonitor.h"
+#include "picker.h"
 #include <QTimer>
 //#include <tesseract/baseapi.h>
 
@@ -36,16 +38,16 @@ public:
     QComboBox *src_language, *des_language;
     QTextBrowser *browser;
     QClipboard *clipboard;
-    Float_Button *float_button;
-    Float_Browser *float_browser;
-    Hyaline_Window *hyaline_window;
+    FloatButton *float_button;
+    FloatBrowser *float_browser;
+    HyalineWindow *hyaline_window;
     About *about_window;
     QString src_word;
     QString des_word;
     QString selected_text;
     // 查询单词的请求者
     // Requestor of the query
-    enum Requestor {Mainwindow, Float_button, Float_browser, ocr} who_query;
+    enum Requestor {MainWindowE, FloatButtonE, FloatBrowserE} who_query;
     YoudaoAPI *youdao_api;
 //    SQLite sqlite;
     void query();
@@ -56,6 +58,9 @@ public:
     //TessBaseAPI *ocr_ins;
 
 private:
+    EventMonitor *event_monitor;
+    Picker *picker;
+    void eventsMonit();
     void buildGui();
     void initLanguage();
     void signalsAndSlots();
@@ -86,6 +91,8 @@ public slots:
     void queryInput();
     void queryByMode();
     void onButtonReleased(int x, int y);
+    void onWordsPicked(QString text);
+    void onFloatButtonClicked();
 };
 
 #endif // MAINWINDOW_H

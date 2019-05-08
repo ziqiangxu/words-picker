@@ -20,10 +20,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "mainwindow.h"
+#include "defined.h"
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-#include "defined.h"
 #include <QApplication>
 #include <QMessageBox>
 #include <QProcess>
@@ -39,9 +39,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
     //init the variates
-    settings_window = new SettingsWindow;
+    settings_window = new SettingsWindow();
     clipboard = QApplication::clipboard();
-    youdao_api = new YoudaoAPI;
+    youdao_api = new YoudaoAPI();
+    picker = new Picker();
 //    sqlite = SQLite();
     clipboard_flag = true;
     is_selection_changed = false;
@@ -49,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
     timer = new QTimer();
 
     buildGui();
+    eventsMonit();
     //ocr_ins = new tesseract::TessBaseAPI();
     signalsAndSlots();
     //*Test area
@@ -58,6 +60,20 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+}
+
+/**
+ * @brief MainWindow::eventsMonit
+ * monit the mouse and keyborad events
+ */
+void MainWindow::eventsMonit()
+{
+    this->event_monitor = new EventMonitor();
+     event_monitor->start();
+     connect(event_monitor, &EventMonitor::buttonPress,
+                      this, &MainWindow::onButtonPressed);
+     connect(event_monitor, &EventMonitor::buttonRelease,
+                      this, &MainWindow::onButtonReleased);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
@@ -125,10 +141,10 @@ void MainWindow::buildGui()
     test_button->setText("测试");
     test_button->hide();
 
-    float_button = new Float_Button();
-    float_browser = new Float_Browser();
+    float_button = new FloatButton();
+    float_browser = new FloatBrowser();
 
-    hyaline_window = new Hyaline_Window();
+    hyaline_window = new HyalineWindow();
 
 
     about_window = new About;
@@ -244,45 +260,30 @@ void MainWindow::signalsAndSlots()
 //------Response the "float_button"
     // 文本被选中的时候显示悬浮按钮，但它不是一个按钮，实际上是一个悬浮的窗口。5s后自动消失
     //Show "float_button" when the selected text changed,it's not a button but a window in fact
-    connect(clipboard, &QClipboard::selectionChanged,
-            float_button, [=]{
-        /* 主要是在chrome浏览器中鼠标未释放就会弹出悬浮按钮
-         * 如果鼠标处于按下状态，直接返回 */
-        this->is_selection_changed = true;
-        this->src_word = this->clipboard->text(QClipboard::Selection);
-        INFO << "selection changed!";
-        if (this->isButtonPressed) return;
-        this->is_selection_changed = false;
-
-        // 根据翻译模式查询
-        this->queryByMode();
-    });
+//    connect(clipboard, &QClipboard::selectionChanged,
+//            float_button, [=]{
+//        /* 主要是在chrome浏览器中鼠标未释放就会弹出悬浮按钮
+//         * 如果鼠标处于按下状态，直接返回 */
+//        this->is_selection_changed = true;
+//        this->src_word = this->clipboard->text(QClipboard::Selection);
+//        INFO << "selection changed!";
+//        if (this->isButtonPressed) return;
+//        this->is_selection_changed = false;
+//        // 根据翻译模式查询
+//        this->queryByMode();
+//    });
+    connect(picker, &Picker::wordsPicked,
+            this, &MainWindow::onWordsPicked);
 
     //Show "float_browser" after clicked the "float_button"
-    connect(float_button, &Float_Button::clicked,
-            float_browser, [=]{
-        //显示透明蒙板
-        //hyaline_window->showFullScreen();
-
-        src_word = qApp->clipboard()->text(QClipboard::Selection);
-        who_query = Requestor::Float_button;
-        float_browser->browser->setText(tr("正在查询"));
-        query();
-        float_browser->move(QCursor::pos());
-        float_browser->setVisible(true);
-        INFO << __FILE__ << __LINE__ << "Show the float browser";
-        float_button->setVisible(false);
-        //line_edit of float_browser get focus
-        float_browser->input->setText(src_word);
-        float_browser->input->selectAll();
-        float_browser->input->setFocus();
-    });
+    connect(float_button, &FloatButton::clicked,
+            this, &MainWindow::onFloatButtonClicked);
 
 //------Response the "float_browser"
     connect(float_browser->input, &QLineEdit::returnPressed,
             this, [=]{
         src_word = float_browser->input->text();
-        who_query = Requestor::Float_browser;
+        who_query = Requestor::FloatBrowserE;
         query();
         float_browser->browser->setText(tr("正在查询"));
         float_browser->input->selectAll();
@@ -291,7 +292,7 @@ void MainWindow::signalsAndSlots()
     connect(float_browser->query, &QPushButton::clicked,
             this, [=]{
         src_word = float_browser->input->text();
-        who_query = Requestor::Float_browser;
+        who_query = Requestor::FloatBrowserE;
         query();
         float_browser->browser->setText(tr("正在查询"));
         float_browser->input->selectAll();
@@ -330,17 +331,13 @@ void MainWindow::queryByMode()
     if (settings_window->setting_map->find("is_auto_translate").value() == "true")
     {
         // 相当于点击了一下悬浮按钮，直接弹出悬浮窗口
-        float_button->clicked();
-        return;
+        float_button->clicked(); return;
     }
     // 不开启对选中文本的翻译
-    if (settings_window->setting_map->find("is_selected").value() == "false")
-    {
-        return;
-    }
+    if (settings_window->setting_map->find("is_selected").value() == "false") return;
 
     float_button->setVisible(true);
-    float_button->move(QCursor::pos().x() + 10, QCursor::pos().y() + 10);
+    float_button->move(QCursor::pos().x() + 5, QCursor::pos().y() + 5);
     button_time = startTimer(5000);
 }
 
@@ -361,7 +358,6 @@ void MainWindow::getImageFromClipboard()
         if(clipboard_flag)
         {
             //Show the flout_browser right now
-            who_query = Requestor::ocr;
             float_browser->browser->setText(tr("正在查询"));
             float_browser->move(QCursor::pos());
             float_browser->setVisible(true);
@@ -398,7 +394,7 @@ void MainWindow::queryInput()
       3. 进行查询 */
     if (this->input->text() == "") return;  // 空文本不查询
     this->src_word = this->input->text();
-    this->who_query = this->Requestor::Mainwindow;
+    this->who_query = this->Requestor::MainWindowE;
     this->query();
     browser->setText(tr("查询中"));
     INFO << "The sender is:" << sender();
@@ -533,22 +529,11 @@ void MainWindow::showResult()
 {
 //    显示查询结果
     switch (who_query) {
-    case Requestor::Mainwindow:
+    case Requestor::MainWindowE:
         browser->setText(des_word); break;
     default:
         float_browser->browser->setText(des_word);
     }
-}
-
-void MainWindow::onButtonPressed()
-{
-    this->isButtonPressed = true;
-//    隐藏悬浮按钮
-    if (float_browser->isVisible() && !float_browser->isMouseOn())
-        float_browser->setVisible(false);
-
-    if (float_button->isVisible() && !float_browser->isMouseOn())
-        float_button->setVisible(false);
 }
 
 void MainWindow::timerEvent(QTimerEvent *event)
@@ -560,19 +545,47 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }
 }
 
+void MainWindow::onButtonPressed()
+{
+    this->isButtonPressed = true;
+    picker->buttonPressed();
+//    隐藏悬浮按钮
+    if (float_browser->isVisible() && !float_browser->isMouseOn()) {
+        float_browser->setVisible(false);
+        DEBUG << "Hide the float browser ***************";
+    }
+
+    if (float_button->isVisible() && !float_button->isMouseOn()) {
+        float_button->setVisible(false);
+        DEBUG << "Hide the float button *************";
+    }
+}
+
 void MainWindow::onButtonReleased(int x, int y)
 {
     this->isButtonPressed = false;
-    INFO << "button released";
+    picker->buttonReleased();
+//    // 对浏览器的特殊优化，浏览器网页内选中文本，鼠标还没有释放就会发送选中文本变化的信号
+//    // 检测选中的文本是否改变
+//    if (this->is_selection_changed)
+//    {
+//        this->queryByMode();
+//        this->is_selection_changed = false;
+//    }
+}
 
-    // 对浏览器的特殊优化，浏览器网页内选中文本，鼠标还没有释放就会发送选中文本变化的信号
-    // 检测选中的文本是否改变
-    if (this->is_selection_changed)
-    {
-        this->queryByMode();
-        this->is_selection_changed = false;
-    }
-
+void MainWindow::onFloatButtonClicked() {
+    who_query = Requestor::FloatButtonE;
+    float_browser->browser->setText(tr("正在查询"));
+    query();
+    float_browser->move(QCursor::pos());
+    float_browser->setVisible(true);
+    INFO << __FILE__ << __LINE__ << "Show the float browser";
+    float_button->setVisible(false);
+    //line_edit of float_browser get focus
+    float_browser->input->setText(src_word);
+    float_browser->input->selectAll();
+    float_browser->input->setFocus();
 }
 
 void MainWindow::showAbout()
@@ -583,4 +596,10 @@ void MainWindow::showAbout()
 
 void MainWindow::showSetting() {
     settings_window->show_options();
+}
+
+void MainWindow::onWordsPicked(QString text)
+{
+    this->src_word = text;
+    this->queryByMode();
 }

@@ -1,6 +1,6 @@
 #include "hyaline_window.h"
 
-Hyaline_Window::Hyaline_Window()
+HyalineWindow::HyalineWindow()
 {
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowOpacity(0.3);

@@ -3,10 +3,10 @@
 
 #include <QWidget>
 
-class Hyaline_Window:public QWidget
+class HyalineWindow:public QWidget
 {
 public:
-    Hyaline_Window();
+    HyalineWindow();
 };
 
 #endif // HYALINE_WINDOW_H

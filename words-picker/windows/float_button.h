@@ -26,11 +26,11 @@
 #include <QWidget>
 #include <QPushButton>
 
-class Float_Button : public QWidget
+class FloatButton : public QWidget
 {
     Q_OBJECT
 public:
-    Float_Button();
+    FloatButton();
     QPainter painter;
     bool isMouseOn();
 

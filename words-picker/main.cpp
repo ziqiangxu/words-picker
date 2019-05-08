@@ -68,12 +68,7 @@ int main(int argc, char *argv[])
     // 设置样式
     setStyle(&app);
     MainWindow w;
-    EventMonitor event_monitor;
-    event_monitor.start();
-    QObject::connect(&event_monitor, &EventMonitor::buttonPress,
-                     &w, &MainWindow::onButtonPressed);
-    QObject::connect(&event_monitor, &EventMonitor::buttonRelease,
-                     &w, &MainWindow::onButtonReleased);
+
     /*
     QObject::connect(
         &event_monitor,

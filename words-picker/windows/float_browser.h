@@ -27,11 +27,11 @@
 #include <QPushButton>
 #include <QCloseEvent>
 
-class Float_Browser : public QMainWindow
+class FloatBrowser : public QMainWindow
 {
 public:
-    Float_Browser();
-    ~Float_Browser();
+    FloatBrowser();
+    ~FloatBrowser();
     QTextBrowser *browser;
     QPushButton *google_translate;
     QPushButton *query;
