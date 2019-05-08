@@ -41,6 +41,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent)
     layout_root->addRow(tr("自动翻译"), auto_translate);
     this->signalSlot();
     load_settings();
+    this->move(200, 200);
 }
 
 void SettingsWindow::signalSlot()

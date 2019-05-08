@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
     //*/
     // Do not show the window default
-    // w.show();
+    if (IS_DEV) w.show();
 
     return app.exec();
 }

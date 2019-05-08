@@ -70,7 +70,9 @@ void MainWindow::closeEvent(QCloseEvent *event){
 // 构建GUI Build the GUI
 void MainWindow::buildGui()
 {
-    setGeometry(100, 100, 400, 254);
+    setWindowTitle(APP_NAME);
+    move(100, 100);
+    setFixedSize(400, 254);
 
     //Layout
     layout_root = new QHBoxLayout(this);
@@ -394,15 +396,11 @@ void MainWindow::queryInput()
    /* 1. 获取要查询的文本
       2. 设置查询者为主窗口
       3. 进行查询 */
-    if (this->input->text() == ""){
-        // 空文本不查询
-        return;
-    }
+    if (this->input->text() == "") return;  // 空文本不查询
     this->src_word = this->input->text();
     this->who_query = this->Requestor::Mainwindow;
     this->query();
     browser->setText(tr("查询中"));
-    // if (sender() == input) DEBUG << "test complite!";
     INFO << "The sender is:" << sender();
 }
 
@@ -464,7 +462,7 @@ void MainWindow::query()
 void MainWindow::getResult(QByteArray re)
 {
 //    获取查询结果
-    INFO << "the reply text:" <<QString(re);
+    INFO << "the reply text:" << QString(re);
 
     QJsonDocument json_doc = QJsonDocument::fromJson(re);
     QJsonObject json_obj = json_doc.object();
@@ -509,11 +507,11 @@ void MainWindow::getResult(QByteArray re)
     QString language = json_obj.take("l").toString();
     INFO << "way of translation:" << language;
 
-    //Get the erroCode：0 means everything on it's way.You can get more from
-    //http://ai.youdao.com/docs/api.s
+    // Get the erroCode：0 means everything on it's way.You can get more from
+    // http://ai.youdao.com/docs/api.s
     int erroCode = json_obj.take("erroCode").toInt();
 
-    //Save the result in the database
+    // Save the result in the database
     if (translation_array.isEmpty())
     {
         this->des_word = "查询失败，请检查网络, error code:" + QString(erroCode);
@@ -535,22 +533,10 @@ void MainWindow::showResult()
 {
 //    显示查询结果
     switch (who_query) {
-    case Requestor::Float_browser:
-        INFO << "QLineEdit object--input of float_browser request,float_browser";
-        float_browser->browser->setText(des_word);
-        break;
-    case Requestor::Float_button:
-        INFO << "QLineEdit object--input of float_browser request,float_button";
-        float_browser->browser->setText(des_word);
-        break;
-    case Requestor::ocr:
-        INFO << "QLineEdit object--input of float_browser request,ocr";
-        float_browser->browser->setText(des_word);
-        break;
+    case Requestor::Mainwindow:
+        browser->setText(des_word); break;
     default:
-        INFO << "QLineEdit object--input of mainwindow request,default";
-        browser->setText(des_word);
-        break;
+        float_browser->browser->setText(des_word);
     }
 }
 
@@ -593,4 +579,8 @@ void MainWindow::showAbout()
 {
     about_window = new About;
     about_window->show();
+}
+
+void MainWindow::showSetting() {
+    settings_window->show_options();
 }

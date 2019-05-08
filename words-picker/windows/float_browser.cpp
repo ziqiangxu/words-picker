@@ -103,7 +103,7 @@ void Float_Browser::google_web_translate(QString src_word,
 void Float_Browser::closeEvent(QCloseEvent *event)
 {
 //    隐藏窗口而不是关闭窗口
-    INFO << "hide the window";
+    INFO << "hide the float window";
     this->hide();
     event->ignore();
 }

@@ -7,4 +7,8 @@
 #define INFO qDebug() << "INFO" << __FILE__ << __LINE__
 #define WARNING qDebug() << "WARNING" << __FILE__ << __LINE__
 #define ERROR qDebug() << "ERROR" << __FILE__ << __LINE__
+
+#define APP_NAME "words-picker"
+#define IS_DEV true
+
 #endif // DEFINED_H

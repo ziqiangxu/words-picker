@@ -6,7 +6,7 @@ set(TARGET_NAME words-picker)      # 设置目标名字
 set(CMAKE_INCLUDE_CURRENT_DIR ON)  #
 set(CMAKE_CXX_STANDARD 11)         # 指定C++标准
 #set(CMAKE_BUILD_TYPE Release)      # 指定构建类型
-set(CMAKE_CXX_COMPILER clang++)    # 指定编译器
+set(CMAKE_CXX_COMPILER g++)    # 指定编译器
 
 # Q_OBJECT宏展开、资源文件、界面文件
 set(CMAKE_AUTOMOC ON)

@@ -51,7 +51,6 @@ public:
     void query();
     void showResult();
     int button_time;
-    void showAbout();
     //void derive_words();
     SystemTrayIcon *tray_icon;
     //TessBaseAPI *ocr_ins;
@@ -61,6 +60,8 @@ private:
     void initLanguage();
     void signalsAndSlots();
     bool recognizeImage();
+    void showAbout();
+    void showSetting();
     bool clipboard_flag;
     bool is_selection_changed;
     bool isButtonPressed;
