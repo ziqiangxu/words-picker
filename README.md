@@ -41,7 +41,7 @@ OCR取词
 
 ``` shell
 mkdir build && cd build
-cmake .. && make
+cmake ../words-picker && make
 sudo make install
 ```
 
