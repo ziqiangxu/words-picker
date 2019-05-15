@@ -1,10 +1,10 @@
 Source: words-picker
-Version: 53.5.1
+Version: 53.5.2
 Section: base
 Priority: optional
 Maintainer: Daryl Xu <ziqiang_xu@yeah.net>
 Depends: tesseract-ocr,libqt5sql5,libqt5widgets5,libqt5x11extras5,libqt5network5,libqt5core5a,libqt5gui5
-Standards-Version: 53.5.1
+Standards-Version: 53.5.2
 Homepage: https://github.com/ziqiangxu/words-picker
 Package: words-picker
 Architecture: amd64
