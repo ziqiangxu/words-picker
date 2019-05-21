@@ -19,7 +19,7 @@
 
 鼠标选词
 
-![鼠标选词](./img/selection.gif)
+![鼠标选词](./docs/img/selection.gif)
 
 ## 参与开发
 
