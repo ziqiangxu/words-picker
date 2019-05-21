@@ -11,15 +11,15 @@
 
 主窗口
 
-![主窗口](./README/mainwindow.png)
+![主窗口](./docs/img/mainwindow.png)
 
 `OCR取词`
 
-![OCR取词](./README/ocr.gif)
+![OCR取词](./docs/img/ocr.gif)
 
 鼠标选词
 
-![鼠标选词](./README/selection.gif)
+![鼠标选词](./README/img/selection.gif)
 
 ## 参与开发
 
