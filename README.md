@@ -13,7 +13,7 @@
 
 ![主窗口](./README/mainwindow.png)
 
-OCR取词
+`OCR取词`
 
 ![OCR取词](./README/ocr.gif)
 
@@ -25,19 +25,19 @@ OCR取词
 
 欢迎各位贡献代码，开发库安装：
 
-- `libxtst-dev`是x11的开发库
+- `libxtst-dev`是 `x11` 的开发库
 
-### debian
+### 为 `Debian` 系的发行版安装开发库
 
 `sudo apt install qt5-default libxtst-dev g++ cmake make tesseract`
 
-### fedora
+### 为 `RedHat` 系的发行版安装开发库
 
 `sudo dnf install qt5-devel libXtst-devel g++ cmake make tesseract`
 
 ## 编译安装
 
-目前本应用只提供 `Debian` 系的二进制安装包，本应用理论上在其它系的 `Linux` 发行版都是可以运行的。不过要各位编译安装了。
+目前本应用只提供 `Debian` 系的二进制安装包，其它系列的发行版可进行编译安装，首先安装开发库，再执行下面的命令。
 
 ``` shell
 mkdir build && cd build
@@ -47,10 +47,10 @@ sudo make install
 
 ## 致谢
 
-- [有道智云](https://ai.youdao.com)： 本项目使用了有道的翻译 `api`
-- [Google翻译](https://translate.google.cn)： 本项目调用了Google的网页翻译
+- [有道智云](https://ai.youdao.com)： 本项目使用了有道的翻译 `API`
+- [Google翻译](https://translate.google.cn)： 本项目调用了 `Google` 的网页翻译
 - [Deepin](https://deepin.org)：本应用大部分开发在 `Deepin` 操作系统下完成
-- [qt开源社区](http://www.qter.org)： 第一个 `Qt` 程序是在 `Qt` 开源社区教程的指导下写出来的
+- [Qt开源社区](http://www.qter.org)： 第一个 `Qt` 程序是在 `Qt` 开源社区教程的指导下写出来的
 - 开源运动：让我可以很容易地阅读他人的代码，学习到了这样有趣的技术
 - [wtz](https://github.com/zwpwjwtz)：感谢他贡献了第一版图标
 - [dee-y](https://github.com/dee-y):Thanks for her or his pretty logo!
