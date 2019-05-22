@@ -42,8 +42,8 @@ void FloatButton::mousePressEvent(QMouseEvent *event)
     INFO << "Rceived a mouse event";
     if (event->button() == Qt::LeftButton)
     {
-        emit clicked();
-        INFO << "flout_btton clicked";
+        INFO << "flout_button pressed";
+        emit pressed();
         this->hide();
     }
 }

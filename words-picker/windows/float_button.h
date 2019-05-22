@@ -40,7 +40,7 @@ protected:
     void mousePressEvent(QMouseEvent *);
 
 signals:
-    void clicked();
+    void pressed();
 
 protected:
     void paintEvent(QPaintEvent *);

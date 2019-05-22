@@ -51,7 +51,7 @@ public:
     YoudaoAPI *youdao_api;
 //    SQLite sqlite;
     void query();
-    void showResult();
+    void showResult(QString res);
     int button_time;
     //void derive_words();
     SystemTrayIcon *tray_icon;
@@ -80,7 +80,7 @@ private:
     QTimer *timer;
 
 private slots:
-    void getResult(QByteArray re);
+    void onReplyGot(QByteArray re);
     void closeEvent(QCloseEvent *event);
     void trayIconActived(QSystemTrayIcon::ActivationReason reason);
     void getImageFromClipboard();
