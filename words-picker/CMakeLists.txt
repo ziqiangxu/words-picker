@@ -50,8 +50,12 @@ target_link_libraries(
     ${TARGET_NAME}
     event api SQL windows)
 
+# 复制桌面入口文件
 # set(CMAKE_INSTALL_PREFIX /usr)
-install(FILES deb/words-picker/usr/share/applications/words-picker.desktop DESTINATION /usr/share/applications/)
+install(FILES ../deb/words-picker/usr/share/applications/words-picker.desktop DESTINATION /usr/share/applications/)
+
 # 复制words-picker目录
-install(DIRECTORY deb/words-picker/opt/words-picker/ DESTINATION /opt/words-picker)
+set(DES_DIR ../deb/words-picker/opt/words-picker/)
+MESSAGE( STATUS ${DES_DIR})
+install(DIRECTORY ${DES_DIR} DESTINATION /opt/words-picker)
 install(TARGETS words-picker DESTINATION /opt/words-picker/)

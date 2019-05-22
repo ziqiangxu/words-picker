@@ -69,14 +69,16 @@ bool FloatBrowser::isMouseOn()
 //    检查鼠标是否在窗口区域
     int cursor_x = QCursor::pos().x();
     int cursor_y = QCursor::pos().y();
+    INFO << "pos_x:" << cursor_x << "pos_y:" << cursor_y;
+    INFO << "x():" << x() << "y()" << y();
+    INFO << "width:" <<width() << "height" << height();
     if (cursor_x > x() && cursor_x < (x() + width()) &&
-            cursor_y > y() && cursor_y < (y() + height() + 35))
+            cursor_y > y() - 35 && cursor_y < (y() + height() + 35))
     {
-        INFO << "pos_x:" << cursor_x << "pos_y:" << cursor_y;
-        INFO << "x():" << x() << "y()" << y();
-        INFO << "width:" <<width() << "height" << height();
+        DEBUG << "Mouse on the browser";
         return true;
     }
+    DEBUG << "Mouse out of the browser";
     return false;
 }
 

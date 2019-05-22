@@ -21,13 +21,13 @@
  */
 #ifndef FLOUT_BROWSER_H
 #define FLOUT_BROWSER_H
-#include <QMainWindow>
+#include <QWidget>
 #include <QLineEdit>
 #include <QTextBrowser>
 #include <QPushButton>
 #include <QCloseEvent>
 
-class FloatBrowser : public QMainWindow
+class FloatBrowser : public QWidget
 {
 public:
     FloatBrowser();

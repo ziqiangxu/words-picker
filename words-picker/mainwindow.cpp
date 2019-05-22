@@ -195,7 +195,7 @@ void MainWindow::signalsAndSlots()
     // 有道api返回结果后获取内容
     // Get result after youdao api response
     connect(youdao_api, &YoudaoAPI::finish,
-            this, &MainWindow::getResult);
+            this, &MainWindow::onReplyGot);
 
 //------Response the "mainwindow"
     // 按下Enter进行查询
@@ -276,7 +276,7 @@ void MainWindow::signalsAndSlots()
             this, &MainWindow::onWordsPicked);
 
     //Show "float_browser" after clicked the "float_button"
-    connect(float_button, &FloatButton::clicked,
+    connect(float_button, &FloatButton::pressed,
             this, &MainWindow::onFloatButtonClicked);
 
 //------Response the "float_browser"
@@ -331,7 +331,7 @@ void MainWindow::queryByMode()
     if (settings_window->setting_map->find("is_auto_translate").value() == "true")
     {
         // 相当于点击了一下悬浮按钮，直接弹出悬浮窗口
-        float_button->clicked(); return;
+        float_button->pressed(); return;
     }
     // 不开启对选中文本的翻译
     if (settings_window->setting_map->find("is_selected").value() == "false") return;
@@ -455,7 +455,7 @@ void MainWindow::query()
                           des_language->currentText());
 }
 
-void MainWindow::getResult(QByteArray re)
+void MainWindow::onReplyGot(QByteArray re)
 {
 //    获取查询结果
     INFO << "the reply text:" << QString(re);
@@ -511,28 +511,28 @@ void MainWindow::getResult(QByteArray re)
     if (translation_array.isEmpty())
     {
         this->des_word = "查询失败，请检查网络, error code:" + QString(erroCode);
-        showResult();
+        showResult(this->des_word);
         INFO << "Query failed";
     }
     else {
-        des_word =
+        this->des_word =
                 "音标：US[ " + us_phonetic + " ] UK[ " + uk_phonetic +" ]\n"
                 + "翻译：" +translation
                 + "解释：\n" +explains;
         INFO << "query finished";
-        showResult();
+        showResult(this->des_word);
 //        sqlite.save(src_word, des_word, "history");
     }
 }
 
-void MainWindow::showResult()
+void MainWindow::showResult(QString res)
 {
 //    显示查询结果
     switch (who_query) {
     case Requestor::MainWindowE:
-        browser->setText(des_word); break;
+        browser->setText(res); break;
     default:
-        float_browser->browser->setText(des_word);
+        float_browser->browser->setText(res);
     }
 }
 
@@ -578,11 +578,11 @@ void MainWindow::onFloatButtonClicked() {
     who_query = Requestor::FloatButtonE;
     float_browser->browser->setText(tr("正在查询"));
     query();
-    float_browser->move(QCursor::pos());
+    float_browser->move(QCursor::pos().x() - 10, QCursor::pos().y() - 10);
     float_browser->setVisible(true);
-    INFO << __FILE__ << __LINE__ << "Show the float browser";
-    float_button->setVisible(false);
-    //line_edit of float_browser get focus
+    INFO << "Show the float browser";
+
+    //line_edit of float_browser get focus, then wait for the query reply
     float_browser->input->setText(src_word);
     float_browser->input->selectAll();
     float_browser->input->setFocus();
@@ -601,5 +601,6 @@ void MainWindow::showSetting() {
 void MainWindow::onWordsPicked(QString text)
 {
     this->src_word = text;
+    DEBUG << "Text got:" << text;
     this->queryByMode();
 }
