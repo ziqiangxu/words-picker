@@ -2,9 +2,9 @@
 #define YOUDAOAPI_H
 
 #include <QObject>
-#include <QString>
 #include <QNetworkReply>
 #include <QUrl>
+#include "result.h"
 
 class YoudaoAPI:public QObject
 {
@@ -17,15 +17,17 @@ public:
                       QString appKey = "179b7fabf47afb85",
                       QString key = "ndTLw0HSgoUhkpgP0jGK7ynUI1KHFwcd");
     void request();
+    Result *result;
 
 private:
     QString MD5(QString src);
     int Randon();
     QUrl query_url;
     int query_count;
+    QString translation;
 
 signals:
-    void finish(QByteArray);
+    void finish();
 
 private slots:
     void reply(QNetworkReply *);

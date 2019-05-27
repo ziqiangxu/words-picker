@@ -29,6 +29,8 @@
 #include <QProcess>
 #include <QFile>
 #include <QTextStream>
+#include "api/result.h"
+
 #define OCR_IMG_PATH "/opt/words-picker/ocr.png"
 #define OCR_RES_PATH "/opt/words-picker/out.txt"
 #define OCR_IMG2TXT "tesseract /opt/words-picker/ocr.png /opt/words-picker/out"
@@ -289,7 +291,7 @@ void MainWindow::signalsAndSlots()
         float_browser->input->selectAll();
     });
 
-    connect(float_browser->query, &QPushButton::clicked,
+    connect(float_browser->btn_query, &QPushButton::clicked,
             this, [=]{
         src_word = float_browser->input->text();
         who_query = Requestor::FloatBrowserE;
@@ -455,77 +457,28 @@ void MainWindow::query()
                           des_language->currentText());
 }
 
-void MainWindow::onReplyGot(QByteArray re)
+void MainWindow::onReplyGot()
 {
-//    获取查询结果
-    INFO << "the reply text:" << QString(re);
-
-    QJsonDocument json_doc = QJsonDocument::fromJson(re);
-    QJsonObject json_obj = json_doc.object();
-    QStringList L1 = json_obj.keys();
-    INFO << "the reply keys:" <<L1;
-
-    //Get the translatin
-    QJsonArray translation_array = json_obj.take("translation").toArray();
-    int counter = translation_array.count();
-    QString translation;
-    for (int i = 0; i < counter; i++)
+    Result *result = youdao_api->result;
+    if (result->error_code != 0)
     {
-        translation.append(translation_array.at(i).toString() + "\n");
-    }
-
-    //Get the web：explain from the web
-    QJsonArray web_array = json_obj.take("web").toArray();
-    QString web;
-    counter = web_array.count();
-    for (int i = 0; i < counter; i++)
-    {
-        web.append(web_array.at(i).toString() + "\n");
-    }
-
-    //Get the basic：contain almost information we need
-    QJsonObject basic_obj = json_obj.take("basic").toObject();
-
-    QString us_phonetic = basic_obj.take("us-phonetic").toString();
-    QString uk_phonetic = basic_obj.take("uk-phonetic").toString();
-    QString phonetic = basic_obj.take("phonetic").toString();
-
-        //Get the explains in basic_obj
-    QJsonArray explains_array = basic_obj.take("explains").toArray();
-    QString explains;
-    counter = explains_array.count();
-    for (int i = 0; i < counter; i++){
-        explains.append(explains_array.at(i).toString() + "\n");
-    }
-    INFO << "explains" << ":" << explains;
-
-    //Get the way of translation：from English to Chinese-simple as the default way
-    QString language = json_obj.take("l").toString();
-    INFO << "way of translation:" << language;
-
-    // Get the erroCode：0 means everything on it's way.You can get more from
-    // http://ai.youdao.com/docs/api.s
-    int erroCode = json_obj.take("erroCode").toInt();
-
-    // Save the result in the database
-    if (translation_array.isEmpty())
-    {
-        this->des_word = "查询失败，请检查网络, error code:" + QString(erroCode);
-        showResult(this->des_word);
+        this->des_word = "查询失败，请检查网络, error code:" + result->error_code;
+        show_result(this->des_word);
         INFO << "Query failed";
     }
     else {
         this->des_word =
-                "音标：US[ " + us_phonetic + " ] UK[ " + uk_phonetic +" ]\n"
-                + "翻译：" +translation
-                + "解释：\n" +explains;
+                "音标：US[ " + result->us_phonetic + " ] UK[ "
+                + result->uk_phonetic +" ]\n"
+                + "翻译：" + result->translation
+                + "解释：\n" + result->explain;
         INFO << "query finished";
-        showResult(this->des_word);
+        show_result(this->des_word);
 //        sqlite.save(src_word, des_word, "history");
     }
 }
 
-void MainWindow::showResult(QString res)
+void MainWindow::show_result(QString res)
 {
 //    显示查询结果
     switch (who_query) {

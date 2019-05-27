@@ -21,6 +21,7 @@
 #include "event/eventmonitor.h"
 #include "picker.h"
 #include <QTimer>
+
 //#include <tesseract/baseapi.h>
 
 //using namespace tesseract;
@@ -51,7 +52,7 @@ public:
     YoudaoAPI *youdao_api;
 //    SQLite sqlite;
     void query();
-    void showResult(QString res);
+    void show_result(QString res);
     int button_time;
     //void derive_words();
     SystemTrayIcon *tray_icon;
@@ -80,7 +81,7 @@ private:
     QTimer *timer;
 
 private slots:
-    void onReplyGot(QByteArray re);
+    void onReplyGot();
     void closeEvent(QCloseEvent *event);
     void trayIconActived(QSystemTrayIcon::ActivationReason reason);
     void getImageFromClipboard();

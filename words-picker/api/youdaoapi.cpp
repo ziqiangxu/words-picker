@@ -66,8 +66,8 @@ void YoudaoAPI::request()
 
 void YoudaoAPI::reply(QNetworkReply *re)
 {
-    QByteArray result = re->readAll();
-    if (result.isEmpty() && this->query_count < 3)
+    QByteArray res = re->readAll();
+    if (res.isEmpty() && this->query_count < 3)
     {
         INFO << this->query_count << " times retry";
         this->query_count++;
@@ -75,7 +75,9 @@ void YoudaoAPI::reply(QNetworkReply *re)
         return;
     }
     this->query_count = 0;
-    emit finish(result);
+    result = new Result(res);
+    INFO << "********" << result->translation;
+    emit finish();
 }
 
 QString YoudaoAPI::MD5(QString src)

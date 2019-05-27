@@ -34,14 +34,15 @@ public:
     ~FloatBrowser();
     QTextBrowser *browser;
     QPushButton *google_translate;
-    QPushButton *query;
+    QPushButton *btn_query;
     QPushButton *add_new;
     QLineEdit *input;
     bool isMouseOn();
     void google_web_translate(QString src_word,
                               QString src_language = "en",
                               QString des_language = "zh-CN");
-protected:
+private:
+    void signal_slot();
 private slots:
     void closeEvent(QCloseEvent *event);
 

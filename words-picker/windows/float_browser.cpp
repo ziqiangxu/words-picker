@@ -41,9 +41,9 @@ FloatBrowser::FloatBrowser()
     browser->setGeometry(0,30,280,240);
     INFO << "Float_browser object creating" << browser->size();
 
-    query = new QPushButton(this);
-    query->setGeometry(195, 0, 80, 30);
-    query->setText(tr("查询"));
+    btn_query = new QPushButton(this);
+    btn_query->setGeometry(195, 0, 80, 30);
+    btn_query->setText(tr("查询"));
 
 //    add_new = new QPushButton(this);
 //    add_new->setGeometry(5, 270, 80, 30);
@@ -53,15 +53,19 @@ FloatBrowser::FloatBrowser()
     google_translate = new QPushButton(this);
     google_translate->setGeometry(100, 270, 80, 30);
     google_translate->setText(tr("Google翻译"));
+
+    signal_slot();
 }
 
-FloatBrowser::~FloatBrowser()
+FloatBrowser::~FloatBrowser() {
+
+}
+
+void FloatBrowser::signal_slot()
 {
-    delete input;
-    delete browser;
-    delete google_translate;
-    delete query;
-//    delete add_new;
+    // todo 处理悬浮窗口的按钮点击
+//    connect(btn_query, &QPushButton::clicked,
+//            this, );
 }
 
 bool FloatBrowser::isMouseOn()
