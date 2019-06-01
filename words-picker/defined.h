@@ -10,5 +10,6 @@
 
 #define APP_NAME "words-picker"
 #define IS_DEV true
+#define DEV_BASE_URL "http://localhost:8080/translate?"
 
 #endif // DEFINED_H

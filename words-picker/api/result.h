@@ -16,6 +16,7 @@ public:
     QString uk_phonetic;
     QString explain;
     int error_code;
+    QString error_msg;
 };
 
 #endif // RESULT_H

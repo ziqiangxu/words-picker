@@ -109,7 +109,7 @@ void MainWindow::buildGui()
     layout_view->addWidget(browser);
 
     query_button = new QPushButton(this);
-    query_button->setText(tr("查询"));
+    query_button->setText(tr("查询\b"));
     layout_button->addWidget(query_button);
 
     src_language = new QComboBox(this);
@@ -182,9 +182,11 @@ void MainWindow::signalsAndSlots()
 
     // 系统托盘事件处理
     // Deal with the tray event
-    connect(tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(trayIconActived(QSystemTrayIcon::ActivationReason))
-            );
+//    connect(tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+//            this, SLOT(trayIconActived(QSystemTrayIcon::ActivationReason))
+//            );
+    connect(tray_icon, &QSystemTrayIcon::activated,
+            this, &MainWindow::trayIconActived);
 
     // 选择退出菜单
     // quit the application
