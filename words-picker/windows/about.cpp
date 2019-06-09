@@ -31,7 +31,7 @@ About::About(QWidget *parent) : QWidget(parent)
 {
     word_table = nullptr;
 //    DEBUG << info->value("version/main").toString();
-    version = 1;
+    version = 2;
     buildGUI();
     connect(update, &QPushButton::clicked,
             this, &About::getUpdate);
@@ -152,13 +152,13 @@ About::~About()
  QString About::help_text()
  {
      /* 更新版本号流程：
-      * 1. 源代码
+      * 1. 源代码(version的值)
       * 2. /DEBIAN/control 文件: deb包需要
       * 3. /resoure/info 文件: 放在github用于检查版本更新
       * */
      QString content;
      content.sprintf(
-             "应用版本：53.5.1\n\n\
+             "应用版本：53.6.1\n\n\
 特别鸣谢:有道词典、谷歌翻译、Deepin\n\
        本应用组合了有道翻译API和谷歌网页翻译，本应用主要在Deepin平台下开发。\n\n\
 OCR取词使用方法：\n\
