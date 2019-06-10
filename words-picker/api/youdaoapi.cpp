@@ -55,7 +55,7 @@ void YoudaoAPI::translate(QString query, QString from, QString to)
     QString query_encode = QUrl::toPercentEncoding(query);
     QString query_url;
     if(IS_DEV) query_url = DEV_BASE_URL;
-    else query_url = "http://180.167.236.5:8000/translate?";
+    else query_url = "http://180.167.236.4:8000/translate?";
     query_url.append("q=" + query_encode)
             .append("&from=" + from)
             .append("&to=" + to);
