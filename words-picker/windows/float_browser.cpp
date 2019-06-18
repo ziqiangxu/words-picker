@@ -30,9 +30,7 @@ FloatBrowser::FloatBrowser()
 {
     setWindowTitle(tr("快速查词"));
     setFixedSize(280,300);
-    setWindowFlags(Qt::WindowStaysOnTopHint |
-                   Qt::WindowCloseButtonHint |
-                   Qt::Tool);
+    setWindowFlags(Qt::Dialog);
 
     input = new QLineEdit(this);
     input->setGeometry(0,0,190,30);
@@ -109,7 +107,15 @@ void FloatBrowser::google_web_translate(QString src_word,
 void FloatBrowser::closeEvent(QCloseEvent *event)
 {
 //    隐藏窗口而不是关闭窗口
-    INFO << "hide the float window";
+    INFO << "Close clicked, hide the float window";
     this->hide();
+    event->ignore();
+}
+
+void FloatBrowser::hideEvent(QHideEvent *event)
+{
+    // 按过最小化按钮之后就无法再次显示了
+    INFO << "Minimize clicked, hide the float window";
+    this->close();
     event->ignore();
 }

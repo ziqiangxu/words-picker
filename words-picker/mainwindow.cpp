@@ -534,8 +534,10 @@ void MainWindow::onFloatButtonClicked() {
     float_browser->browser->setText(tr("正在查询"));
     query();
     float_browser->move(QCursor::pos().x() - 10, QCursor::pos().y() - 10);
-    float_browser->setVisible(true);
+
     INFO << "Show the float browser";
+//    float_browser->setVisible(true);
+    float_browser->show();
 
     //line_edit of float_browser get focus, then wait for the query reply
     float_browser->input->setText(src_word);

@@ -45,6 +45,7 @@ private:
     void signal_slot();
 private slots:
     void closeEvent(QCloseEvent *event);
+    void hideEvent(QHideEvent *event);
 
 signals:
     void add_new_word();
