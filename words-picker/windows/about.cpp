@@ -31,7 +31,7 @@ About::About(QWidget *parent) : QWidget(parent)
 {
     word_table = nullptr;
 //    DEBUG << info->value("version/main").toString();
-    version = 3;
+    version = 4;
     buildGUI();
     connect(update, &QPushButton::clicked,
             this, &About::getUpdate);
