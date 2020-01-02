@@ -52,4 +52,4 @@ install(FILES ../deb/words-picker/usr/share/applications/words-picker.desktop DE
 set(DES_DIR ../deb/words-picker/opt/words-picker/)
 MESSAGE( STATUS ${DES_DIR})
 install(DIRECTORY ${DES_DIR} DESTINATION /opt/words-picker)
-install(TARGETS words-picker DESTINATION /opt/words-picker/)
+install(TARGETS src/words-picker DESTINATION /opt/words-picker/)

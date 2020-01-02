@@ -29,7 +29,7 @@
 
 ### 为 `Debian` 系的发行版安装开发库
 
-`sudo apt install qt5-default libxtst-dev g++ cmake make tesseract`
+`sudo apt install qt5-default libxtst-dev g++ cmake make libqt5x11extras5-dev tesseract`
 
 ### 为 `RedHat` 系的发行版安装开发库
 
