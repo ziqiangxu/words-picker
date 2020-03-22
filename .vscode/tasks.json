@@ -12,6 +12,10 @@
             ],
             "options": {
                 "cwd": "/usr/bin"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
             }
         },
         {

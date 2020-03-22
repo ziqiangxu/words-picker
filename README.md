@@ -41,7 +41,7 @@
 
 ``` shell
 mkdir build && cd build
-cmake ../words-picker && make
+cmake .. && make
 sudo make install
 ```
 
