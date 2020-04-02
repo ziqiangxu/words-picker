@@ -51,11 +51,8 @@ bool check_only()
 void setStyle(QApplication *app)
 {
 //    从资源文件读取样式
-//    QFile qss("/home/xu/git/freedict/src/style.qss");
-//    QFile qss(":/qss/resources/black.qss");
     QFile qss(":/qss/resources/light.qss");
     qss.open(QFile::ReadOnly);
-//    qApp->setStyle(qss.readAll());
     app->setStyleSheet(qss.readAll());
     qss.close();
 }
@@ -63,8 +60,12 @@ void setStyle(QApplication *app)
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+#if defined Q_OS_LINUX
     if (check_only() == false)
         return 0;
+#endif
+
     // 设置样式
     setStyle(&app);
     MainWindow w;
@@ -111,8 +112,10 @@ int main(int argc, char *argv[])
         },
         Qt::QueuedConnection);
     //*/
-    // Do not show the window default
-    if (IS_DEV) w.show();
+    //开发时显示主窗口
+#if IS_DEV
+    w.show();
+#endif
 
     return app.exec();
 }
