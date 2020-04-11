@@ -41,7 +41,7 @@
 
 ``` shell
 mkdir build && cd build
-cmake .. && make
+cmake .. && make -j4
 sudo make install
 ```
 
