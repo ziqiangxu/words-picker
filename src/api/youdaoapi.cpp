@@ -52,6 +52,7 @@ void YoudaoAPI::translate_old(QString query, QString from,
 
 void YoudaoAPI::translate(QString query, QString from, QString to)
 {
+    query = query.simplified();
     QString query_encode = QUrl::toPercentEncoding(query);
     QString query_url;
     if(IS_DEV) query_url = DEV_BASE_URL;

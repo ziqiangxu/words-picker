@@ -15,7 +15,8 @@
         {
             "name": "qt5",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "/usr/include/x86_64-linux-gnu/qt5/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++-8",

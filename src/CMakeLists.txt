@@ -1,9 +1,6 @@
-cmake_minimum_required (VERSION 2.8)
-
 # aux_source_directory(. DIR_SRCS)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)  #
 set(CMAKE_CXX_STANDARD 11)         # 指定C++标准
-set(CMAKE_CXX_COMPILER g++)    # 指定编译器
 
 # Q_OBJECT宏展开、资源文件、界面文件
 set(CMAKE_AUTOMOC ON)
