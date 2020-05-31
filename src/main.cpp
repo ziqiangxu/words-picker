@@ -34,12 +34,27 @@ void setStyle(QApplication *app)
     qss.close();
 }
 
+
+bool createDirectories () {
+    // to store some temporary files
+    // QString workPathName = APP_NAME + "_xu";
+    QString workPathName = APP_NAME;
+    QDir tmpDir = QDir(SYSTEM_TMP_PATH);
+    if (!tmpDir.mkpath(workPathName)) return false;
+    return true;
+}
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
     // 设置样式
     setStyle(&app);
+
+    // create directory
+    if (createDirectories() == false)
+        return 0;
+
     MainWindow w;
 
     /*

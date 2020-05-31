@@ -8,7 +8,10 @@
 #define WARNING qDebug() << "WARNING" << __FILE__ << __LINE__
 #define ERROR qDebug() << "ERROR" << __FILE__ << __LINE__
 
-#define APP_NAME "words-picker"
+#define APP_NAME QString("words-picker")
+
+#define SYSTEM_TMP_PATH QString("/tmp")
+
 //#define IS_DEV true
 #define IS_DEV true
 #define IS_LOCAL_SERVER false

@@ -31,10 +31,10 @@
 #include <QTextStream>
 #include "api/result.h"
 
-#define OCR_IMG_PATH "/opt/words-picker/ocr.png"
-#define OCR_RES_PATH "/opt/words-picker/out.txt"
-#define OCR_IMG2TXT "tesseract /opt/words-picker/ocr.png /opt/words-picker/out"
 // out会自动加上txt后缀
+#define OCR_IMG_PATH QString(SYSTEM_TMP_PATH  + "/" + APP_NAME + "/ocr.png")
+#define OCR_RES_PATH QString(SYSTEM_TMP_PATH + "/" + APP_NAME + "/out.txt")
+#define OCR_IMG2TXT QString("tesseract " + OCR_IMG_PATH + " " + SYSTEM_TMP_PATH + "/" + APP_NAME + "/out")
 
 //using namespace tesseract;
 MainWindow::MainWindow(QWidget *parent)
@@ -413,7 +413,7 @@ bool MainWindow::recognizeImage()
     QFile file(OCR_RES_PATH);
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        INFO << "Failed to read the out.txt";
+        INFO << "Failed to read the out.txt: " << OCR_RES_PATH;
         return false;
     } else {
         QTextStream in(&file);
