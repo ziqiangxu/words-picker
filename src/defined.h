@@ -11,6 +11,11 @@
 #define APP_NAME QString("words-picker")
 
 #define SYSTEM_TMP_PATH QString("/tmp")
+#define INFO_FILE_PATH QString(SYSTEM_TMP_PATH + "/" + APP_NAME + "/info")
+// out会自动加上txt后缀
+#define OCR_IMG_PATH QString(SYSTEM_TMP_PATH  + "/" + APP_NAME + "/ocr.png")
+#define OCR_RES_PATH QString(SYSTEM_TMP_PATH + "/" + APP_NAME + "/out.txt")
+#define OCR_IMG2TXT QString("tesseract " + OCR_IMG_PATH + " " + SYSTEM_TMP_PATH + "/" + APP_NAME + "/out")
 
 //#define IS_DEV true
 #define IS_DEV true
