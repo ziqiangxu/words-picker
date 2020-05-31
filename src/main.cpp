@@ -25,45 +25,6 @@
 #include "defined.h"
 #include <QFile>
 
-#if defined Q_OS_LINUX  // Just for Linux
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-
-QString getCurrentUserNameLinux()
-{
-	QProcess process(nullptr);
-	process.setProgram("whoami");
-	process.start();
-	while (process.state() != QProcess::NotRunning)
-		qApp->processEvents();
-	return process.readAll();
-}
-
-bool check_only()
-{
-    // Get current user name
-    QString userName = getCurrentUserNameLinux();
-    DEBUG << "user name:" << userName;
-//    创建文件锁
-    QString lockFilePath = "/tmp/lockfile_for_" + userName;
-    QByteArray ba = lockFilePath.toLatin1();
-    const char filename[] = ba.data();
-    int fd = open (filename, O_WRONLY | O_CREAT , 0644);
-    int flock = lockf(fd, F_TLOCK, 0);
-    if (fd == -1) {
-        perror("open lockfile/n");
-        return false;
-    }
-    if (flock == -1) {
-        perror("lock file error/n");
-        return false;
-    }
-    return true;
-}
-#endif
-
 void setStyle(QApplication *app)
 {
 //    从资源文件读取样式
@@ -76,11 +37,6 @@ void setStyle(QApplication *app)
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-
-#if defined Q_OS_LINUX
-    if (check_only() == false)
-        return 0;
-#endif
 
     // 设置样式
     setStyle(&app);
