@@ -30,10 +30,26 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+
+QString getCurrentUserNameLinux()
+{
+	QProcess process(nullptr);
+	process.setProgram("whoami");
+	process.start();
+	while (process.state() != QProcess::NotRunning)
+		qApp->processEvents();
+	return process.readAll();
+}
+
 bool check_only()
 {
+    // Get current user name
+    QString userName = getCurrentUserNameLinux();
+    DEBUG << "user name:" << userName;
 //    创建文件锁
-    const char filename[] = "/tmp/lockfile_for_freedict";
+    QString lockFilePath = "/tmp/lockfile_for_" + userName;
+    QByteArray ba = lockFilePath.toLatin1();
+    const char filename[] = ba.data();
     int fd = open (filename, O_WRONLY | O_CREAT , 0644);
     int flock = lockf(fd, F_TLOCK, 0);
     if (fd == -1) {
