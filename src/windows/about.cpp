@@ -75,10 +75,12 @@ About::~About()
      *  https://raw.githubusercontent.com/ziqiangxu/words-picker/master/deb/
      *  freedict/DEBIAN/control */
      manager = new QNetworkAccessManager(this);
-     QNetworkRequest request = QNetworkRequest(
-                 QUrl("https://raw.githubusercontent.com/ziqiangxu/words-picker/"
-                      "master/resources/info")
-                 );
+    //  QNetworkRequest request = QNetworkRequest(
+    //              QUrl("https://raw.githubusercontent.com/ziqiangxu/words-picker/master/resources/info")
+    //         );
+    QNetworkRequest request = QNetworkRequest(
+                 QUrl(BASE_URL + "/version")
+            );
 //     QNetworkRequest request = QNetworkRequest(
 //                 QUrl("https://blog.csdn.net/GoForwardToStep/article/details/53588961")
 //                 );
@@ -108,18 +110,8 @@ About::~About()
          QMessageBox::warning(this, tr("检查更新失败"), tr("检查更新失败，可能是网络问题，重试一下吧"));
          return;
      }
-     QFile outFile(INFO_FILE_PATH);
-     outFile.open(QIODevice::WriteOnly | QIODevice::WriteOnly);
-     QTextStream in(&outFile);
-     in << res;
-     outFile.close();
-     // 这一步很重要:
-     // 1. 打开的文件要关闭是好习惯
-     // 2. QSetting无法读到文件，也不报错，没办法调试
 
-     info = new QSettings(INFO_FILE_PATH, QSettings::IniFormat);
-
-     int version_ = info->value("version/value").toInt();
+     int version_ = res.toInt();
 
      INFO << "latest version:" << version_;
      if (version_ > version)

@@ -19,7 +19,7 @@
 
 //#define IS_DEV true
 #define IS_DEV true
-#define IS_LOCAL_SERVER false
-#define DEV_BASE_URL "http://localhost:8080/translate?"
+// #define BASE_URL QString("http://localhost:8000")
+#define BASE_URL QString("http://translate.ziqiangxu.xyz:8000")
 
 #endif // DEFINED_H
