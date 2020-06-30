@@ -58,7 +58,7 @@ void YoudaoAPI::translate(QString query, QString from, QString to)
 #if IS_LOCAL_SERVER
     query_url = "http://localhost:8080/translate?";
 #else
-    query_url = "http://www.daryl-xu.xyz:8000/translate?";
+    query_url = "http://translate.ziqiangxu.xyz:8000/translate?";
 #endif
     query_url.append("q=" + query_encode)
             .append("&from=" + from)
