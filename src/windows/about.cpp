@@ -156,6 +156,6 @@ OCR取词使用方法：\n\
        以Deepin为例，Ctrl+Alt+A启动截图程序，选中要识别翻译的区域，然后Ctrl+C将截图保存在剪切板中。\n\n\
 主页：https://github.com/ziqiangxu/words-picker/blob/master/README.md\n\n\
 bug反馈：https://github.com/ziqiangxu/words-picker/issues/new\n\
-E-mail：ziqiang_xu@yeah.net");
+E-mail：ziqiang_xu@qq.com");
      return content;
  }
