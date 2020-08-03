@@ -35,6 +35,9 @@
 
 `sudo dnf install qt5-devel libXtst-devel g++ cmake make tesseract`
 
+### 为 `CentOS8` 安装开发库
+`sudo yum install qt5-qtbase-devel qt5-qtx11extras-devel`
+
 ## 编译安装
 
 目前本应用只提供 `Debian` 系的二进制安装包，其它系列的发行版可进行编译安装，首先安装开发库，再执行下面的命令。
