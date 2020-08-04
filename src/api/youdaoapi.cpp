@@ -52,6 +52,9 @@ void YoudaoAPI::translate_old(QString query, QString from,
 
 void YoudaoAPI::translate(QString query, QString from, QString to)
 {
+    // 处理pdf换行单词被打断的问题
+    query.replace("-\n", "");
+
     query = query.simplified();
     QString query_encode = QUrl::toPercentEncoding(query);
     QString query_url;
