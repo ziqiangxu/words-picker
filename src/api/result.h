@@ -11,6 +11,7 @@ class Result: public QObject
 public:
     Result(QByteArray res);
     ~Result();
+    QString query;
     QString translation;
     QString us_phonetic;
     QString uk_phonetic;

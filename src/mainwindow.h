@@ -52,7 +52,7 @@ public:
     YoudaoAPI *youdao_api;
 //    SQLite sqlite;
     void query();
-    void show_result(QString res);
+    void show_result(QString query, QString res);
     int button_time;
     //void derive_words();
     SystemTrayIcon *tray_icon;

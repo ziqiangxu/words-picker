@@ -1,6 +1,8 @@
 {
     "cmake.configureOnOpen": true,
     "files.associations": {
-        "qdebug": "cpp"
+        "qdebug": "cpp",
+        "array": "cpp",
+        "*.tcc": "cpp"
     }
 }
