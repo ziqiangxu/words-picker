@@ -12,6 +12,7 @@ Result::Result(QByteArray res)
     QJsonDocument json_doc = QJsonDocument::fromJson(res);
     QJsonObject json_obj = json_doc.object();
 
+    this->query = json_obj.take("query").toString();
     this->explain = json_obj.take("explain").toString();
     this->translation = json_obj.take("translation").toString();
     this->uk_phonetic = json_obj.take("uk-phonetic").toString();

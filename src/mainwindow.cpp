@@ -459,8 +459,8 @@ void MainWindow::onReplyGot()
     Result *result = youdao_api->result;
     if (result->error_code != 0)
     {
-        this->des_word = "查询失败，请检查网络, error code:" + result->error_code;
-        show_result(this->des_word);
+        this->des_word = "查询失败，error_msg:" + result->error_msg + ", error code:" + result->error_code;
+        show_result(result->query, this->des_word);
         INFO << "Query failed";
     }
     else {
@@ -470,18 +470,20 @@ void MainWindow::onReplyGot()
                 + "翻译：" + result->translation
                 + "解释：\n" + result->explain;
         INFO << "query finished";
-        show_result(this->des_word);
+        show_result(result->query, this->des_word);
 //        sqlite.save(src_word, des_word, "history");
     }
 }
 
-void MainWindow::show_result(QString res)
+void MainWindow::show_result(QString query, QString res)
 {
 //    显示查询结果
     switch (who_query) {
     case Requestor::MainWindowE:
+        input->setText(query);
         browser->setText(res); break;
     default:
+        float_browser->input->setText(query);
         float_browser->browser->setText(res);
     }
 }
