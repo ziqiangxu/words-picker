@@ -416,7 +416,12 @@ bool MainWindow::recognizeImage()
         QString line = in.readLine();
         while (!line.isNull()) {
             INFO << "readline";
-            ocr_result.append(line);
+            if (ocr_result.endsWith("-")) {
+                ocr_result.chop(2);
+                ocr_result.append(line);
+            } else {
+                ocr_result.append(" "+line);
+            }
             line = in.readLine();
         }
         INFO << "The ocr_result is:" << ocr_result;
