@@ -38,6 +38,10 @@
 ### 为 `CentOS8` 安装开发库
 `sudo yum install qt5-qtbase-devel qt5-qtx11extras-devel`
 
+### 发布版本
+
+务必更新 `windows/about.cpp` 中的版本序号变量 `version` 和帮助信息中的版本号，更新deb/words-picker/DEBIAN/control中的版本号。
+
 ## 编译安装
 
 目前本应用只提供 `Debian` 系的二进制安装包，其它系列的发行版可进行编译安装，首先安装开发库，再执行下面的命令。

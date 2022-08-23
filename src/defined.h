@@ -20,6 +20,6 @@
 //#define IS_DEV true
 #define IS_DEV true
 // #define BASE_URL QString("http://localhost:8000")
-#define BASE_URL QString("http://180.167.250.210:8000")
+#define BASE_URL QString("http://opensource.test.passer.zyheal.com:8000")
 
 #endif // DEFINED_H
